@@ -1,0 +1,138 @@
+from Crypto.Cipher import AES
+from Crypto.Util.randpool import RandomPool
+import base64
+import binascii
+import hashlib
+import hmac
+import pickle
+import random
+import string
+import zlib
+
+HASH_SALT_LENGTH = 8
+HASH_SPLIT = "#"
+KEY_SIZE = 32
+
+def gen_hash(data, hmac_value, salt=None):
+    """
+    Create salt+hash string from password
+    Can be verified by _check_password_hash
+    
+    :type data: str
+    :param data: The data to hash
+
+    :type hmac_value: str
+    :param hmac_value: hmac value
+    
+    :type salt: str
+    :param salt: Salt value.  If None, this func will generate by random
+    
+    :rtype: str
+    :return: hash value in SALT#base64(HASH) format
+    """
+    if(salt == None):
+        char_list = string.ascii_letters + string.digits
+        salt = ""
+        while(len(salt) < HASH_SALT_LENGTH):
+            salt += random.choice(char_list)
+    h = hmac.new(hmac_value, salt, hashlib.sha256)
+    h.update(data)
+    return salt + HASH_SPLIT + base64.b64encode(h.digest())
+
+def check_hash(data, hmac_str, hash_value):
+    """
+    To check if the data match the hash
+    
+    :type data: str
+    :param data: The password to check
+
+    :type hmac_str: str
+    :param hmac_str: hmac value
+    
+    :type hash_value: str
+    :param hash_value: The hash value to check, in SALT#base64(HASH) format
+    
+    :rtype: boolean
+    :return: True iff match
+    """
+    v = hash_value.split(HASH_SPLIT)
+    if(len(v) != 2):
+        return False
+    vv = gen_hash(data, hmac_str, v[0])
+    return vv == hash_value
+
+def encrypt(data, hmac_str, key_hex):
+    '''
+    :param data: any obj to be pickle.dumps
+    
+    :type hmac_str: str
+    :param hmac_str: hmac string
+    
+    :type key_hex: str
+    :param key_hex: key in hex format
+    
+    :rtype: str
+    :return: encrypted data in base64
+    '''
+    block_size = AES.block_size
+    
+    if(len(key_hex) != KEY_SIZE):return None
+
+    # Create raw data
+    dump = pickle.dumps(data, 2)
+    dump_hash = hmac.new(key=hmac_str, msg=dump , digestmod=hashlib.md5).digest()
+    vdump = dump_hash + dump
+    vdumpz = zlib.compress(vdump)
+    
+    # add padding
+    while(len(vdumpz) % block_size):
+        vdumpz += '\0'
+    
+    iv = _random_byte(block_size)
+    key = binascii.a2b_hex(key_hex)
+    
+    aes = AES.new(key, AES.MODE_CBC, iv)
+    enc = aes.encrypt(vdumpz)
+
+    return base64.b64encode(iv + enc)
+
+def decrypt(enc_data_b64, hmac_str, key_hex):
+    '''
+    :rtype enc_data_b64: str
+    :param enc_data_b64: encrypted data in base64
+    
+    :type hmac_str: str
+    :param hmac_str: hmac string
+    
+    :type key_hex: str
+    :param key_hex: key in hex format
+    
+    :return: encrypted object
+    '''
+    block_size = AES.block_size
+
+    if(len(key_hex) != KEY_SIZE):return None
+
+    iv_enc = base64.b64decode(enc_data_b64)
+    
+    if(len(iv_enc) % block_size):return None
+    
+    iv = iv_enc[0:block_size]
+    enc = iv_enc[block_size:]
+    key = binascii.a2b_hex(key_hex)
+    
+    aes = AES.new(key, AES.MODE_CBC, iv)
+    vdumpz = aes.decrypt(enc)
+    vdump = zlib.decompress(vdumpz)
+    
+    dump_hash = vdump[0:16]
+    dump = vdump[16:]
+    check_hash = hmac.new(key=hmac_str, msg=dump , digestmod=hashlib.md5).digest()
+    if(check_hash != dump_hash):
+        return None
+    return pickle.loads(dump)
+    
+rp = RandomPool()
+
+def _random_byte(size):
+    return rp.get_bytes(size)
