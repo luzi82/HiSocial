@@ -45,9 +45,7 @@ class TestUser(unittest.TestCase):
         self.assertFalse(User.check_user_id_valid("123Hello"))
         self.assertFalse(User.check_user_id_valid("Hel lo"))
         self.assertFalse(User.check_user_id_valid("llo"))
-        long_name = ""
-        while(len(long_name) < 200):long_name += "x"
-        self.assertFalse(User.check_user_id_valid(long_name))
+        self.assertFalse(User.check_user_id_valid("x"*200))
 
     def test_check_password_valid(self):
         self.assertTrue(User.check_password_valid("Helloxx"))
@@ -58,9 +56,7 @@ class TestUser(unittest.TestCase):
         self.assertFalse(User.check_password_valid(None))
         self.assertFalse(User.check_password_valid("Hel lo"))
         self.assertFalse(User.check_password_valid("llo"))
-        long_name = ""
-        while(len(long_name) < 200):long_name += "x"
-        self.assertFalse(User.check_password_valid(long_name))
+        self.assertFalse(User.check_password_valid("x"*200))
 
 if __name__ == '__main__':
     unittest.main()
