@@ -2,7 +2,7 @@ from admin import AdminToken
 from base import Command
 import core_config
 
-def guest_generate_admin_token(password):
+def public_guest_generate_admin_token(password):
     '''
     Generate admin token
     '''

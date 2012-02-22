@@ -1,10 +1,10 @@
 from base import Command
 import string
 
-def guest_get_version():
+def public_guest_get_version():
     return Command.ok({"version":"0", "type":"test"})
 
-def guest_ping(value):
+def public_guest_ping(value):
     '''
     Ping the system
     
