@@ -1,8 +1,9 @@
 from base import Command
 import string
+import Version
 
 def public_guest_get_version():
-    return Command.ok({"version":"0", "type":"test"})
+    return Command.ok({"version":Version.VERSION, "type":Version.TYPE})
 
 def public_guest_ping(value):
     '''
