@@ -21,3 +21,6 @@ def public_guest_ping(value):
     t = ~t
     t = ("00000000%x" % (t & 0xffffffff))[-8:]
     return Command.ok({"value":t})
+
+def public_guest_list_cmd():
+    return Command.ok({"value":Command.list_cmd()})

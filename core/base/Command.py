@@ -35,7 +35,7 @@ def call(package, func_name, args={}):
     if(ret == None):return NOT_IMPLEMENTED
     return ret
 
-def list_all_cmd():
+def list_cmd():
     '''
     list all pkg and cmd
     '''
