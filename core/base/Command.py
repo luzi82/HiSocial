@@ -1,6 +1,8 @@
 from base.Runtime import trace, debug
 from types import FunctionType
+import os
 import string
+import inspect
 RESULT_KEY = "result"
 RESULT_VALUE_FAIL_TXT = "fail"
 RESULT_VALUE_OK_TXT = "ok"
@@ -32,6 +34,27 @@ def call(package, func_name, args={}):
     ret = f(**args)
     if(ret == None):return NOT_IMPLEMENTED
     return ret
+
+def list_all_cmd():
+    '''
+    list all pkg and cmd
+    '''
+    me=os.path.abspath(__file__)
+    core_path=os.path.dirname(os.path.dirname(me))
+    ret={}
+    for pkg in os.listdir(core_path):
+        if(not os.path.isfile(core_path+"/"+pkg+"/_command.py")):continue
+        m=__import__(name=pkg,fromlist=["_command"])
+        attr_list=dir(m._command)
+        mv={}
+        for attr in attr_list:
+            if not attr.startswith("public_"): continue
+            f = getattr(m._command,attr)
+            if not isinstance(f,FunctionType): continue
+            mv[attr[7:]]=inspect.getargspec(f).args
+        if(len(mv)>0):ret[pkg]=mv
+    return ret
+                
 
 def ok(result=None):
     global RESULT_OK
