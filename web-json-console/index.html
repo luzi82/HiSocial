@@ -1,0 +1,129 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<script type="text/javascript" src="jquery-1.7.1.js"></script>
+<script type="text/javascript" src="json2.js"></script>
+<script type="text/javascript" src="config.js"></script>
+<script type="text/javascript">
+guest_list_cmd=0;
+current_pkg="";
+current_cmd="";
+
+$(document).ready(function() {
+	$.post(hisocial_json_url,{"PKG":"base","CMD":"guest_list_cmd"}, function(data) {
+		if(data.result=="ok"){
+			guest_list_cmd=data.value;
+			update_pkg();
+		}
+	},"json");
+});
+
+function update_pkg() {
+	r=$('#pkg');
+	r.html("");
+	first=true;
+	$.each(guest_list_cmd,function(k,v){
+		if(!first){r.append(" ");}
+		first=false;
+		i=$("<a href='#'/>");
+		i.text("["+k+"]");
+		i.data("pkg",k);
+		i.click(function(event){
+			v=$(this).data("pkg");
+			current_pkg=v;
+			update_cmd();
+		});
+		r.append(i);
+	});
+	current_pkg="";
+	update_cmd();
+}
+
+function update_cmd() {
+	r=$('#cmd');
+	r.html("");
+	if(current_pkg!=""){
+		first=true;
+		$.each(eval("guest_list_cmd."+current_pkg),function(k,v){
+			if(!first){r.append(" ");}
+			first=false;
+			i=$("<a/>");
+			i.prop("href","#");
+			i.text("["+k+"]");
+			i.data("cmd",k);
+			i.click(function(event){
+				v=$(this).data("cmd");
+				current_cmd=v;
+				update_arg();
+			});
+			r.append(i);
+		});
+		current_cmd="";
+	}
+	update_arg();
+}
+
+function update_arg() {
+	r=$('#arg');
+	r.html("");
+	if(current_cmd!=""){
+		f=$("<form/>");
+		t=$("<table/>");
+		first=true;
+		$.each(eval("guest_list_cmd."+current_pkg+"."+current_cmd),function(k,v){
+			first=false;
+			tr=$("<tr/>");
+				td0=$("<td/>");
+					td0.text(v);
+				tr.append(td0);
+				td1=$("<td/>");
+					i=$("<input/>");
+						i.prop("name",v);
+						i.prop("type","text");
+					td1.append(i);
+				tr.append(td1);
+			t.append(tr);
+		});
+		if(!first){
+			f.append(t);
+		}
+		b=$("<input/>");
+			b.prop("type","submit");
+			b.prop("value","Submit");
+		f.append(b);
+		x=$("<input/>");
+			x.prop("type","hidden");
+			x.prop("name","CMD");
+			x.prop("value",current_cmd);
+		f.append(x);
+		x=$("<input/>");
+			x.prop("type","hidden");
+			x.prop("name","PKG");
+			x.prop("value",current_pkg);
+		f.append(x);
+		f.submit(function(){
+			rr=$('#ret');
+			s=$(this).serialize();
+			$.post(hisocial_json_url,s, function(data) {
+				$('#ret').html(JSON.stringify(data));
+			},"json");
+			return false;
+		});
+		r.append(f);
+	}
+	$('#ret').html("");
+}
+</script>
+</head>
+<body vlink="#3F3FFF" link="#3F3FFF">
+<div id="pkg"></div>
+<hr/>
+<div id="cmd"></div>
+<hr/>
+<div id="arg"></div>
+<hr/>
+<div id="ret"></div>
+</body>
+</html>
