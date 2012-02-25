@@ -9,5 +9,6 @@
 <path>/HiSocial/tmp</path>
 <path>/HiSocial/test</path>
 <path>/HiSocial/cgi</path>
+<path>/HiSocial/tool</path>
 </pydev_pathproperty>
 </pydev_project>
