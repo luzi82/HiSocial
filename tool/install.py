@@ -1,6 +1,7 @@
-import os
 from Crypto.Util.randpool import RandomPool
 import binascii
+import os
+import runpy
 try:
     import install_config
 except ImportError:
@@ -92,3 +93,7 @@ except OSError: pass
 try: os.unlink(install_config.WEB_JSON_CONSOLE_LOCAL_PATH)
 except OSError: pass
 os.symlink(hisocial_root_path+"/web-json-console",install_config.WEB_JSON_CONSOLE_LOCAL_PATH)
+
+# reset everything
+
+runpy.run_module("reset_all")
