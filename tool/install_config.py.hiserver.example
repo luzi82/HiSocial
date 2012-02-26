@@ -1,3 +1,5 @@
+# for all path/url, no tailing "/"
+
 DB_SERVER = "localhost";
 DB_USERNAME = "testuser";
 DB_PASSWORD = "testpassword";
@@ -5,10 +7,10 @@ DB_SCHEMATA = "testdb";
 
 ADMIN_PASSWORD = "admin_password"
 
-URL_PREFIX="http://domain/"
+URL_ROOT="http://domain/path"
 
-CGI_PATH="/www/cgi"
-CGI_URL="cgi"
+WEB_JSON_CGI_LOCAL_PATH="/www/cgi"
+WEB_JSON_CGI_URL_PATH="cgi"
 
-JSON_CONSOLE_PATH="/www/json-console"
-JSON_CONSOLE_URL="json-console"
+WEB_JSON_CONSOLE_LOCAL_PATH="/www/json-console"
+WEB_JSON_CONSOLE_URL_PATH="json-console"
