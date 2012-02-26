@@ -1,0 +1,72 @@
+The following is command example of installing HiSocial to a new Debian/Ubuntu server.
+
+The json cgi will be installed to http://domain.com/json-cgi/json_cmd.py .
+The json web console will be installed to http://domain.com/json-console/ .
+The web client is not available yet.
+
+# : Root shell commands
+$ : Normal user shell commands
+> : Program shell commands
+
+==========================================
+
+# apt-get install git lighttpd mysql-server python-crypto python-sqlalchemy python-mysqldb -y
+
+$ mysql --user=root mysql --password=MYSQL_ROOT_PASSWORD
+> CREATE USER 'MYSQL_USERNAME'@'localhost' IDENTIFIED BY 'MYSQL_PASSWORD';
+> CREATE DATABASE MYSQL_DATABASE;
+> GRANT ALL ON MYSQL_DATABASE.* TO 'MYSQL_USERNAME'@'localhost';
+> quit
+
+$ mkdir /WORKING_DIR
+$ cd /WORKING_DIR
+$ git clone git://github.com/luzi82/HiSocial.git -b test-server
+$ cd /WORKING_DIR/HiSocial/tool
+$ nano /WORKING_DIR/HiSocial/tool/install_config.py
+
+### /WORKING_DIR/HiSocial/tool/install_config.py ###
+
+DB_SERVER = "localhost";
+DB_USERNAME = "MYSQL_USERNAME";
+DB_PASSWORD = "MYSQL_PASSWORD";
+DB_SCHEMATA = "MYSQL_DATABASE";
+
+ADMIN_PASSWORD = "ADMIN_PASSWORD"
+
+URL_ROOT="http://domain.com"
+
+WEB_JSON_CGI_LOCAL_PATH="/var/HiSocial/json-cgi"
+WEB_JSON_CGI_URL_PATH="json-cgi"
+
+WEB_JSON_CONSOLE_LOCAL_PATH="/var/HiSocial/json-console"
+WEB_JSON_CONSOLE_URL_PATH="json-console"
+
+############
+
+# cd /home/luzi82/HiSocial/HiSocial/tool/
+# python install.py
+
+# nano /etc/lighttpd/conf-available/99-hiauntie.conf
+
+### /etc/lighttpd/conf-available/99-hiauntie.conf ###
+
+static-file.exclude-extensions += ( ".py " )
+
+alias.url += ( "/json-cgi" => "/var/HiSocial/json-cgi" )
+$HTTP["url"] =~ "^/json-cgi/" {
+	cgi.assign += ( ".py" => "/usr/bin/python" )
+	dir-listing.activate = "disable"
+}
+$HTTP["url"] =~ "^/json-cgi/webjsoncgi_config.py$" { url.access-deny = ("") }
+
+alias.url += ( "/json-console" => "/var/HiSocial/json-console" )
+$HTTP["url"] =~ "^/json-console/" {
+	dir-listing.activate = "disable"
+}
+
+############
+
+# lighttpd-enable-mod cgi
+# lighttpd-enable-mod fastcgi
+# lighttpd-enable-mod hiauntie
+# /etc/init.d/lighttpd restart
