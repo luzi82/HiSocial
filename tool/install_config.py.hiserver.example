@@ -1,0 +1,14 @@
+DB_SERVER = "localhost";
+DB_USERNAME = "testuser";
+DB_PASSWORD = "testpassword";
+DB_SCHEMATA = "testdb";
+
+ADMIN_PASSWORD = "admin_password"
+
+URL_PREFIX="http://domain/"
+
+CGI_PATH="/www/cgi"
+CGI_URL="cgi"
+
+JSON_CONSOLE_PATH="/www/json-console"
+JSON_CONSOLE_URL="json-console"

@@ -1,8 +1,8 @@
 #!/usr/bin/python
 
 import sys
-import cgi_config
-sys.path.insert(0, cgi_config.CORE_PATH)
+import webjsoncgi_config
+sys.path.insert(0, webjsoncgi_config.CORE_PATH)
 
 import cgi
 from base import Command

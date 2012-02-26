@@ -1,3 +1,7 @@
 tmp
 *.pyc
 
+core/core_config.py
+tool/install_config.py
+web-json-cgi/webjsoncgi_config.py
+web-json-console/webjsonconsole_config.js
