@@ -80,7 +80,7 @@ webjsonconsole_config_file.close()
 
 # install web-json-cgi
 
-try: os.makedirs(os.path.dirname(os.path.dirname(install_config.WEB_JSON_CGI_LOCAL_PATH)))
+try: os.makedirs(os.path.dirname(install_config.WEB_JSON_CGI_LOCAL_PATH))
 except OSError: pass
 try: os.unlink(install_config.WEB_JSON_CGI_LOCAL_PATH)
 except OSError: pass
@@ -88,7 +88,7 @@ os.symlink(hisocial_root_path+"/web-json-cgi",install_config.WEB_JSON_CGI_LOCAL_
 
 # install json-console
 
-try: os.makedirs(os.path.dirname(os.path.dirname(install_config.WEB_JSON_CONSOLE_LOCAL_PATH)))
+try: os.makedirs(os.path.dirname(install_config.WEB_JSON_CONSOLE_LOCAL_PATH))
 except OSError: pass
 try: os.unlink(install_config.WEB_JSON_CONSOLE_LOCAL_PATH)
 except OSError: pass
