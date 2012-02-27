@@ -9,6 +9,6 @@
 <path>/HiSocial/tmp</path>
 <path>/HiSocial/test</path>
 <path>/HiSocial/tool</path>
-<path>/HiSocial/web-json-console</path>
+<path>/HiSocial/web-json-cgi</path>
 </pydev_pathproperty>
 </pydev_project>
