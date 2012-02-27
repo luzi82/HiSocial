@@ -29,11 +29,13 @@ def call(package, func_name, args={}):
             return BAD_CALL
         if(f.__module__ != package + "._command"):
             return BAD_CALL
+        av = inspect.getargspec(f).args
+        args0 = dict((k,args[k])for k in av)
+        ret = f(**args0)
+        if(ret == None):return NOT_IMPLEMENTED
+        return ret
     except:
         return BAD_CALL
-    ret = f(**args)
-    if(ret == None):return NOT_IMPLEMENTED
-    return ret
 
 def list_cmd():
     '''
@@ -51,7 +53,11 @@ def list_cmd():
             if not attr.startswith("public_"): continue
             f = getattr(m._command,attr)
             if not isinstance(f,FunctionType): continue
-            mv[attr[7:]]=inspect.getargspec(f).args
+            av = inspect.getargspec(f).args
+            avv = []
+            for k in av :
+                if k[:1]!="_" : avv.append(k)
+            mv[attr[7:]] = avv
         if(len(mv)>0):ret[pkg]=mv
     return ret
                 

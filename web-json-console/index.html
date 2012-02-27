@@ -6,13 +6,14 @@
 <script type="text/javascript" src="jquery-1.7.1.js"></script>
 <script type="text/javascript" src="json2.js"></script>
 <script type="text/javascript" src="webjsonconsole_config.js"></script>
+<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
 <script type="text/javascript">
 guest_list_cmd=0;
 current_pkg="";
 current_cmd="";
 
 $(document).ready(function() {
-	$.post(hisocial_json_url,{"PKG":"base","CMD":"guest_list_cmd"}, function(data) {
+	$.post(HISOCIAL_JSON_URL,{"PKG":"base","CMD":"guest_list_cmd"}, function(data) {
 		if(data.result=="ok"){
 			guest_list_cmd=data.value;
 			update_pkg();
@@ -66,6 +67,10 @@ function update_cmd() {
 }
 
 function update_arg() {
+	Recaptcha.destroy();
+	$('#turing').html("");
+	$('#turing_f').html("");
+	
 	r=$('#arg');
 	r.html("");
 	if(current_cmd!=""){
@@ -74,6 +79,31 @@ function update_arg() {
 		first=true;
 		$.each(eval("guest_list_cmd."+current_pkg+"."+current_cmd),function(k,v){
 			first=false;
+			if(v=="turing_input"){
+				Recaptcha.create(RECAPTCHA_PUBLIC_KEY,"turing",
+					{
+						callback: Recaptcha.focus_response_field
+					}
+				);
+				ff=$("<form/>");
+				bb=$("<input/>");
+					bb.prop("type","submit");
+					bb.prop("value","Fill turing_input");
+				ff.append(bb);
+				ff.submit(function(){
+					vv={
+						"challenge":Recaptcha.get_challenge(),
+						"response":Recaptcha.get_response()
+					};
+					Recaptcha.destroy();
+					vv=JSON.stringify(vv);
+					$("#arg_turing_input").val(vv);
+					$('#turing').html("");
+					$('#turing_f').html("");
+					return false;
+				});
+				$('#turing_f').append(ff);
+			}
 			tr=$("<tr/>");
 				td0=$("<td/>");
 					td0.text(v);
@@ -81,6 +111,7 @@ function update_arg() {
 				td1=$("<td/>");
 					i=$("<input/>");
 						i.prop("name",v);
+						i.prop("id","arg_"+v);
 						i.prop("type","text");
 					td1.append(i);
 				tr.append(td1);
@@ -106,7 +137,7 @@ function update_arg() {
 		f.submit(function(){
 			rr=$('#ret');
 			s=$(this).serialize();
-			$.post(hisocial_json_url,s, function(data) {
+			$.post(HISOCIAL_JSON_URL,s, function(data) {
 				$('#ret').html(JSON.stringify(data));
 			},"json");
 			return false;
@@ -122,6 +153,8 @@ function update_arg() {
 <hr/>
 <div id="cmd"></div>
 <hr/>
+<div id="turing"></div>
+<div id="turing_f"></div>
 <div id="arg"></div>
 <hr/>
 <div id="ret"></div>

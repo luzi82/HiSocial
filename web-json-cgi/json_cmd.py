@@ -4,9 +4,10 @@ import sys
 import webjsoncgi_config
 sys.path.insert(0, webjsoncgi_config.CORE_PATH)
 
-import cgi
 from base import Command
+import cgi
 import json
+import os
 
 print "Content-Type: text/plain; charset=utf-8"
 print
@@ -22,10 +23,13 @@ def action():
     for k in form.keys():
         v = form[k].value
         if(not isinstance(k, str)):continue
+        if(k==""):continue
+        if(k[:1]=="_"):continue
         if(k=="CMD"):continue
         if(k=="PKG"):continue
         if(not isinstance(v, str)):continue
         args[k] = form[k].value
+    args["_ip"] = cgi.escape(os.environ["REMOTE_ADDR"])
     return Command.call(form["PKG"].value, form["CMD"].value, args)
 
 ret = action()

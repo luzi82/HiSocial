@@ -47,7 +47,9 @@ core_config_file.writelines([
     "ADMIN_TOKEN_ENC_KEY = \'%s\'\n" % random_hex(32),
     "ADMIN_TOKEN_HASH_HMAC = \'%s\'\n" % random_hex(32),
     "ADMIN_TOKEN_VALID_TIME_PERIOD = %d\n" % DEFAULT_ADMIN_TOKEN_VALID_TIME_PERIOD,
-    "USER_ACCOUNT_PASSWORD_HMAC = \'%s\'\n" % random_hex(32)
+    "USER_ACCOUNT_PASSWORD_HMAC = \'%s\'\n" % random_hex(32),
+    "RECAPTCHA_PUBLIC_KEY = \'%s\'\n" % install_config.RECAPTCHA_PUBLIC_KEY,
+    "RECAPTCHA_PRIVATE_KEY = \'%s\'\n" % install_config.RECAPTCHA_PRIVATE_KEY
 ])
 
 core_config_file.close()
@@ -73,7 +75,8 @@ except OSError: pass
 webjsonconsole_config_file = open(webjsonconsole_config_filename,"w")
 
 webjsonconsole_config_file.writelines([
-    "var hisocial_json_url = \'%s\'\n" % (install_config.URL_ROOT+"/"+install_config.WEB_JSON_CGI_URL_PATH+"/json_cmd.py")
+    "var HISOCIAL_JSON_URL = \'%s\';\n" % (install_config.URL_ROOT+"/"+install_config.WEB_JSON_CGI_URL_PATH+"/json_cmd.py"),
+    "var RECAPTCHA_PUBLIC_KEY = \'%s\';\n" % (install_config.RECAPTCHA_PUBLIC_KEY)
 ])
 
 webjsonconsole_config_file.close()
