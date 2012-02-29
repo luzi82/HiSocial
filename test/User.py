@@ -35,6 +35,21 @@ class TestUser(unittest.TestCase):
         self.assertFalse(User.check_user_account_password(session=session, user_id="apple", password="xxx"))
         self.assertFalse(User.check_user_account_password(session=session, user_id="xxx", password="xxx"))
         session.close()
+
+    def test_check_change_user_password(self):
+        Session = sessionmaker(bind=Database.create_sqlalchemy_engine())
+        session = Session()
+        User.add_user_account(session=session, user_id="apple", password="apple_pass")
+        self.assertTrue(User.check_user_account_password(session=session, user_id="apple", password="apple_pass"))
+        self.assertFalse(User.check_user_account_password(session=session, user_id="apple", password="apple_passs"))
+        self.assertFalse(User.check_user_account_password(session=session, user_id="apple", password="xxx"))
+        self.assertFalse(User.check_user_account_password(session=session, user_id="xxx", password="xxx"))
+        self.assertTrue(User.change_password(session=session, user_id="apple", password="apple_passs"))
+        self.assertTrue(User.check_user_account_password(session=session, user_id="apple", password="apple_passs"))
+        self.assertFalse(User.check_user_account_password(session=session, user_id="apple", password="apple_pass"))
+        self.assertFalse(User.check_user_account_password(session=session, user_id="apple", password="xxx"))
+        self.assertFalse(User.check_user_account_password(session=session, user_id="xxx", password="xxx"))
+        session.close()
     
     def test_check_user_id_valid(self):
         self.assertTrue(User.check_user_id_valid("Helloxx"))

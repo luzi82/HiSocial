@@ -90,6 +90,25 @@ def check_user_account_password(session, user_id, password):
 #    trace(password_hash)
     return _check_password_hash(password=password, hash_value=password_hash)
 
+def change_password(session,user_id,password):
+    '''
+    Change user password
+    Return False if user not exist
+    
+    :type session: sqlalchemy.orm.session.Session
+    :param session: sqlalchemy DB Session
+
+    :type user_id: str
+    :param user_id: The user_id to query
+    
+    :type password: str
+    :param password: New password
+    
+    :rtype: boolean
+    :return: True iff user exist and match
+    '''
+    return session.query(User).filter(User.user_id == user_id).update({User.password_hash:_gen_password_hash(password)}) > 0
+
 def check_user_id_valid(user_id):
     '''
     Check if user id can be used
