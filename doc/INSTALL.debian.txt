@@ -41,6 +41,10 @@ WEB_JSON_CGI_URL_PATH="json-cgi"
 WEB_JSON_CONSOLE_LOCAL_PATH="/var/HiSocial/json-console"
 WEB_JSON_CONSOLE_URL_PATH="json-console"
 
+# Get the key from https://www.google.com/recaptcha/admin/create
+RECAPTCHA_PUBLIC_KEY=""
+RECAPTCHA_PRIVATE_KEY=""
+
 ############
 
 # cd /home/luzi82/HiSocial/HiSocial/tool/
