@@ -26,8 +26,8 @@ class User(UserBase):
         self.user_id = user_id
         self.password_hash = password_hash
         
-    def __repr__(self):
-        return "<User('%s','%s')>" % (self.user_id, self.password_hash)
+#    def __repr__(self):
+#        return "<User('%s','%s')>" % (self.user_id, self.password_hash)
     
 def add_user_account(session, user_id, password):
     '''
@@ -38,7 +38,7 @@ def add_user_account(session, user_id, password):
     :param sess: sqlalchemy DB Session
     
     :type user_id: str
-    :param user_id: The user_id
+    :param user_id: The user id
     
     :type passowrd: str
     :para, passowrd: The password
