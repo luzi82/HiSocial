@@ -34,17 +34,14 @@ def add_user_account(session, user_id, password):
     Add a user to database
     Does not check if user exist
     
-    :type sess: sqlalchemy.orm.session.Session
-    :param sess: sqlalchemy DB Session
+    :type session: sqlalchemy.orm.session.Session
+    :param session: sqlalchemy DB Session
     
     :type user_id: str
     :param user_id: The user id
     
     :type passowrd: str
-    :para, passowrd: The password
-    
-    :rtype: boolean
-    :return: True iff success
+    :param passowrd: The password
     '''
     new_user = User(user_id=user_id, password_hash=_gen_password_hash(password))
     session.add(new_user)
