@@ -9,7 +9,7 @@ class Cleanup(object):
         self.close()
     
     def push(self, func):
-        self.cleanup_stack.append(getattr(func))
+        self.cleanup_stack.append(func)
 
     def clean(self):
         self.pop()()
