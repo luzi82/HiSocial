@@ -48,7 +48,6 @@ def add_user_account(session, user_id, password):
     '''
     new_user = User(user_id=user_id, password_hash=_gen_password_hash(password))
     session.add(new_user)
-    session.commit()
 
 
 def check_user_account_exist(session, user_id):
