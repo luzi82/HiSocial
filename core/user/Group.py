@@ -4,7 +4,7 @@ from sqlalchemy.ext.declarative import declarative_base
 GroupBase = declarative_base()
 class Group(GroupBase):
     
-    __tablename__ = "ugroup"
+    __tablename__ = "hs_user_group"
 
     group_id = Column(String(8), primary_key=True)
     name = Column(String(32))

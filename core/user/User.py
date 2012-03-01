@@ -17,7 +17,7 @@ class User(UserBase):
     password hash are in SALT#base64(HASH) format
     '''
     
-    __tablename__ = "user"
+    __tablename__ = "hs_user_user"
 
     user_id = Column(String(USER_ID_LENGTH), primary_key=True)
     password_hash = Column(String(PASSWORD_HASH_LENGTH))
