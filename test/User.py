@@ -1,5 +1,6 @@
 from admin import reset
 from base import Database, Runtime
+from base.Cleanup import Cleanup
 from base.Runtime import trace
 from sqlalchemy.orm.session import sessionmaker
 from user import User
@@ -26,6 +27,16 @@ class TestUser(unittest.TestCase):
         self.assertTrue(User.check_user_account_exist(session=session, user_id="apple"))
         self.assertTrue(User.check_user_account_password(session=session, user_id="apple", password="apple_pass"))
         session.close()
+
+    def test_remove_user(self):
+        cleanup = Cleanup()
+        session = Database.create_sqlalchemy_session_push(cleanup)
+
+        self.assertFalse(User.check_user_account_exist(session=session, user_id="apple"))
+        User.add_user_account(session=session, user_id="apple", password="apple_pass")
+        self.assertTrue(User.check_user_account_exist(session=session, user_id="apple"))
+        User.remove_user_account(session=session, user_id="apple")
+        self.assertFalse(User.check_user_account_exist(session=session, user_id="apple"))
         
     def test_check_user_password(self):
         Session = sessionmaker(bind=Database.create_sqlalchemy_engine())

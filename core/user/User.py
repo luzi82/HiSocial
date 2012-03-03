@@ -46,6 +46,19 @@ def add_user_account(session, user_id, password):
     '''
     new_user = User(user_id=user_id, password_hash=_gen_password_hash(password))
     session.add(new_user)
+    
+def remove_user_account(session,user_id):
+    '''
+    Add a user to database
+    Does not check if user exist
+    
+    :type session: sqlalchemy.orm.session.Session
+    :param session: sqlalchemy DB Session
+    
+    :type user_id: str
+    :param user_id: The user id
+    '''
+    session.query(User).filter(User.user_id == user_id).delete()
 
 
 def check_user_account_exist(session, user_id):
