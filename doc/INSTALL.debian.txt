@@ -22,6 +22,7 @@ $ mkdir /WORKING_DIR
 $ cd /WORKING_DIR
 $ git clone git://github.com/luzi82/HiSocial.git -b test-server
 $ cd /WORKING_DIR/HiSocial/tool
+$ cp /WORKING_DIR/HiSocial/tool/install_config.py.hiserver.example /WORKING_DIR/HiSocial/tool/install_config.py 
 $ nano /WORKING_DIR/HiSocial/tool/install_config.py
 
 ### /WORKING_DIR/HiSocial/tool/install_config.py ###
@@ -30,8 +31,6 @@ DB_SERVER = "localhost";
 DB_USERNAME = "MYSQL_USERNAME";
 DB_PASSWORD = "MYSQL_PASSWORD";
 DB_SCHEMATA = "MYSQL_DATABASE";
-
-ADMIN_PASSWORD = "ADMIN_PASSWORD"
 
 URL_ROOT="http://domain.com"
 

@@ -41,7 +41,6 @@ core_config_file.writelines([
     "DB_USERNAME = \'%s\'\n" % install_config.DB_USERNAME,
     "DB_PASSWORD = \'%s\'\n" % install_config.DB_PASSWORD,
     "DB_SCHEMATA = \'%s\'\n" % install_config.DB_SCHEMATA,
-    "ADMIN_PASSWORD = \'%s\'\n" % install_config.ADMIN_PASSWORD,
     "USER_ID_LENGTH_MIN = %d\n" % DEFAULT_USER_ID_LENGTH_MIN,
     "USER_ID_LENGTH_MAX = %d\n" % DEFAULT_USER_ID_LENGTH_MAX,
     "USER_PASSWORD_LENGTH_MIN = %d\n" % DEFAULT_USER_PASSWORD_LENGTH_MIN,
