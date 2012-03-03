@@ -1,0 +1,154 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<script type="text/javascript" src="jquery/jquery-1.7.1.js"></script>
+<script type="text/javascript" src="json/json2.js"></script>
+<script type="text/javascript" src="jquery-cookie/jquery.cookie.js"></script>
+<script type="text/javascript" src="web_config.js"></script>
+<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+<link href="bootstrap/css/bootstrap.css" rel="stylesheet" />
+<link href="bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
+</head>
+<body>
+<div id="login_view" style="display:none">
+<form class="form-horizontal" id="login_form"><fieldset>
+	<div class="control-group">
+		<div class="controls">
+			<label class="radio">
+				<input type="radio" class="input-xlarge" name="action_type" id="login_form_action_type_login" value="login"/>
+				Login
+			</label>
+			<label class="radio">
+				<input type="radio" class="input-xlarge" name="action_type" id="login_form_action_type_create" value="create"/>
+				Create account
+			</label>
+		</div>
+	</div>
+	<div class="control-group" id="login_form_captcha_ctrlgrp">
+		<label class="control-label" for="user_id">CAPTCHA</label>
+		<div class="controls" id="login_form_captcha_captcha_ctrl"></div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="user_id">User ID</label>
+		<div class="controls"><input type="text" class="input-xlarge" name="user_id" id="user_id_input"/></div>
+	</div>
+	<div class="control-group">
+		<label class="control-label" for="password">Password</label>
+		<div class="controls"><input type="password" class="input-xlarge" name="password" id="password_input"/></div>
+	</div>
+	<div class="control-group" id="login_form_repeat_password_ctrlgrp">
+		<label class="control-label" for="repeat_password">Repeat password</label>
+		<div class="controls"><input type="password" class="input-xlarge" name="repeat_password" id="repeat_password_input"/></div>
+	</div>
+	<div class="form-actions">
+		<button type="submit" class="btn btn-primary">Submit</button>
+	</div>
+	<input type="hidden" name="turing_value" id="turing_value_input"></input>
+	<input type="hidden" name="CMD" id="CMD_input"></input>
+	<input type="hidden" name="PKG" id="PKG_input" value="user"></input>
+</fieldset></form>
+</div>
+<div id="user_view" style="display:none">
+<button type="submit" class="btn" id="user_view_logout_btn">Logout</button>
+</div>
+<div id="ret"></div>
+
+<script type="text/javascript">
+
+//////////////////////////
+
+function show_login_view(){
+	login_form_on_login();
+	$("#user_id_input").val("");
+	$("#password_input").val("");
+	$("#repeat_password_input").val("");
+	$("input[name=action_type]").val(["login"]);
+	$("#user_view").hide();
+	$("#login_view").show();
+}
+
+function login_form_on_login(speed){
+	$("#login_form_captcha_ctrlgrp").hide(speed);
+	$("#login_form_repeat_password_ctrlgrp").hide(speed);
+}
+
+function login_form_on_create(speed){
+	Recaptcha.create(RECAPTCHA_PUBLIC_KEY,"login_form_captcha_captcha_ctrl",
+		{
+			theme:"white",
+			callback: Recaptcha.focus_response_field
+		}
+	);
+	$("#login_form_captcha_ctrlgrp").show(speed);
+	$("#login_form_repeat_password_ctrlgrp").show(speed);
+}
+
+function login_form_on_submit(){
+	action_type=$('input[name=action_type]:checked').val();
+	if(action_type=="login"){
+		$("#CMD_input").val("guest_generate_user_login_token");
+	}else if(action_type=="create"){
+		$("#CMD_input").val("human_create_user_account");
+		if($('input[name=password]').val()!=$('input[name=repeat_password]').val()){
+			alert("Password not match");
+			return false;
+		}
+	}else{
+		return false;
+	}
+	turing_value_t={
+		"challenge":Recaptcha.get_challenge(),
+		"response":Recaptcha.get_response()
+	};
+	Recaptcha.destroy();
+	turing_value_t=JSON.stringify(turing_value_t);
+	$("#turing_value_input").val(turing_value_t);
+	s=$(this).serialize();
+	$("#login_view").hide();
+	$.post(HISOCIAL_JSON_URL,s,login_form_on_reply,"json");
+	return false;
+}
+
+function login_form_on_reply(data){
+	$('#ret').html(JSON.stringify(data));
+	if(data.result=="ok"){
+		$.cookie("user_login_token",data.user_login_token);
+		show_user_view();
+	}else{
+		show_login_view();
+	}
+}
+
+//////////////////////////
+
+function show_user_view(){
+	$("#login_view").hide();
+	$("#user_view").show();
+}
+
+function user_view_logout_btn_on_click(){
+	$.cookie("user_login_token",null);
+	show_login_view();
+}
+
+//////////////////////////
+
+$(document).ready(function() {
+	$("#login_form_action_type_login").click(function(){login_form_on_login("fast");});
+	$("#login_form_action_type_create").click(function(){login_form_on_create("fast");});
+	$("#login_form").submit(login_form_on_submit);
+	
+	$("#user_view_logout_btn").click(user_view_logout_btn_on_click);
+	
+	if($.cookie("user_login_token")==null){
+		show_login_view();
+	}else{
+		show_user_view();
+	}
+});
+</script>
+
+</body>
+</html>
