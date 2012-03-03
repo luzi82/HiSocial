@@ -23,30 +23,9 @@ $ cd /WORKING_DIR
 $ git clone git://github.com/luzi82/HiSocial.git -b test-server
 $ cd /WORKING_DIR/HiSocial/tool
 $ cp /WORKING_DIR/HiSocial/tool/install_config.py.hiserver.example /WORKING_DIR/HiSocial/tool/install_config.py 
-$ nano /WORKING_DIR/HiSocial/tool/install_config.py
+$ nano /WORKING_DIR/HiSocial/tool/install_config.py # Modify it
 
-### /WORKING_DIR/HiSocial/tool/install_config.py ###
-
-DB_SERVER = "localhost";
-DB_USERNAME = "MYSQL_USERNAME";
-DB_PASSWORD = "MYSQL_PASSWORD";
-DB_SCHEMATA = "MYSQL_DATABASE";
-
-URL_ROOT="http://domain.com"
-
-WEB_JSON_CGI_LOCAL_PATH="/var/HiSocial/json-cgi"
-WEB_JSON_CGI_URL_PATH="json-cgi"
-
-WEB_JSON_CONSOLE_LOCAL_PATH="/var/HiSocial/json-console"
-WEB_JSON_CONSOLE_URL_PATH="json-console"
-
-# Get the key from https://www.google.com/recaptcha/admin/create
-RECAPTCHA_PUBLIC_KEY=""
-RECAPTCHA_PRIVATE_KEY=""
-
-############
-
-# cd /home/luzi82/HiSocial/HiSocial/tool/
+# cd /HiSocial/tool/
 # python install.py
 
 # nano /etc/lighttpd/conf-available/99-hiauntie.conf
@@ -66,6 +45,16 @@ alias.url += ( "/json-console" => "/var/HiSocial/json-console" )
 $HTTP["url"] =~ "^/json-console/" {
 	dir-listing.activate = "disable"
 }
+
+############
+
+# nano /etc/lighttpd/lighttpd.conf
+
+### /etc/lighttpd/lighttpd.conf ###
+
+...
+server.document-root = "/var/HiSocial/root"
+...
 
 ############
 

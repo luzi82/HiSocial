@@ -82,6 +82,20 @@ webjsonconsole_config_file.writelines([
 
 webjsonconsole_config_file.close()
 
+# web/web_config.js
+
+web_config_filename=hisocial_root_path+"/web/web_config.js"
+try: os.unlink(web_config_filename)
+except OSError: pass
+web_config_file = open(web_config_filename,"w")
+
+web_config_file.writelines([
+    "var HISOCIAL_JSON_URL = \'%s\';\n" % (install_config.URL_ROOT+"/"+install_config.WEB_JSON_CGI_URL_PATH+"/json_cmd.py"),
+    "var RECAPTCHA_PUBLIC_KEY = \'%s\';\n" % (install_config.RECAPTCHA_PUBLIC_KEY)
+])
+
+web_config_file.close()
+
 # install web-json-cgi
 
 try: os.makedirs(os.path.dirname(install_config.WEB_JSON_CGI_LOCAL_PATH))
@@ -90,13 +104,21 @@ try: os.unlink(install_config.WEB_JSON_CGI_LOCAL_PATH)
 except OSError: pass
 os.symlink(hisocial_root_path+"/web-json-cgi",install_config.WEB_JSON_CGI_LOCAL_PATH)
 
-# install json-console
+# install web-json-console
 
 try: os.makedirs(os.path.dirname(install_config.WEB_JSON_CONSOLE_LOCAL_PATH))
 except OSError: pass
 try: os.unlink(install_config.WEB_JSON_CONSOLE_LOCAL_PATH)
 except OSError: pass
 os.symlink(hisocial_root_path+"/web-json-console",install_config.WEB_JSON_CONSOLE_LOCAL_PATH)
+
+# install web
+
+try: os.makedirs(os.path.dirname(install_config.WEB_LOCAL_PATH))
+except OSError: pass
+try: os.unlink(install_config.WEB_LOCAL_PATH)
+except OSError: pass
+os.symlink(hisocial_root_path+"/web",install_config.WEB_LOCAL_PATH)
 
 # reset everything
 
