@@ -48,3 +48,4 @@ def create_sqlalchemy_session():
 def create_sqlalchemy_session_push(cleanup):
     session = create_sqlalchemy_session()
     cleanup.push(session.close)
+    return session
