@@ -7,13 +7,13 @@ from base.Runtime import trace
 
 class TestUserPackage(unittest.TestCase):
     
-    ic = None
+    class icc(object):
+        OWNER_USERNAME="akari"
+        OWNER_PASSWORD="mizunashi"
+
+    ic=icc()
     
     def setUp(self):
-        class icc(object):
-            OWNER_USERNAME="akari"
-            OWNER_PASSWORD="mizunashi"
-        self.ic=icc()
         Runtime.enable_trace = False
         reset.reset(self.ic)
         Runtime.enable_trace = True
