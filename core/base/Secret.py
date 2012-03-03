@@ -8,6 +8,7 @@ import pickle
 import random
 import string
 import zlib
+from base.Runtime import debug
 
 HASH_SALT_LENGTH = 8
 HASH_SPLIT = "#"
@@ -111,11 +112,12 @@ def decrypt(enc_data_b64, hmac_str, key_hex):
     '''
     block_size = AES.block_size
 
-    if(len(key_hex) != KEY_SIZE):return None
+    if(len(key_hex) != KEY_SIZE):raise AssertionError()
 
     iv_enc = base64.b64decode(enc_data_b64)
     
     if(len(iv_enc) % block_size):return None
+    if(len(iv_enc) < block_size):return None
     
     iv = iv_enc[0:block_size]
     enc = iv_enc[block_size:]
@@ -123,7 +125,8 @@ def decrypt(enc_data_b64, hmac_str, key_hex):
     
     aes = AES.new(key, AES.MODE_CBC, iv)
     vdumpz = aes.decrypt(enc)
-    vdump = zlib.decompress(vdumpz)
+    try: vdump = zlib.decompress(vdumpz)
+    except zlib.error: return None
     
     dump_hash = vdump[0:16]
     dump = vdump[16:]
