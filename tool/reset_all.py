@@ -15,12 +15,12 @@ do_reset = False
 do_trace = False
 
 if __name__ == '__main__':
-    parser = OptionParser()
-    parser.add_option("-p", "--password", dest="password", help="password")
-    (options, args) = parser.parse_args()
-    if(options.password != core_config.ADMIN_PASSWORD):
-        print("Wrong password")
-        quit()
+#    parser = OptionParser()
+#    parser.add_option("-p", "--password", dest="password", help="password")
+#    (options, args) = parser.parse_args()
+#    if(options.password != core_config.ADMIN_PASSWORD):
+#        print("Wrong password")
+#        quit()
     do_trace = True
     do_reset = True
 elif __name__ == "reset_all":
