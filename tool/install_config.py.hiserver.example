@@ -5,6 +5,9 @@ DB_USERNAME = "testuser";
 DB_PASSWORD = "testpassword";
 DB_SCHEMATA = "testdb";
 
+OWNER_USERNAME = "owner"
+OWNER_PASSWORD = "owner_password"
+
 URL_ROOT="http://domain/path"
 
 WEB_JSON_CGI_LOCAL_PATH="/www/cgi"

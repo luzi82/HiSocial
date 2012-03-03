@@ -1,3 +1,3 @@
 #!/bin/bash
 
-PYTHONPATH=../core nosetests *.py
+PYTHONPATH=../core:../tool nosetests *.py
