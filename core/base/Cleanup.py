@@ -6,7 +6,7 @@ class Cleanup(object):
         pass
     
     def __del__(self):
-        self.close()
+        self.clean_all()
     
     def push(self, func):
         self.cleanup_stack.append(func)
@@ -17,6 +17,6 @@ class Cleanup(object):
     def pop(self):
         return self.cleanup_stack.pop()
 
-    def close(self):
+    def clean_all(self):
         while len(self.cleanup_stack) > 0:
             self.clean()
