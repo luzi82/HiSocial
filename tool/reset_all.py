@@ -8,7 +8,10 @@ sys.path.insert(0, hisocial_root_path + "/core")
 from admin import reset
 from base import Runtime
 from optparse import OptionParser
-import core_config
+try:
+    import install_config
+except ImportError:
+    print "install_config.py not found"
 
 
 do_reset = False
@@ -28,4 +31,4 @@ elif __name__ == "reset_all":
     
 if do_reset:
     Runtime.enable_trace=do_trace
-    reset.reset()
+    reset.reset(install_config)
