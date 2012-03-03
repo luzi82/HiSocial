@@ -61,8 +61,8 @@ def check_user_account_exist(session, user_id):
     :rtype: boolean
     :return: True iff user exist
     '''
-    user_query = session.query(func.count(User.user_id)).filter(User.user_id == user_id).first()
-    return user_query[0] > 0
+    i = session.query(User).filter(User.user_id == user_id).count()
+    return i > 0
 
 
 def check_user_account_password(session, user_id, password):
