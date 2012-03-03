@@ -1,13 +1,15 @@
 from sqlalchemy import Column, String
 from sqlalchemy.ext.declarative import declarative_base
+from base.DatabaseBase import DBB
 
-GroupBase = declarative_base()
-class Group(GroupBase):
+GROUP_ID_LENGTH = 8
+
+class Group(DBB):
     
     __tablename__ = "hs_user_group"
 
-    group_id = Column(String(8), primary_key=True)
-    name = Column(String(32))
+    group_id = Column(String(GROUP_ID_LENGTH), primary_key=True)
+    name = Column(String(32),nullable=False)
 
     def __init__(self, group_id, name):
         self.group_id = group_id

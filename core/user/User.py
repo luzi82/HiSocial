@@ -7,12 +7,13 @@ from sqlalchemy import Column, String, func
 from sqlalchemy.ext.declarative import declarative_base
 import core_config
 import string
+from base.DatabaseBase import DBB
 
 PASSWORD_HASH_LENGTH = 53
 USER_ID_LENGTH = 128
 
-UserBase = declarative_base()
-class User(UserBase):
+#UserBase = declarative_base()
+class User(DBB):
     '''
     password hash are in SALT#base64(HASH) format
     '''
