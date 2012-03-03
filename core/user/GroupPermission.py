@@ -23,6 +23,10 @@ class GroupPermission(DBB):
         self.permission_name = permission_id
         self.order = order
         self.enable = enable
+    
+    def __repr__(self):
+        return "<GroupPermission(%s,%s,%d,%d)>" %\
+            (self.group_id, self.permission_name, self.order,self.enable)
 
 def set(session,group_id,permission_id,order,enable):
     '''
@@ -43,7 +47,10 @@ def set(session,group_id,permission_id,order,enable):
     :type enable: boolean
     :param enalbe: permit
     '''
-    q = session.query(GroupPermission).filter(GroupPermission.group_id==group_id).filter(GroupPermission.permission_name==permission_id)
+    q = session.\
+        query(GroupPermission).\
+        filter(GroupPermission.group_id==group_id).\
+        filter(GroupPermission.permission_name==permission_id)
     i = q.count()
     if i == 0 :
         gp = GroupPermission(group_id,permission_id,order,enable)
@@ -80,9 +87,16 @@ def get(session,group_id,permission_name):
     
     :type permission_name: str
     :param permission_name: The permission id
+    
+    :rtype: map
+    :return: [KEY_ORDER]=key order, [KEY_ENABLE]=enable
     '''
     try:
-        v = session.query(GroupPermission.order,GroupPermission.enable).filter(GroupPermission.group_id==group_id).filter(GroupPermission.permission_name==permission_name).one()
+        v = session.\
+            query(GroupPermission.order,GroupPermission.enable).\
+            filter(GroupPermission.group_id==group_id).\
+            filter(GroupPermission.permission_name==permission_name).\
+            one()
     except sqlalchemy.orm.exc.NoResultFound:
         return None
     except sqlalchemy.orm.exc.MultipleResultsFound:
