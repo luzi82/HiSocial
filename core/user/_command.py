@@ -17,6 +17,8 @@ def public_guest_generate_user_login_token(user_id, password):
     if not User.check_user_account_password(session, user_id, password):
         return Command.fail(reason="auth")
 
+    cleanup.clean_all();
+
     token = UserLoginToken.generate_user_login_token(user_id)
     
     return Command.ok({"user_login_token":token})
@@ -34,8 +36,11 @@ def public_human_create_user_account(turing_value,_ip,user_id, password):
     User.add_user_account(session, user_id, password)
     
     session.commit()
+    cleanup.clean_all();
+
+    token = UserLoginToken.generate_user_login_token(user_id)
     
-    return Command.ok()
+    return Command.ok({"user_login_token":token})
 
 def public_user_create_user_account(user_login_token,user_id, password):
     actor_id = UserLoginToken.check_user_login_token(user_login_token)
@@ -54,6 +59,7 @@ def public_user_create_user_account(user_login_token,user_id, password):
     User.add_user_account(session, user_id, password)
     
     session.commit()
+    cleanup.clean_all();
     
     return Command.ok()
 
@@ -66,6 +72,7 @@ def public_guest_remove_user_account(user_id, password):
     
     User.remove_user_account(session, user_id)
     session.commit()
+    cleanup.clean_all();
 
     return Command.ok()
 
@@ -86,6 +93,7 @@ def public_user_remove_user_account(user_login_token, user_id):
     
     User.remove_user_account(session, user_id)
     session.commit()
+    cleanup.clean_all();
 
     return Command.ok()
 
@@ -98,7 +106,8 @@ def public_guest_change_user_account_password(user_id, old_password, new_passwor
     
     User.change_password(session, user_id, new_password)
     session.commit()
-    
+    cleanup.clean_all();
+
     return Command.ok()
 
 def public_user_change_user_account_password(user_login_token, user_id, new_password):
@@ -118,5 +127,6 @@ def public_user_change_user_account_password(user_login_token, user_id, new_pass
 
     User.change_password(session, user_id, new_password)
     session.commit()
+    cleanup.clean_all();
     
     return Command.ok()
