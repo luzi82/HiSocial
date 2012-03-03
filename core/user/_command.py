@@ -21,8 +21,8 @@ def public_guest_generate_user_login_token(user_id, password):
     
     return Command.ok({"user_login_token":token})
 
-def public_human_create_user_account(turing_input,_ip,user_id, password):
-    if not turing.check_recaptcha(turing_input, _ip):
+def public_human_create_user_account(turing_value,_ip,user_id, password):
+    if not turing.check_recaptcha(turing_value, _ip):
         return Command.fail(reason="turing")
     
     cleanup = Cleanup()

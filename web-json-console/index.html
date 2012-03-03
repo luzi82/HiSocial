@@ -79,7 +79,7 @@ function update_arg() {
 		first=true;
 		$.each(eval("guest_list_cmd."+current_pkg+"."+current_cmd),function(k,v){
 			first=false;
-			if(v=="turing_input"){
+			if(v=="turing_value"){
 				Recaptcha.create(RECAPTCHA_PUBLIC_KEY,"turing",
 					{
 						callback: Recaptcha.focus_response_field
@@ -88,7 +88,7 @@ function update_arg() {
 				ff=$("<form/>");
 				bb=$("<input/>");
 					bb.prop("type","submit");
-					bb.prop("value","Fill turing_input");
+					bb.prop("value","Fill turing_value");
 				ff.append(bb);
 				ff.submit(function(){
 					vv={
@@ -97,7 +97,7 @@ function update_arg() {
 					};
 					Recaptcha.destroy();
 					vv=JSON.stringify(vv);
-					$("#arg_turing_input").val(vv);
+					$("#arg_turing_value").val(vv);
 					$('#turing').html("");
 					$('#turing_f').html("");
 					return false;
