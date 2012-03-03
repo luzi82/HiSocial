@@ -2,7 +2,11 @@ from recaptcha.client import captcha
 import core_config
 import json
 
+force_output = None
+
 def check_recaptcha(turing_input,_ip):
+    if force_output != None:
+        return force_output
     if not isinstance(turing_input, str):
         return False
     if not isinstance(_ip, str):
