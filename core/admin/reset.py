@@ -6,7 +6,7 @@ from base.Runtime import trace, trace_down, trace_up
 import os
 #import inspect
 
-def reset():
+def reset(install_config=None):
     module_list=[]
     me=os.path.abspath(__file__)
     module_to_name={}
@@ -49,6 +49,6 @@ def reset():
     for i in sorted(build_list.keys()):
         m=build_list[i]
         trace("Build: "+module_to_name[m])
-        m.build()
+        m.build(install_config)
         
     trace_down("done")

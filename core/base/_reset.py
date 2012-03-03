@@ -27,7 +27,7 @@ def clean():
 def build_order():
     return 0
 
-def build():
+def build(install_config):
     trace_up("Build database")
     
     me=os.path.abspath(__file__)
