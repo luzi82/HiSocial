@@ -70,7 +70,7 @@ def unset(session,group_id,permission_name):
 
 def get(session,group_id,permission_name):
     '''
-    Set permission
+    Get permission
     
     :type session: sqlalchemy.orm.session.Session
     :param session: sqlalchemy DB Session
