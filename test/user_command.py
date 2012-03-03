@@ -151,6 +151,17 @@ class Test_user_command(unittest.TestCase):
         ret=_command.public_user_create_user_account(tokenA,"user0","password0")
         self.check_fail(ret)
         
+    def test_remove_not_exist(self):
+        ret=_command.public_guest_remove_user_account("user0","password0")
+        self.check_fail(ret)
+
+        ret=_command.public_guest_generate_user_login_token(self.OWNER_USERNAME,self.OWNER_PASSWORD)
+        self.check_ok(ret)
+        tokenA=ret["user_login_token"]
+
+        ret=_command.public_user_remove_user_account(tokenA,"user0")
+        self.check_fail(ret)
+        
     def check_ok(self,result):
         self.assertTrue(result["result"]=="ok")
 
