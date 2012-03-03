@@ -1,3 +1,5 @@
+#!/usr/bin/python
+
 from Crypto.Util.randpool import RandomPool
 import binascii
 import os
@@ -13,7 +15,7 @@ DEFAULT_USER_ID_LENGTH_MIN = 6
 DEFAULT_USER_ID_LENGTH_MAX = 100
 DEFAULT_USER_PASSWORD_LENGTH_MIN = 6
 DEFAULT_USER_PASSWORD_LENGTH_MAX = 100
-DEFAULT_ADMIN_TOKEN_VALID_TIME_PERIOD = 10 * 60
+DEFAULT_USER_TOKEN_VALID_TIME_PERIOD = 10 * 60
 
 # enviroment
 
@@ -44,9 +46,9 @@ core_config_file.writelines([
     "USER_ID_LENGTH_MAX = %d\n" % DEFAULT_USER_ID_LENGTH_MAX,
     "USER_PASSWORD_LENGTH_MIN = %d\n" % DEFAULT_USER_PASSWORD_LENGTH_MIN,
     "USER_PASSWORD_LENGTH_MAX = %d\n" % DEFAULT_USER_PASSWORD_LENGTH_MAX,
-    "ADMIN_TOKEN_ENC_KEY = \'%s\'\n" % random_hex(32),
-    "ADMIN_TOKEN_HASH_HMAC = \'%s\'\n" % random_hex(32),
-    "ADMIN_TOKEN_VALID_TIME_PERIOD = %d\n" % DEFAULT_ADMIN_TOKEN_VALID_TIME_PERIOD,
+    "USER_TOKEN_ENC_KEY = \'%s\'\n" % random_hex(32),
+    "USER_TOKEN_HASH_HMAC = \'%s\'\n" % random_hex(32),
+    "USER_TOKEN_VALID_TIME_PERIOD = %d\n" % DEFAULT_USER_TOKEN_VALID_TIME_PERIOD,
     "USER_ACCOUNT_PASSWORD_HMAC = \'%s\'\n" % random_hex(32),
     "RECAPTCHA_PUBLIC_KEY = \'%s\'\n" % install_config.RECAPTCHA_PUBLIC_KEY,
     "RECAPTCHA_PRIVATE_KEY = \'%s\'\n" % install_config.RECAPTCHA_PRIVATE_KEY
