@@ -9,6 +9,7 @@ from user import Group,UserGroup,User
 class TestUserGroup(unittest.TestCase):
 
     def setUp(self):
+        Runtime.enable_trace = False
         reset.reset()
         Runtime.enable_trace = True
 
@@ -32,6 +33,7 @@ class TestUserGroup(unittest.TestCase):
 
         User.add_user_account(session,"asdf","qwer")
         Group.add(session, "ggg", "ddd")
+        session.commit()
         UserGroup.join(session, "asdf", "ggg")
         self.assertEqual(["ggg"],UserGroup.get_group(session, "asdf"))
         self.assertTrue(UserGroup.unjoin(session, "asdf", "ggg"))
