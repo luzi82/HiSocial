@@ -10,7 +10,7 @@ $ : Normal user shell commands
 
 ==========================================
 
-# apt-get install git lighttpd mysql-server python-crypto python-sqlalchemy python-mysqldb -y
+# apt-get install git lighttpd mysql-server python-crypto python-sqlalchemy python-mysqldb python-nose python-recaptcha -y
 
 $ mysql --user=root mysql --password=MYSQL_ROOT_PASSWORD
 > CREATE USER 'MYSQL_USERNAME'@'localhost' IDENTIFIED BY 'MYSQL_PASSWORD';
