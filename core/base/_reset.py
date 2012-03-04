@@ -1,6 +1,7 @@
-from base.Runtime import trace, trace_up, trace_down
 from base import Database
 from base.DatabaseBase import DBB
+from base.Runtime import trace, trace_up, trace_down
+import _mysql_exceptions
 import os
 
 def clean_order():
@@ -9,18 +10,24 @@ def clean_order():
 def clean():
     trace_up("Clean database")
     db = Database.connect_mysqldb()
-    db.query("SHOW TABLES")
-    result = db.store_result()
-    
-    while True:
-        row = result.fetch_row()
-        if row == None:break
-        if len(row)==0:break
-        for i in row:
-            table_name = i[0]
-            trace("Remove table: "+table_name)
-            db.query("DROP TABLE `"+table_name+"`")
-    trace_down("done")
+    dirty = True
+    while dirty:
+        dirty = False
+        db.query("SHOW TABLES")
+        result = db.store_result()
+        while True:
+            row = result.fetch_row()
+            if row == None:break
+            if len(row)==0:break
+            dirty = True
+            for i in row:
+                table_name = i[0]
+                trace("Remove table: "+table_name)
+                try:
+                    db.query("DROP TABLE `"+table_name+"`")
+                except _mysql_exceptions.IntegrityError:
+                    pass
+        trace_down("done")
     db.commit()
     db.close()
 
