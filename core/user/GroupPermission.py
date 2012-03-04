@@ -55,8 +55,10 @@ def set(session,group_id,permission_id,order,enable):
     if i == 0 :
         gp = GroupPermission(group_id,permission_id,order,enable)
         session.add(gp)
+        session.flush()
     elif i == 1 :
         q.update({GroupPermission.order:order,GroupPermission.enable:enable})
+        session.flush()
     else :
         raise AssertionError()
 
@@ -74,6 +76,7 @@ def unset(session,group_id,permission_name):
     :param permission_name: The permission id
     '''
     session.query(GroupPermission).filter(GroupPermission.group_id==group_id).filter(GroupPermission.permission_name==permission_name).delete()
+    session.flush()
 
 def get(session,group_id,permission_name):
     '''

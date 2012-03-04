@@ -30,6 +30,7 @@ def add(session,group_id, name):
     '''
     new_group = Group(group_id=group_id,name=name)
     session.add(new_group)
+    session.flush()
 
 def delete(session,group_id):
     '''
@@ -44,7 +45,9 @@ def delete(session,group_id):
     :rtype: boolean
     :return: True iff success
     '''
-    return session.query(Group).filter(Group.group_id==group_id).delete() > 0
+    ret = session.query(Group).filter(Group.group_id==group_id).delete() > 0
+    session.flush()
+    return ret
 
 def rename(session,group_id, name):
     '''
@@ -62,7 +65,9 @@ def rename(session,group_id, name):
     :rtype: boolean
     :return: True iff success
     '''
-    return session.query(Group).filter(Group.group_id==group_id).update({Group.name:name}) > 0
+    ret = session.query(Group).filter(Group.group_id==group_id).update({Group.name:name}) > 0
+    session.flush()
+    return ret
 
 def get_name(session,group_id):
     '''

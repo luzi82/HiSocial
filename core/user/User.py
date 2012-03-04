@@ -46,6 +46,7 @@ def add_user_account(session, user_id, password):
     '''
     new_user = User(user_id=user_id, password_hash=_gen_password_hash(password))
     session.add(new_user)
+    session.flush()
     
 def remove_user_account(session,user_id):
     '''
@@ -59,7 +60,7 @@ def remove_user_account(session,user_id):
     :param user_id: The user id
     '''
     session.query(User).filter(User.user_id == user_id).delete()
-
+    session.flush()
 
 def check_user_account_exist(session, user_id):
     '''
@@ -118,7 +119,9 @@ def change_password(session,user_id,password):
     :rtype: boolean
     :return: True iff user exist and match
     '''
-    return session.query(User).filter(User.user_id == user_id).update({User.password_hash:_gen_password_hash(password)}) > 0
+    ret = session.query(User).filter(User.user_id == user_id).update({User.password_hash:_gen_password_hash(password)}) > 0
+    session.flush()
+    return ret
 
 def check_user_id_valid(user_id):
     '''

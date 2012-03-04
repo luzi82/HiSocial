@@ -33,6 +33,7 @@ def join(session,user_id,group_id):
     :param user_id: The user id
     '''
     session.add(UserGroup(user_id=user_id,group_id=group_id))
+    session.flush()
 
 def unjoin(session,user_id,group_id):
     '''
@@ -50,7 +51,9 @@ def unjoin(session,user_id,group_id):
     :rtype: boolean
     :return: True iff success
     '''
-    return session.query(UserGroup).filter(UserGroup.user_id==user_id).filter(UserGroup.group_id==group_id).delete() > 0
+    ret = session.query(UserGroup).filter(UserGroup.user_id==user_id).filter(UserGroup.group_id==group_id).delete() > 0
+    session.flush()
+    return ret
 
 def get_group(session,user_id):
     '''
