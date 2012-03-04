@@ -26,8 +26,8 @@ def clean():
                 try:
                     db.query("DROP TABLE `"+table_name+"`")
                 except _mysql_exceptions.IntegrityError:
-                    pass
-        trace_down("done")
+                    trace("fail, retry later")
+    trace_down("done")
     db.commit()
     db.close()
 
