@@ -5,6 +5,17 @@ import json
 force_output = None
 
 def check_recaptcha(turing_value,_ip):
+    '''
+    Check recaptcha
+
+    @type turing_value: str
+    @param turing_value: turing value in JSON format, should have turing_value["challenge"] and turing_value["response"]
+    @type _ip: str
+    @param _ip: IP of client
+
+    @rtype: boolean
+    @return: True iff recaptcha pass
+    '''
     if force_output != None:
         return force_output
     if not isinstance(turing_value, str):
