@@ -98,27 +98,30 @@ web_config_file.close()
 
 # install web-json-cgi
 
-try: os.makedirs(os.path.dirname(install_config.WEB_JSON_CGI_LOCAL_PATH))
-except OSError: pass
-try: os.unlink(install_config.WEB_JSON_CGI_LOCAL_PATH)
-except OSError: pass
-os.symlink(hisocial_root_path+"/web-json-cgi",install_config.WEB_JSON_CGI_LOCAL_PATH)
+if hasattr(install_config,"WEB_JSON_CGI_LOCAL_PATH"):
+    try: os.makedirs(os.path.dirname(install_config.WEB_JSON_CGI_LOCAL_PATH))
+    except OSError: pass
+    try: os.unlink(install_config.WEB_JSON_CGI_LOCAL_PATH)
+    except OSError: pass
+    os.symlink(hisocial_root_path+"/web-json-cgi",install_config.WEB_JSON_CGI_LOCAL_PATH)
 
 # install web-json-console
 
-try: os.makedirs(os.path.dirname(install_config.WEB_JSON_CONSOLE_LOCAL_PATH))
-except OSError: pass
-try: os.unlink(install_config.WEB_JSON_CONSOLE_LOCAL_PATH)
-except OSError: pass
-os.symlink(hisocial_root_path+"/web-json-console",install_config.WEB_JSON_CONSOLE_LOCAL_PATH)
+if hasattr(install_config,"WEB_JSON_CONSOLE_LOCAL_PATH"):
+    try: os.makedirs(os.path.dirname(install_config.WEB_JSON_CONSOLE_LOCAL_PATH))
+    except OSError: pass
+    try: os.unlink(install_config.WEB_JSON_CONSOLE_LOCAL_PATH)
+    except OSError: pass
+    os.symlink(hisocial_root_path+"/web-json-console",install_config.WEB_JSON_CONSOLE_LOCAL_PATH)
 
 # install web
 
-try: os.makedirs(os.path.dirname(install_config.WEB_LOCAL_PATH))
-except OSError: pass
-try: os.unlink(install_config.WEB_LOCAL_PATH)
-except OSError: pass
-os.symlink(hisocial_root_path+"/web",install_config.WEB_LOCAL_PATH)
+if hasattr(install_config,"WEB_LOCAL_PATH"):
+    try: os.makedirs(os.path.dirname(install_config.WEB_LOCAL_PATH))
+    except OSError: pass
+    try: os.unlink(install_config.WEB_LOCAL_PATH)
+    except OSError: pass
+    os.symlink(hisocial_root_path+"/web",install_config.WEB_LOCAL_PATH)
 
 # reset everything
 
