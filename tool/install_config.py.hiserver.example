@@ -1,22 +1,22 @@
 # for all path/url, no tailing "/"
 
 DB_SERVER = "localhost";
-DB_USERNAME = "testuser";
-DB_PASSWORD = "testpassword";
-DB_SCHEMATA = "testdb";
+DB_USERNAME = "MYSQL_USERNAME";
+DB_PASSWORD = "MYSQL_ROOT_PASSWORD";
+DB_SCHEMATA = "MYSQL_DATABASE";
 
 OWNER_USERNAME = "owner"
 OWNER_PASSWORD = "owner_password"
 
 URL_ROOT="http://domain/path"
 
-WEB_JSON_CGI_LOCAL_PATH="/var/HiSocial/json-cgi"
+WEB_JSON_CGI_LOCAL_PATH="/HISOCIAL_WWW/json-cgi"
 WEB_JSON_CGI_URL_PATH="json-cgi"
 
-WEB_JSON_CONSOLE_LOCAL_PATH="/var/HiSocial/json-console"
+WEB_JSON_CONSOLE_LOCAL_PATH="/HISOCIAL_WWW/json-console"
 WEB_JSON_CONSOLE_URL_PATH="json-console"
 
-WEB_LOCAL_PATH="/var/HiSocial/root"
+WEB_LOCAL_PATH="/HISOCIAL_WWW/root"
 WEB_URL_PATH=""
 
 # Get the key from https://www.google.com/recaptcha/admin/create
