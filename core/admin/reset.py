@@ -7,6 +7,18 @@ import os
 #import inspect
 
 def reset(install_config=None):
+    """
+    Reset the whole HiSocial system.
+    It will clear all data, use it in caution.
+    
+    Steps of reset:
+    1. Find all sub-packages in core
+    2. Run all sub-package clean function in order.
+    3. Run all sub-package build function in order.
+    
+    @type install_config: object
+    @param install_config: Contains parameters to rebuild the system.
+    """
     module_list=[]
     me=os.path.abspath(__file__)
     module_to_name={}
