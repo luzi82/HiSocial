@@ -9,8 +9,8 @@ def connect_mysqldb():
     This func auto fill everything
     need to call ret.commit() and ret.close() to clean up
     
-    :rtype:  MySQLdb.connections.Connection
-    :return: MySQL connection to DB
+    @rtype:  MySQLdb.connections.Connection
+    @return: MySQL connection to DB
     """
     return MySQLdb.connect(
                            host=core_config.DB_SERVER,
