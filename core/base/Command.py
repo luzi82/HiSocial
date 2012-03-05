@@ -13,6 +13,20 @@ RESULT_FAIL = {RESULT_KEY:RESULT_VALUE_FAIL_TXT}
 RESULT_OK = {RESULT_KEY:RESULT_VALUE_OK_TXT}
 
 def call(package, func_name, args={}):
+    """
+    Call a command in a sub-package
+    It will call (package)/_command.py public_(func_name)(args)
+    
+    @type  package: string
+    @param package: package name
+    @type  func_name: string
+    @param func_name: function name
+    @type  args: dict
+    @param args: funtion arguments
+    
+    @rtype:  dict
+    @return: command result
+    """
     try:
         if(not _is_call_name(package)):
             debug("not _is_call_name(package)")
@@ -40,6 +54,9 @@ def call(package, func_name, args={}):
 def list_cmd():
     '''
     list all pkg and cmd
+    
+    @rtype:  dict
+    @return: a muliple layer dict, (package-name) -> (function-name) -> [arg list]
     '''
     me=os.path.abspath(__file__)
     core_path=os.path.dirname(os.path.dirname(me))
@@ -63,10 +80,30 @@ def list_cmd():
                 
 
 def ok(result=None):
+    '''
+    Create a OK command return
+    
+    @type  result: dict
+    @param result: dict key-value add to return value
+    
+    @rtype:  dict
+    @return: A OK command return
+    '''
     global RESULT_OK
     return _merge_dict(RESULT_OK, result)
 
 def fail(result=None, reason=None):
+    '''
+    Create a FAIL command return
+    
+    @type  result: dict
+    @param result: dict key-value add to return value
+    @type  reason: str
+    @param reason: fail reason
+    
+    @rtype:  dict
+    @return: A FAIL command return
+    '''
     global RESULT_FAIL
     ret = _merge_dict(RESULT_FAIL, result)
     if(reason != None):
@@ -74,11 +111,28 @@ def fail(result=None, reason=None):
     return ret
 
 def _merge_dict(a, b):
+    '''
+    Combine two dict
+    
+    @type a: dict
+    @type b: dict, have priority
+    
+    @rtype:  dict
+    @return: combined dict
+    '''
     ret = a.copy()
     if(b != None):ret.update(b)
     return ret
 
 def _is_call_name(v):
+    '''
+    Check if a str is valid package/func name.
+    
+    @type v: str
+    
+    @rtype:  boolean
+    @return: True iff str is valid package/func name
+    '''
     r = string.ascii_letters + string.digits + "_"
     if(v == None):return False
     if(not isinstance(v, str)):return False
