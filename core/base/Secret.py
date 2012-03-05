@@ -19,17 +19,17 @@ def gen_hash(data, hmac_value, salt=None):
     Create salt+hash string from password
     Can be verified by _check_password_hash
     
-    :type data: str
-    :param data: The data to hash
+    @type data: str
+    @param data: The data to hash
 
-    :type hmac_value: str
-    :param hmac_value: hmac value
+    @type hmac_value: str
+    @param hmac_value: hmac value
     
-    :type salt: str
-    :param salt: Salt value.  If None, this func will generate by random
+    @type salt: str
+    @param salt: Salt value.  If None, this func will generate by random
     
-    :rtype: str
-    :return: hash value in SALT#base64(HASH) format
+    @rtype: str
+    @return: hash value in SALT#base64(HASH) format
     """
     if(salt == None):
         char_list = string.ascii_letters + string.digits
@@ -44,17 +44,17 @@ def check_hash(data, hmac_str, hash_value):
     """
     To check if the data match the hash
     
-    :type data: str
-    :param data: The password to check
+    @type data: str
+    @param data: The password to check
 
-    :type hmac_str: str
-    :param hmac_str: hmac value
+    @type hmac_str: str
+    @param hmac_str: hmac value
     
-    :type hash_value: str
-    :param hash_value: The hash value to check, in SALT#base64(HASH) format
+    @type hash_value: str
+    @param hash_value: The hash value to check, in SALT#base64(HASH) format
     
-    :rtype: boolean
-    :return: True iff match
+    @rtype: boolean
+    @return: True iff match
     """
     v = hash_value.split(HASH_SPLIT)
     if(len(v) != 2):
@@ -64,16 +64,16 @@ def check_hash(data, hmac_str, hash_value):
 
 def encrypt(data, hmac_str, key_hex):
     '''
-    :param data: any obj to be pickle.dumps
+    @param data: any obj to be pickle.dumps
     
-    :type hmac_str: str
-    :param hmac_str: hmac string
+    @type hmac_str: str
+    @param hmac_str: hmac string
     
-    :type key_hex: str
-    :param key_hex: key in hex format
+    @type key_hex: str
+    @param key_hex: key in hex format
     
-    :rtype: str
-    :return: encrypted data in base64
+    @rtype: str
+    @return: encrypted data in base64
     '''
     block_size = AES.block_size
     
@@ -99,16 +99,16 @@ def encrypt(data, hmac_str, key_hex):
 
 def decrypt(enc_data_b64, hmac_str, key_hex):
     '''
-    :rtype enc_data_b64: str
-    :param enc_data_b64: encrypted data in base64
+    @type enc_data_b64: str
+    @param enc_data_b64: encrypted data in base64
     
-    :type hmac_str: str
-    :param hmac_str: hmac string
+    @type hmac_str: str
+    @param hmac_str: hmac string
     
-    :type key_hex: str
-    :param key_hex: key in hex format
+    @type key_hex: str
+    @param key_hex: key in hex format
     
-    :return: encrypted object
+    @return: encrypted object
     '''
     block_size = AES.block_size
 
@@ -138,4 +138,10 @@ def decrypt(enc_data_b64, hmac_str, key_hex):
 rp = RandomPool()
 
 def _random_byte(size):
+    """
+    Generate random length byte data
+
+    @type size: integer
+    @param size: size of byte data
+    """
     return rp.get_bytes(size)
