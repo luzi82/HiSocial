@@ -33,6 +33,9 @@ class Cleanup(object):
     def pop(self):
         """
         Pop a cleanup function from stack without calling the function.
+        
+        @rtype: Function
+        @return: The cleanup function have put to stack
         """
         return self.cleanup_stack.pop()
 
