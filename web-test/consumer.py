@@ -263,7 +263,8 @@ class OpenIDRequestHandler(object):
         # us.  Status is a code indicating the response type. info is
         # either None or a string containing more information about
         # the return type.
-        url = 'http://'+self.headers.get('Host')+self.path
+#        url = 'http://'+self.headers.get('Host')+self.path
+        url = 'http://'+self.headers.get('Host')+uri_prefix+self.path
         info = oidconsumer.complete(self.query, url)
 
         sreg_resp = None
@@ -602,10 +603,11 @@ for k, v in openidrequesthandler.response_code.iteritems():
 sys.stdout.write("\n")
 sys.stdout.write(openidrequesthandler.wfile.getvalue())
 
-f=open(session_file,'w+')
+f=open(session_file,"w")
 pickle.dump(openidrequesthandler.server.sessions,f)
 f.flush()
 f.close()
+f=None
 
 sys.stdout.write("<br/>\n")
 sys.stdout.write("<br/>\n")
