@@ -22,29 +22,19 @@ import sys
 import urlparse
 import StringIO
 import os
+import os.path
 import time
+import pickle
+import openid
 
 hostname="localhost"
 uri_prefix="/~luzi82/HiSocial/test"
+openid_store="/home/luzi82/ttt/openid/"
+session_file="/home/luzi82/ttt/session.dat"
 
 def quoteattr(s):
     qs = cgi.escape(s, 1)
     return '"%s"' % (qs,)
-
-
-try:
-    import openid
-except ImportError:
-    sys.stderr.write("""
-Failed to import the OpenID library. In order to use this example, you
-must either install the library (see INSTALL in the root of the
-distribution) or else add the library to python's import path (the
-PYTHONPATH environment variable).
-
-For more information, see the README in the root of the library
-distribution.""")
-    sys.exit(1)
-
 
 # Used with an OpenID provider affiliate program.
 OPENID_PROVIDER_NAME = 'MyOpenID'
@@ -91,9 +81,9 @@ class FakeHeaders(object):
 
 class FakeServer(object):
     
-    def __init__(self,store):
+    def __init__(self):
         self.sessions = {}
-        self.store = store
+        self.store = filestore.FileOpenIDStore(openid_store)
         self.base_url = ('http://'+hostname+uri_prefix+'/')
     
 # BaseHTTPRequestHandler
@@ -102,10 +92,12 @@ class OpenIDRequestHandler(object):
     SESSION_COOKIE_NAME = 'pyoidconsexsid'
 
     session = None
-    server = FakeServer(memstore.MemoryStore())
+    server = FakeServer()
     path = None
     user = None
     headers = None
+    
+    my_path=None
 
     wfile = StringIO.StringIO()
 
@@ -174,6 +166,7 @@ class OpenIDRequestHandler(object):
                 self.query[k] = v.decode('utf-8')
 
             path = self.parsed_uri[2]
+            self.my_path=path
             if path == '/':
                 self.render()
             elif path == '/verify':
@@ -575,10 +568,24 @@ class OpenIDRequestHandler(object):
 #else:
 #    action=form["action"]
 
+sessions=None
+if os.path.exists(session_file):
+    try:
+        f=open(session_file,'r')
+        sessions=pickle.load(f)
+        f.close()
+        f=None
+    except:
+        pass
+
+if sessions==None:
+    sessions={}
+
 fakeheaders=FakeHeaders()
 fakeheaders.set_environ(os.environ)
 
 openidrequesthandler = OpenIDRequestHandler()
+openidrequesthandler.server.sessions=sessions
 openidrequesthandler.headers=fakeheaders
 if "REQUEST_URI" in os.environ:
     openidrequesthandler.path=os.environ["REQUEST_URI"][len(uri_prefix):]
@@ -594,7 +601,24 @@ for k, v in openidrequesthandler.response_code.iteritems():
     sys.stdout.write("%s: %s\n"%(k,v))
 sys.stdout.write("\n")
 sys.stdout.write(openidrequesthandler.wfile.getvalue())
-#sys.stdout.write("\n")
-#for k, v in fakeheaders.environ.iteritems():
-#    sys.stdout.write("%s: %s<br/>"%(k,v))
-#sys.stdout.write("\n")
+
+f=open(session_file,'w+')
+pickle.dump(openidrequesthandler.server.sessions,f)
+f.flush()
+f.close()
+
+sys.stdout.write("<br/>\n")
+sys.stdout.write("<br/>\n")
+sys.stdout.write(openidrequesthandler.path)
+sys.stdout.write("<br/>\n")
+sys.stdout.write("<br/>\n")
+sys.stdout.write(openidrequesthandler.my_path)
+sys.stdout.write("<br/>\n")
+sys.stdout.write("<br/>\n")
+for k, v in openidrequesthandler.query.iteritems():
+    sys.stdout.write("%s: %s<br/>\n"%(k,v))
+sys.stdout.write("<br/>\n")
+sys.stdout.write("<br/>\n")
+for k, v in fakeheaders.environ.iteritems():
+    sys.stdout.write("%s: %s<br/>"%(k,v))
+sys.stdout.write("\n")
