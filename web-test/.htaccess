@@ -1,0 +1,10 @@
+AddDefaultCharset UTF-8
+Options +ExecCGI
+AddHandler cgi-script .py
+
+RewriteEngine On
+RewriteBase /~luzi82/HiSocial/test
+RewriteRule ^$ consumer.py
+RewriteRule ^verify$ consumer.py
+RewriteRule ^process$ consumer.py
+RewriteRule ^affiliate$ consumer.py
