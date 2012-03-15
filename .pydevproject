@@ -10,5 +10,10 @@
 <path>/HiSocial/test</path>
 <path>/HiSocial/tool</path>
 <path>/HiSocial/web-json-cgi</path>
+<path>/HiSocial/web-test</path>
+<path>/HiSocial/web-openid-provider</path>
+</pydev_pathproperty>
+<pydev_pathproperty name="org.python.pydev.PROJECT_EXTERNAL_SOURCE_PATH">
+<path>/usr/share/pyshared/BitTorrent</path>
 </pydev_pathproperty>
 </pydev_project>
