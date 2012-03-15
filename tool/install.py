@@ -123,6 +123,15 @@ if hasattr(install_config,"WEB_LOCAL_PATH"):
     except OSError: pass
     os.symlink(hisocial_root_path+"/web",install_config.WEB_LOCAL_PATH)
 
+# install open-id
+
+if hasattr(install_config,"WEB_OPENID_SERVER_LOCAL_PATH"):
+    try: os.makedirs(os.path.dirname(install_config.WEB_OPENID_SERVER_LOCAL_PATH))
+    except OSError: pass
+    try: os.unlink(install_config.WEB_OPENID_SERVER_LOCAL_PATH)
+    except OSError: pass
+    os.symlink(hisocial_root_path+"/web-openid-server",install_config.WEB_OPENID_SERVER_LOCAL_PATH)
+
 # reset everything
 
 runpy.run_module("reset_all")
