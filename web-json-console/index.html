@@ -66,7 +66,40 @@ function update_cmd() {
 	update_arg();
 }
 
-function update_arg() {
+function update_arg(){
+	argE=$('#arg');
+	argE.html("");
+	
+	if(current_cmd!=""){
+		iframeE=$("<iframe/>");
+			argList=eval("guest_list_cmd."+current_pkg+"."+current_cmd);
+			iframeUrl=
+				"form.html?"
+				+"PKG="+current_pkg
+				+"&CMD="+current_cmd
+				+"&VARCOUNT="+argList.length;
+			i=0;
+			$.each(argList,function(k,v){
+				iframeUrl+="&VAR"+i+"NAME="+v;
+				if(v.indexOf("FILE") === 0){
+					iframeUrl+="&VAR"+i+"TYPE=file";
+				}else{
+					iframeUrl+="&VAR"+i+"TYPE=text";
+				}
+				if(v=="turing_value"){
+					iframeUrl+="&TURING="+v;
+				}
+				++i;
+			});
+			iframeE.prop("src",iframeUrl);
+			iframeE.prop("width","100%");
+			iframeE.prop("height","400px");
+			iframeE.prop("frameborder","0");
+		argE.append(iframeE);
+	}
+}
+
+function update_arg_old() {
 	Recaptcha.destroy();
 	$('#turing').html("");
 	$('#turing_f').html("");
@@ -105,16 +138,20 @@ function update_arg() {
 				$('#turing_f').append(ff);
 			}
 			tr=$("<tr/>");
-				td0=$("<td/>");
-					td0.text(v);
-				tr.append(td0);
-				td1=$("<td/>");
-					i=$("<input/>");
-						i.prop("name",v);
-						i.prop("id","arg_"+v);
+			td0=$("<td/>");
+				td0.text(v);
+			tr.append(td0);
+			td1=$("<td/>");
+				i=$("<input/>");
+					i.prop("name",v);
+					i.prop("id","arg_"+v);
+					if(v.lastIndexOf("FILE_",0)==0){
+						i.prop("type","file");
+					}else{
 						i.prop("type","text");
-					td1.append(i);
-				tr.append(td1);
+					}
+				td1.append(i);
+			tr.append(td1);
 			t.append(tr);
 		});
 		if(!first){

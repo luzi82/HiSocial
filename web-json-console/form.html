@@ -1,0 +1,114 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<script type="text/javascript" src="jquery-1.7.1.js"></script>
+<script type="text/javascript" src="json2.js"></script>
+<script type="text/javascript" src="webjsonconsole_config.js"></script>
+<script type="text/javascript" src="http://www.google.com/recaptcha/api/js/recaptcha_ajax.js"></script>
+<script type="text/javascript">
+$(document).ready(function() {
+	url_vars=getUrlVars();
+	in_cmd=url_vars["CMD"];
+	in_pkg=url_vars["PKG"];
+	in_turing=url_vars["TURING"];
+	in_argcount=url_vars["VARCOUNT"];
+	in_argv=[];
+	for(i=0;i<in_argcount;++i){
+		v={"name":url_vars["VAR"+i+"NAME"],"type":url_vars["VAR"+i+"TYPE"]};
+		in_argv.push(v);
+	}
+	//////////////
+	
+	if(in_turing){
+		Recaptcha.create(RECAPTCHA_PUBLIC_KEY,"turing",
+			{
+				callback: Recaptcha.focus_response_field
+			}
+		);
+		ff=$("<form/>");
+		bb=$("<input/>");
+			bb.prop("type","submit");
+			bb.prop("value","Fill "+in_turing);
+		ff.append(bb);
+		ff.submit(function(){
+			vv={
+				"challenge":Recaptcha.get_challenge(),
+				"response":Recaptcha.get_response()
+			};
+			Recaptcha.destroy();
+			vv=JSON.stringify(vv);
+			$("#arg_"+in_turing).val(vv);
+			$('#turing').html("");
+			$('#turing_f').html("");
+			return false;
+		});
+		$('#turing_f').append(ff);
+	}
+	
+	//////////////
+	
+	f=$("<form/>");
+	f.prop("action",HISOCIAL_JSON_URL);
+	f.prop("method","post");
+	f.prop("enctype","multipart/form-data");
+	
+	t=$("<table/>");
+		for(i=0;i<in_argv.length;++i){
+			tr=$("<tr/>");
+			td=$("<td/>");
+				td.text(in_argv[i]["name"]);
+			tr.append(td);
+			td=$("<td/>");
+				inp=$("<input/>");
+					inp.prop("id","arg_"+in_argv[i]["name"]);
+					inp.prop("name",in_argv[i]["name"]);
+					inp.prop("type",in_argv[i]["type"]);
+				td.append(inp);
+			tr.append(td);
+			t.append(tr);
+		}
+	f.append(t);
+	
+	x=$("<input/>");
+		x.prop("type","hidden");
+		x.prop("name","CMD");
+		x.prop("value",in_cmd);
+	f.append(x);
+	
+	x=$("<input/>");
+		x.prop("type","hidden");
+		x.prop("name","PKG");
+		x.prop("value",in_pkg);
+	f.append(x);
+
+	b=$("<input/>");
+		b.prop("type","submit");
+		b.prop("value","Submit");
+	f.append(b);
+
+	$('#form').html("");
+	$('#form').append(f);
+});
+
+function getUrlVars()
+{
+    var vars = [], hash;
+    var hashes = window.location.href.slice(window.location.href.indexOf('?') + 1).split('&');
+    for(var i = 0; i < hashes.length; i++)
+    {
+        hash = hashes[i].split('=');
+        vars.push(hash[0]);
+        vars[hash[0]] = hash[1];
+    }
+    return vars;
+}
+</script>
+</head>
+<body vlink="#3F3FFF" link="#3F3FFF">
+<div id="turing"></div>
+<div id="turing_f"></div>
+<div id="form"></div>
+</body>
+</html>
