@@ -21,14 +21,19 @@ def action():
         return Command.fail(reason="bad cmd")
     args = {}
     for k in form.keys():
-        v = form[k].value
         if(not isinstance(k, str)):continue
         if(k==""):continue
         if(k[:1]=="_"):continue
         if(k=="CMD"):continue
         if(k=="PKG"):continue
-        if(not isinstance(v, str)):continue
-        args[k] = form[k].value
+        if(k.startswith("FILE_")):
+            v = form[k].file
+            if not v:continue
+            args[k] = v
+        else:
+            v = form[k].value
+            if(not isinstance(v, str)):continue
+            args[k] = v
     args["_ip"] = cgi.escape(os.environ["REMOTE_ADDR"])
     return Command.call(form["PKG"].value, form["CMD"].value, args)
 
