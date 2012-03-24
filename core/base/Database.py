@@ -18,7 +18,7 @@ def connect_mysqldb():
                            passwd=core_config.DB_PASSWORD,
                            db=core_config.DB_SCHEMATA,
                            charset="utf8",
-                           use_unicode=False
+                           use_unicode=True
                            )
 
 def create_sqlalchemy_engine():
@@ -39,7 +39,7 @@ def create_sqlalchemy_engine():
                          + core_config.DB_SERVER
                          + "/"
                          + core_config.DB_SCHEMATA
-                         + "?charset=utf8&use_unicode=0"
+                         + "?charset=utf8&use_unicode=1"
                          )
 
 def create_sqlalchemy_session():
