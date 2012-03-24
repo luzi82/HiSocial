@@ -17,7 +17,7 @@ $ : Normal user shell commands
 
 $ mysql --user=root mysql --password=MYSQL_ROOT_PASSWORD
 > CREATE USER 'MYSQL_USERNAME'@'localhost' IDENTIFIED BY 'MYSQL_PASSWORD';
-> CREATE DATABASE MYSQL_DATABASE;
+> CREATE DATABASE MYSQL_DATABASE CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 > GRANT ALL ON MYSQL_DATABASE.* TO 'MYSQL_USERNAME'@'localhost';
 > quit
 
