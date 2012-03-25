@@ -54,3 +54,19 @@ class TestUserGroup(unittest.TestCase):
         self.assertEqual(["ggg"],UserGroup.get_group(session, "asdf"))
         UserGroup.unjoin(session, "asdf", "ggg")
         self.assertEqual([],UserGroup.get_group(session, "asdf"))
+
+    def test_case0(self):
+        cleanup = Cleanup()
+        session = Database.create_sqlalchemy_session_push(cleanup)
+
+        User.add_user_account(session,"uuuu0","pppp0")
+        User.add_user_account(session,"uuuu1","pppp1")
+        Group.add(session, "gggg0", "gggg0")
+        Group.add(session, "gggg1", "gggg1")
+        UserGroup.join(session, "uuuu0", "gggg0")
+        UserGroup.join(session, "uuuu0", "gggg1")
+        UserGroup.join(session, "uuuu1", "gggg0")
+        UserGroup.join(session, "uuuu1", "gggg1")
+        
+        self.assertEqual(["gggg0","gggg1"],UserGroup.get_group(session, "uuuu0"))
+        self.assertEqual(["gggg0","gggg1"],UserGroup.get_group(session, "uuuu1"))
