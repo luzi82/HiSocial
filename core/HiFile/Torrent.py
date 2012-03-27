@@ -20,3 +20,10 @@ def get_name(torrent_data):
         return info["name.utf-8"]
     else:
         return info["name"]
+
+def get_total_size(torrent_data):
+    ret=0
+    info_files=torrent_data["info"]["files"]
+    for i in info_files:
+        ret+=i["length"]
+    return ret

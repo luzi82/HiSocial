@@ -41,7 +41,10 @@ class TestTorrent(unittest.TestCase):
         self.assertEqual(data["info"]["name"],"魔法少女小圓")
         self.assertEqual(Torrent.get_name(data),"魔法少女小圓")
         
-
+    def test_size(self):
+        data=Torrent.parse_torrent("res/test0.torrent")
+        self.assertEqual(Torrent.get_total_size(data),365751495)
+        
 #    def test_show(self):
 #        data=Torrent.parse_torrent("res/test2.torrent")
 #        self.pp.pprint(data)
