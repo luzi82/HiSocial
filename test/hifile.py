@@ -1,3 +1,5 @@
+# -*- coding: utf-8 -*-
+
 from admin import reset
 from base import Database, Runtime
 from base.Cleanup import Cleanup
@@ -25,9 +27,9 @@ class TestHiFile(unittest.TestCase):
         session = Database.create_sqlalchemy_session_push(cleanup)
         
         user.User.add_user_account(session=session, user_id="uuuu0", password="pppp0")
-        self.assertEqual(1,HiFile._database.add_torrent(session,"uuuu0","0123456789012345678901234567890123456789"))
-        self.assertEqual(2,HiFile._database.add_torrent(session,"uuuu0","0123456789012345678901234567890123456789"))
-        self.assertEqual(3,HiFile._database.add_torrent(session,"uuuu0","0123456789012345678901234567890123456789"))
+        self.assertEqual(1,HiFile._database.add_torrent(session,"uuuu0","0123456789012345678901234567890123456789","name",123))
+        self.assertEqual(2,HiFile._database.add_torrent(session,"uuuu0","0123456789012345678901234567890123456789","name",123))
+        self.assertEqual(3,HiFile._database.add_torrent(session,"uuuu0","0123456789012345678901234567890123456789","name",123))
         
         self.assertEqual(HiFile._database.list_user_torrent(session,"uuuu0"),[1,2,3])
         
@@ -53,6 +55,7 @@ class TestHiFile(unittest.TestCase):
         torrent_file.close()
         
         session = Database.create_sqlalchemy_session_push(cleanup)
+        
         self.assertTrue(filecmp.cmp("res/test0.torrent",HiFile.TorrentStorage._torrentid_to_path(0x1)))
         self.assertEqual(HiFile._database.list_user_torrent(session,"uuuu0"),[1])
         
@@ -64,4 +67,34 @@ class TestHiFile(unittest.TestCase):
         self.assertEqual(len(r),1)
         self.assertEqual(r[0].torrent_id,1)
         self.assertEqual(r[0].user_id,"uuuu0")
+        self.assertEqual(r[0].name,"Super Eurobeat Vol. 220 - Anniversary Hits")
+        self.assertEqual(r[0].size,365751495)
         self.assertEqual(binascii.b2a_hex(r[0].info_hash_bin),"2034385a2621c53a490f34c5893a860664741da4")
+
+        cleanup.clean_all()
+
+        torrent_file=open("res/test2.torrent","rb")
+        ret=HiFile._command.public_user_upload_torrent(user_login_token, torrent_file)
+        self.assertEqual(ret,{"result":"ok","torrent_id":2})
+        torrent_file.close()
+
+        session = Database.create_sqlalchemy_session_push(cleanup)
+        
+        self.assertTrue(filecmp.cmp("res/test2.torrent",HiFile.TorrentStorage._torrentid_to_path(0x2)))
+        self.assertEqual(HiFile._database.list_user_torrent(session,"uuuu0"),[1,2])
+
+        r=session.query(HiFile.TrackerManager.XBT_FILES).count()
+        self.assertEqual(r,2)
+
+        r=session.query(HiFile._database.Torrent).count()
+        self.assertEqual(r,2)
+        
+        r=session.query(HiFile._database.Torrent).filter(HiFile._database.Torrent.info_hash_bin==binascii.a2b_hex("39eaf2230aa0bcf9148f84f6efe0c64cc1ab80c1")).all()
+        self.assertEqual(len(r),1)
+        self.assertEqual(r[0].torrent_id,2)
+        self.assertEqual(r[0].user_id,"uuuu0")
+        self.assertEqual(r[0].name,"魔法少女小圓")
+        self.assertEqual(r[0].size,616839726)
+        self.assertEqual(binascii.b2a_hex(r[0].info_hash_bin),"39eaf2230aa0bcf9148f84f6efe0c64cc1ab80c1")
+
+        cleanup.clean_all()
