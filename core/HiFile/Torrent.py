@@ -13,3 +13,10 @@ def parse_torrent_data(data):
 
 def get_info_hash_hex(torrent_data):
     return hashlib.sha1(bencode.bencode(torrent_data["info"])).hexdigest()
+
+def get_name(torrent_data):
+    info=torrent_data["info"]
+    if("name.utf-8" in info):
+        return info["name.utf-8"]
+    else:
+        return info["name"]
