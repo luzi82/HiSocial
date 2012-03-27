@@ -1,6 +1,7 @@
 import os
 import subprocess
 import core_config
+import TorrentStorage
 
 def build_order():
     return 20
@@ -24,3 +25,5 @@ def build(install_config):
                           stdin=p1.stdout,
                           stdout=subprocess.PIPE)
     p2.wait()
+
+    os.makedirs(TorrentStorage.STORAGE_PATH)
