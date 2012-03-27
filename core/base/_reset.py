@@ -3,6 +3,8 @@ from base.DatabaseBase import DBB
 from base.Runtime import trace, trace_up, trace_down
 import _mysql_exceptions
 import os
+import core_config
+import shutil
 
 def clean_order():
     return 0
@@ -27,9 +29,15 @@ def clean():
                     db.query("DROP TABLE `"+table_name+"`")
                 except _mysql_exceptions.IntegrityError:
                     trace("fail, retry later")
-    trace_down("done")
     db.commit()
     db.close()
+    trace_down("done")
+    
+    trace_up("Clean filesystem")
+    data_folder=os.listdir(core_config.DATA_FOLDER)
+    for i in data_folder:
+        shutil.rmtree(core_config.DATA_FOLDER+"/"+i)
+    trace_down("done")
 
 def build_order():
     return 0

@@ -10,6 +10,8 @@ OWNER_PASSWORD = "owner_password"
 
 URL_ROOT="http://domain/path"
 
+DATA_FOLDER="/HISOCIAL_DATA"
+
 WEB_JSON_CGI_LOCAL_PATH="/HISOCIAL_WWW/json-cgi"
 WEB_JSON_CGI_URL_PATH="json-cgi"
 
