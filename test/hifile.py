@@ -98,3 +98,20 @@ class TestHiFile(unittest.TestCase):
         self.assertEqual(binascii.b2a_hex(r[0].info_hash_bin),"39eaf2230aa0bcf9148f84f6efe0c64cc1ab80c1")
 
         cleanup.clean_all()
+
+        torrent_file=open("res/test3.torrent","rb")
+        ret=HiFile._command.public_user_upload_torrent(user_login_token, torrent_file)
+        self.assertEqual(ret,{"result":"ok","torrent_id":3})
+        torrent_file.close()
+
+        session = Database.create_sqlalchemy_session_push(cleanup)
+
+        r=session.query(HiFile._database.Torrent).filter(HiFile._database.Torrent.info_hash_bin==binascii.a2b_hex("da5142099da45138ebbab05a40664c98ac2c0496")).all()
+        self.assertEqual(len(r),1)
+        self.assertEqual(r[0].torrent_id,3)
+        self.assertEqual(r[0].user_id,"uuuu0")
+        self.assertEqual(r[0].name,"[CASO&SumiSora][Puella_Magi_Madoka_Magica][BDRIP][GB_BIG5]")
+        self.assertEqual(r[0].size,20185116425)
+        self.assertEqual(binascii.b2a_hex(r[0].info_hash_bin),"da5142099da45138ebbab05a40664c98ac2c0496")
+
+        cleanup.clean_all()

@@ -44,8 +44,15 @@ class TestTorrent(unittest.TestCase):
     def test_size(self):
         data=Torrent.parse_torrent("res/test0.torrent")
         self.assertEqual(Torrent.get_total_size(data),365751495)
+        data=Torrent.parse_torrent("res/test3.torrent")
+        self.assertEqual(Torrent.get_total_size(data),20185116425)
         
 #    def test_show(self):
-#        data=Torrent.parse_torrent("res/test2.torrent")
-#        self.pp.pprint(data)
-        
+#        data=Torrent.parse_torrent("res/test3.torrent")
+#        data_pp=self.pp.pformat(data)
+#        print(Torrent.get_total_size(data))
+#        
+#        f=open("res/test3.torrent.txt","w")
+#        f.write(data_pp)
+#        f.flush()
+#        f.close()
