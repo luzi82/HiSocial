@@ -15,7 +15,7 @@ class Torrent(DBB):
     user_id = Column(String(User.USER_ID_LENGTH), ForeignKey("hs_user_user.user_id"))
     info_hash_bin = Column(BINARY(20), nullable=False)
     name = Column(String(NAME_SIZE), nullable=False)
-    size = Column(BIGINT, nullable=False)
+    size = Column(BIGINT(unsigned=True), nullable=False)
     
     def __init__(self, user_id, info_hash_bin, name, size):
         self.user_id = user_id
