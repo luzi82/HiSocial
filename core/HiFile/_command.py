@@ -32,7 +32,22 @@ def public_user_upload_torrent(user_login_token,FILE_torrent):
     return Command.ok(result={"torrent_id":torrent_id})
 
 def public_user_list_user_torrent(user_login_token,user_id):
-    pass
+    actor_id = user.UserLoginToken.check_user_login_token(user_login_token)
+    if actor_id == None:
+        return Command.fail(reason="user_login_token")
+    
+    if user_id != actor_id:
+        return Command.fail(reason="no permission")
+    
+    cleanup = Cleanup()
+    session = Database.create_sqlalchemy_session_push(cleanup)
+
+    torrent_list=_database.list_user_torrent(session,user_id)
+
+    session.commit()
+    cleanup.clean_all()
+    
+    return Command.ok(result={"torrent_list":torrent_list})
 
 def public_test(FILE_in):
     file_bin=FILE_in.read()

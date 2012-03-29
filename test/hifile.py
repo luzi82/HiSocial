@@ -31,7 +31,29 @@ class TestHiFile(unittest.TestCase):
         self.assertEqual(2,HiFile._database.add_torrent(session,"uuuu0","0123456789012345678901234567890123456789","name",123))
         self.assertEqual(3,HiFile._database.add_torrent(session,"uuuu0","0123456789012345678901234567890123456789","name",123))
         
-        self.assertEqual(HiFile._database.list_user_torrent(session,"uuuu0"),[1,2,3])
+        self.assertEqual(HiFile._database.list_user_torrent(session,"uuuu0"),[ \
+            {
+                "torrent_id":1, \
+                "user_id":"uuuu0", \
+                "info_hash_bin":"0123456789012345678901234567890123456789", \
+                "name":"name", \
+                "size":123, \
+            }, \
+            {
+                "torrent_id":2, \
+                "user_id":"uuuu0", \
+                "info_hash_bin":"0123456789012345678901234567890123456789", \
+                "name":"name", \
+                "size":123, \
+            }, \
+            {
+                "torrent_id":3, \
+                "user_id":"uuuu0", \
+                "info_hash_bin":"0123456789012345678901234567890123456789", \
+                "name":"name", \
+                "size":123, \
+            }, \
+        ])
         
         self.assertEqual(HiFile._database.list_user_torrent(session,"uuuu1"),[])
 
@@ -57,7 +79,15 @@ class TestHiFile(unittest.TestCase):
         session = Database.create_sqlalchemy_session_push(cleanup)
         
         self.assertTrue(filecmp.cmp("res/test0.torrent",HiFile.TorrentStorage._torrentid_to_path(0x1)))
-        self.assertEqual(HiFile._database.list_user_torrent(session,"uuuu0"),[1])
+        self.assertEqual(HiFile._database.list_user_torrent(session,"uuuu0"), [ \
+            { \
+                "torrent_id":1, \
+                "user_id":"uuuu0", \
+                "info_hash_bin":"2034385a2621c53a490f34c5893a860664741da4", \
+                "name":"Super Eurobeat Vol. 220 - Anniversary Hits",\
+                "size":365751495 \
+            } \
+        ])
         
         r=session.query(HiFile.TrackerManager.XBT_FILES).all()
         self.assertEqual(len(r),1)
@@ -72,6 +102,17 @@ class TestHiFile(unittest.TestCase):
         self.assertEqual(binascii.b2a_hex(r[0].info_hash_bin),"2034385a2621c53a490f34c5893a860664741da4")
 
         cleanup.clean_all()
+        
+        ret=HiFile._command.public_user_list_user_torrent(user_login_token, "uuuu0")
+        self.assertEqual(ret,{"result":"ok","torrent_list":[ \
+            { \
+                "torrent_id":1, \
+                "user_id":"uuuu0", \
+                "info_hash_bin":"2034385a2621c53a490f34c5893a860664741da4", \
+                "name":"Super Eurobeat Vol. 220 - Anniversary Hits",\
+                "size":365751495 \
+            } \
+        ]})
 
         torrent_file=open("res/test2.torrent","rb")
         ret=HiFile._command.public_user_upload_torrent(user_login_token, torrent_file)
@@ -81,7 +122,22 @@ class TestHiFile(unittest.TestCase):
         session = Database.create_sqlalchemy_session_push(cleanup)
         
         self.assertTrue(filecmp.cmp("res/test2.torrent",HiFile.TorrentStorage._torrentid_to_path(0x2)))
-        self.assertEqual(HiFile._database.list_user_torrent(session,"uuuu0"),[1,2])
+        self.assertEqual(HiFile._database.list_user_torrent(session,"uuuu0"),[ \
+            { \
+                "torrent_id":1, \
+                "user_id":"uuuu0", \
+                "info_hash_bin":"2034385a2621c53a490f34c5893a860664741da4", \
+                "name":"Super Eurobeat Vol. 220 - Anniversary Hits",\
+                "size":365751495 \
+            }, \
+            { \
+                "torrent_id":2, \
+                "user_id":"uuuu0", \
+                "info_hash_bin":"39eaf2230aa0bcf9148f84f6efe0c64cc1ab80c1", \
+                "name":"魔法少女小圓",\
+                "size":616839726 \
+            }, \
+        ])
 
         r=session.query(HiFile.TrackerManager.XBT_FILES).count()
         self.assertEqual(r,2)
