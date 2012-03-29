@@ -49,7 +49,7 @@ def public_user_list_user_torrent(user_login_token,user_id):
     
     return Command.ok(result={"torrent_list":torrent_list})
 
-def public_test(FILE_in):
-    file_bin=FILE_in.read()
-    torrent_data = HiFile.Torrent.parse_torrent_data(file_bin)
-    return Command.ok(result={"info_hash_hex":HiFile.Torrent.get_info_hash_hex(torrent_data)})
+#def public_test(FILE_in):
+#    file_bin=FILE_in.read()
+#    torrent_data = HiFile.Torrent.parse_torrent_data(file_bin)
+#    return Command.ok(result={"info_hash_hex":HiFile.Torrent.get_info_hash_hex(torrent_data)})
