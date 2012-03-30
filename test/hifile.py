@@ -107,8 +107,6 @@ class TestHiFile(unittest.TestCase):
         self.assertEqual(ret,{"result":"ok","torrent_list":[ \
             { \
                 "torrent_id":1, \
-                "user_id":"uuuu0", \
-                "info_hash_bin":"2034385a2621c53a490f34c5893a860664741da4", \
                 "name":"Super Eurobeat Vol. 220 - Anniversary Hits",\
                 "size":365751495 \
             } \
