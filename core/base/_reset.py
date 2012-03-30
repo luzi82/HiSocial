@@ -43,6 +43,10 @@ def build_order():
     return 0
 
 def build(install_config):
+    trace_up("Set data folder permission")
+    os.chmod(core_config.DATA_FOLDER,0777)
+    trace_down("done")
+    
     trace_up("Build database")
     
     me=os.path.abspath(__file__)

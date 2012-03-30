@@ -27,3 +27,4 @@ def build(install_config):
     p2.wait()
 
     os.makedirs(TorrentStorage.STORAGE_PATH)
+    os.chmod(TorrentStorage.STORAGE_PATH,0777)
