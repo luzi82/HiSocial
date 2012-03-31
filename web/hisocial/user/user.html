@@ -1,0 +1,69 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+	  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+<link href="../../bootstrap/css/bootstrap.css" rel="stylesheet" />
+<link href="../../bootstrap/css/bootstrap-responsive.css" rel="stylesheet" />
+</head>
+<body>
+<div id="auth_view">
+<form class="form-horizontal" id="action_selection"><fieldset>
+	<div class="control-group"><div class="controls">
+		<label class="radio">
+			<input type="radio" class="input-xlarge" name="action_type" id="auth_action_type_login" value="login"/>
+			Login
+		</label>
+		<label class="radio">
+			<input type="radio" class="input-xlarge" name="action_type" id="auth_action_type_create" value="createacc"/>
+			Create account
+		</label>
+	</div></div>
+</fieldset></form>
+<div id="action_panel"></div>
+</div>
+<div id="login_view">
+	<form class="form-horizontal" id="login_form"><fieldset>
+		<div class="control-group">
+			<label class="control-label" for="user_id">User ID</label>
+			<div class="controls"><input type="text" class="input-xlarge" name="user_id" id="login_user_id_input"/></div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="password">Password</label>
+			<div class="controls"><input type="password" class="input-xlarge" name="password" id="login_password_input"/></div>
+		</div>
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</div>
+		<input type="hidden" name="CMD" value="guest_generate_user_login_token"></input>
+		<input type="hidden" name="PKG" value="user"></input>
+	</fieldset></form>
+</div>
+<div id="createacc_view">
+	<form class="form-horizontal" id="createacc_form"><fieldset>
+		<div class="control-group">
+			<label class="control-label" for="user_id">CAPTCHA</label>
+			<div class="controls" id="createacc_captcha_captcha_ctrl"></div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="user_id">User ID</label>
+			<div class="controls"><input type="text" class="input-xlarge" name="user_id" id="createacc_user_id_input"/></div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="password">Password</label>
+			<div class="controls"><input type="password" class="input-xlarge" name="password" id="createacc_password_input"/></div>
+		</div>
+		<div class="control-group">
+			<label class="control-label" for="repeat_password">Repeat password</label>
+			<div class="controls"><input type="password" class="input-xlarge" name="repeat_password" id="createacc_repeat_password_input"/></div>
+		</div>
+		<div class="form-actions">
+			<button type="submit" class="btn btn-primary">Submit</button>
+		</div>
+		<input type="hidden" name="turing_value" id="turing_value_input"></input>
+		<input type="hidden" name="CMD" value="human_create_user_account"></input>
+		<input type="hidden" name="PKG" value="user"></input>
+	</fieldset></form>
+</div>
+</body>
+</html>
