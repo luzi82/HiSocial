@@ -9,5 +9,5 @@ function hi_main_show_main_view(){
 }
 
 function hi_main_show_home(){
-	$('main_content').html("");
+	$('#main_content').html("");
 }
