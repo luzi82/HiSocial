@@ -40,6 +40,6 @@ def add_torrent(session, user_id, info_hash_hex, name, size):
     return t.torrent_id
 
 def list_user_torrent(session, user_id):
-    t = session.query(Torrent).filter(Torrent.user_id == user_id).order_by(Torrent.torrent_id.asc()).all()
+    t = session.query(Torrent).filter(Torrent.user_id == user_id).order_by(Torrent.torrent_id.desc()).all()
     if t == None : return []
     return [ i.to_map() for i in t ]
