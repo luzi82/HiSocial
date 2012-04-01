@@ -99,3 +99,7 @@ function hi_user_logout(){
 	$.cookie("user_login_token",null);
 	hi_user_show_auth_view();
 }
+
+function hi_user_get_user_login_token(){
+	return $.cookie("user_login_token");
+}

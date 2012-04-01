@@ -1,5 +1,5 @@
 $(document).ready(function() {
-	if($.cookie("user_login_token")==null){
+	if(hi_user_get_user_login_token()==null){
 		hi_user_show_auth_view();
 	}else{
 		hi_main_show_main_view();
