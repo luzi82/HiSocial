@@ -32,22 +32,22 @@ class TestHiFile(unittest.TestCase):
         self.assertEqual(3,HiFile._database.add_torrent(session,"uuuu0","0123456789012345678901234567890123456789","name",123))
         
         self.assertEqual(HiFile._database.list_user_torrent(session,"uuuu0"),[ \
-            {
-                "torrent_id":1, \
+            { \
+                "torrent_id":3, \
                 "user_id":"uuuu0", \
                 "info_hash_bin":"0123456789012345678901234567890123456789", \
                 "name":"name", \
                 "size":123, \
             }, \
-            {
+            { \
                 "torrent_id":2, \
                 "user_id":"uuuu0", \
                 "info_hash_bin":"0123456789012345678901234567890123456789", \
                 "name":"name", \
                 "size":123, \
             }, \
-            {
-                "torrent_id":3, \
+            { \
+                "torrent_id":1, \
                 "user_id":"uuuu0", \
                 "info_hash_bin":"0123456789012345678901234567890123456789", \
                 "name":"name", \
@@ -122,18 +122,18 @@ class TestHiFile(unittest.TestCase):
         self.assertTrue(filecmp.cmp("res/test2.torrent",HiFile.TorrentStorage._torrentid_to_path(0x2)))
         self.assertEqual(HiFile._database.list_user_torrent(session,"uuuu0"),[ \
             { \
-                "torrent_id":1, \
-                "user_id":"uuuu0", \
-                "info_hash_bin":"2034385a2621c53a490f34c5893a860664741da4", \
-                "name":"Super Eurobeat Vol. 220 - Anniversary Hits",\
-                "size":365751495 \
-            }, \
-            { \
                 "torrent_id":2, \
                 "user_id":"uuuu0", \
                 "info_hash_bin":"39eaf2230aa0bcf9148f84f6efe0c64cc1ab80c1", \
                 "name":"魔法少女小圓",\
                 "size":616839726 \
+            }, \
+            { \
+                "torrent_id":1, \
+                "user_id":"uuuu0", \
+                "info_hash_bin":"2034385a2621c53a490f34c5893a860664741da4", \
+                "name":"Super Eurobeat Vol. 220 - Anniversary Hits",\
+                "size":365751495 \
             }, \
         ])
 
