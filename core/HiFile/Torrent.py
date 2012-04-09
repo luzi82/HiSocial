@@ -3,7 +3,7 @@ import hashlib
 
 def parse_torrent(torrent):
     if (isinstance(torrent, str)):
-        return parse_torrent_data(open(torrent,"rb").read())
+        return parse_torrent_data(open(torrent, "rb").read())
     elif (isinstance(torrent, file)):
         return parse_torrent_data(torrent.read())
     return None
@@ -15,15 +15,17 @@ def get_info_hash_hex(torrent_data):
     return hashlib.sha1(bencode.bencode(torrent_data["info"])).hexdigest()
 
 def get_name(torrent_data):
-    info=torrent_data["info"]
+    info = torrent_data["info"]
     if("name.utf-8" in info):
         return info["name.utf-8"]
     else:
         return info["name"]
 
 def get_total_size(torrent_data):
-    ret=0
-    info_files=torrent_data["info"]["files"]
+    if("length" in torrent_data["info"]):
+        return torrent_data["info"]["length"]
+    ret = 0
+    info_files = torrent_data["info"]["files"]
     for i in info_files:
-        ret+=i["length"]
+        ret += i["length"]
     return ret
