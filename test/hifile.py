@@ -12,6 +12,8 @@ import pprint
 import unittest
 import user.User
 import user.UserLoginToken
+import HiFile
+import time
 
 class TestHiFile(unittest.TestCase):
     
@@ -169,3 +171,15 @@ class TestHiFile(unittest.TestCase):
         self.assertEqual(binascii.b2a_hex(r[0].info_hash_bin),"da5142099da45138ebbab05a40664c98ac2c0496")
 
         cleanup.clean_all()
+
+    def test_torrent_token(self):
+        now = int(time.time())
+        
+        token = HiFile.generate_torrent_token(123,now,now+1000,"uuuu0")
+        self.assertEqual(123,HiFile.verify_torrent_token(token))
+
+        token = HiFile.generate_torrent_token(123,now+1000,now+2000,"uuuu0")
+        self.assertEqual(None,HiFile.verify_torrent_token(token))
+
+        token = HiFile.generate_torrent_token(123,now-2000,now-1000,"uuuu0")
+        self.assertEqual(None,HiFile.verify_torrent_token(token))

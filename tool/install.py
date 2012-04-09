@@ -51,7 +51,9 @@ core_config_file.writelines([
     "USER_TOKEN_VALID_TIME_PERIOD = %d\n" % DEFAULT_USER_TOKEN_VALID_TIME_PERIOD,
     "USER_ACCOUNT_PASSWORD_HMAC = \'%s\'\n" % random_hex(32),
     "RECAPTCHA_PUBLIC_KEY = \'%s\'\n" % install_config.RECAPTCHA_PUBLIC_KEY,
-    "RECAPTCHA_PRIVATE_KEY = \'%s\'\n" % install_config.RECAPTCHA_PRIVATE_KEY
+    "RECAPTCHA_PRIVATE_KEY = \'%s\'\n" % install_config.RECAPTCHA_PRIVATE_KEY,
+    "HIFILE_ENC_KEY = \'%s\'\n" % random_hex(32),
+    "HIFILE_HASH_HMAC = \'%s\'\n" % random_hex(32),
 ])
 
 core_config_file.close()
