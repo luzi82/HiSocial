@@ -1,5 +1,17 @@
 function hi_hifile_show_hifile_view(){
 	$('#main_content').load("hisocial/hifile/hifile.html #hifile_view",function(){
+	    $('#hifile_fileupload').fileupload({
+	        dataType: 'json',
+	        formData: {
+	        	PKG:"HiFile",
+	        	CMD:"user_upload_torrent",
+	        	user_login_token:hi_user_get_user_login_token()
+	        },
+	        url: HISOCIAL_JSON_URL,
+	        done: function (e, data) {
+	        	hi_hifile_refresh_hifile_list();
+	        }
+	    });
 		hi_hifile_refresh_hifile_list();
 	});
 }
@@ -22,7 +34,7 @@ function hi_hifile_refresh_hifile_list_0(data){
 	if(data.result=="ok"){
 		len=data.torrent_list.length;
 		l=$('#hifile_list');
-		l.html();
+		l.html("");
 		for(i=0;i<len;++i){
 			item=data.torrent_list[i];
 			r=$('<tr>');
