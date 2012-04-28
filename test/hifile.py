@@ -12,7 +12,6 @@ import pprint
 import unittest
 import user.User
 import user.UserLoginToken
-import HiFile
 import time
 
 class TestHiFile(unittest.TestCase):
@@ -69,6 +68,8 @@ class TestHiFile(unittest.TestCase):
 
         session = Database.create_sqlalchemy_session_push(cleanup)
         user.User.add_user_account(session=session, user_id="uuuu0", password="pppp0")
+        session.flush()
+        session.commit()
         cleanup.clean_all()
 
         user_login_token=user.UserLoginToken.generate_user_login_token("uuuu0")
@@ -106,13 +107,15 @@ class TestHiFile(unittest.TestCase):
         cleanup.clean_all()
         
         ret=HiFile._command.public_user_list_user_torrent(user_login_token, "uuuu0")
-        self.assertEqual(ret,{"result":"ok","torrent_list":[ \
-            { \
-                "torrent_id":1, \
-                "name":"Super Eurobeat Vol. 220 - Anniversary Hits",\
-                "size":365751495 \
-            } \
-        ]})
+        self.assertEqual(len(ret),2)
+        self.assertEqual(ret["result"],"ok")
+        ret_torrent_list=ret["torrent_list"]
+        self.assertEqual(len(ret_torrent_list),1)
+        self.assertEqual(len(ret_torrent_list[0]),4)
+        self.assertEqual(ret_torrent_list[0]["torrent_id"],1)
+        self.assertEqual(ret_torrent_list[0]["name"],"Super Eurobeat Vol. 220 - Anniversary Hits")
+        self.assertEqual(ret_torrent_list[0]["size"],365751495)
+        self.assertNotEquals(ret_torrent_list[0]["torrent_token"],None)
 
         torrent_file=open("res/test2.torrent","rb")
         ret=HiFile._command.public_user_upload_torrent(user_login_token, torrent_file)
@@ -183,3 +186,27 @@ class TestHiFile(unittest.TestCase):
 
         token = HiFile.generate_torrent_token(123,now-2000,now-1000,"uuuu0")
         self.assertEqual(None,HiFile.verify_torrent_token(token))
+
+    def test_get_torrent_data(self):
+        cleanup = Cleanup()
+
+        session = Database.create_sqlalchemy_session_push(cleanup)
+        user.User.add_user_account(session=session, user_id="uuuu0", password="pppp0")
+        session.flush()
+        session.commit()
+        cleanup.clean_all()
+
+        user_login_token=user.UserLoginToken.generate_user_login_token("uuuu0")
+        
+        torrent_file=open("res/test0.torrent","rb")
+        ret=HiFile._command.public_user_upload_torrent(user_login_token, torrent_file)
+        self.assertEqual(ret,{"result":"ok","torrent_id":1})
+        torrent_file.close()
+
+        session = Database.create_sqlalchemy_session_push(cleanup)
+        ret = HiFile._database.get_torrent_data(session,1)
+        self.assertEqual(ret["torrent_id"],1)
+        self.assertEqual(ret["user_id"],"uuuu0")
+        self.assertEqual(ret["info_hash_bin"],"2034385a2621c53a490f34c5893a860664741da4")
+        self.assertEqual(ret["name"],"Super Eurobeat Vol. 220 - Anniversary Hits")
+        self.assertEqual(ret["size"],365751495)
