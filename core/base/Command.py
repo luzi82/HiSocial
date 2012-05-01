@@ -92,14 +92,14 @@ def list_cmd():
         attr_list=dir(m._command)
         mv={}
         for attr in attr_list:
-            if not attr.startswith("public_"): continue
+            if not attr.startswith("COMMAND_"): continue
             f = getattr(m._command,attr)
             if not isinstance(f,FunctionType): continue
             av = inspect.getargspec(f).args
             avv = []
             for k in av :
                 if k[:1]!="_" : avv.append(k)
-            mv[attr[7:]] = avv
+            mv[attr[8:]] = avv
         if(len(mv)>0):ret[pkg]=mv
     return ret
                 

@@ -1,4 +1,6 @@
 from base import Command
+import base
+#import pprint
 import unittest
 
 class TestCommand(unittest.TestCase):
@@ -54,3 +56,12 @@ class TestCommand(unittest.TestCase):
             self.assertEqual(len(r), 2)
             self.assertEqual(r[Command.RESULT_KEY], Command.RESULT_VALUE_FAIL_TXT)
             self.assertEqual(r["fail_reason"],"bad value")
+
+    def test_list_cmd(self):
+        ret = base._command.COMMAND_guest_list_cmd()
+        self.assertEqual(ret[base.Command.RESULT_KEY],base.Command.RESULT_VALUE_OK_TXT)
+#        pprint.pprint(ret)
+        self.assertTrue("value" in ret)
+        self.assertTrue("base" in ret["value"])
+        self.assertTrue("guest_list_cmd" in ret["value"]["base"])
+        self.assertEqual(ret["value"]["base"]["guest_list_cmd"],[])
