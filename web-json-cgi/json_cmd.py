@@ -34,7 +34,7 @@ def action():
             v = form[k].value
             if(not isinstance(v, str)):continue
             args[k] = v
-    args["_ip"] = cgi.escape(os.environ["REMOTE_ADDR"])
+    args["env_ip"] = cgi.escape(os.environ["REMOTE_ADDR"])
     return Command.call(form["PKG"].value, form["CMD"].value, args)
 
 ret = action()
