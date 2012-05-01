@@ -11,7 +11,6 @@ import filecmp
 import pprint
 import unittest
 import user.User
-import user.UserLoginToken
 import user._command
 import time
 
