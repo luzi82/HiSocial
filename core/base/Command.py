@@ -15,7 +15,7 @@ RESULT_OK = {RESULT_KEY:RESULT_VALUE_OK_TXT}
 def call(package, func_name, args={}):
     """
     Call a command in a sub-package
-    It will call (package)/_command.py public_(func_name)(args)
+    It will call (package)/_command.py COMMAND_(func_name)(args)
     
     @type  package: string
     @param package: package name
