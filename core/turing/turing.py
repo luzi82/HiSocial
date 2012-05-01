@@ -4,14 +4,14 @@ import json
 
 force_output = None
 
-def check_recaptcha(turing_value,_ip):
+def check_recaptcha(turing_value,ip):
     '''
     Check recaptcha
 
     @type turing_value: str
     @param turing_value: turing value in JSON format, should have turing_value["challenge"] and turing_value["response"]
-    @type _ip: str
-    @param _ip: IP of client
+    @type ip: str
+    @param ip: IP of client
 
     @rtype: boolean
     @return: True iff recaptcha pass
@@ -20,7 +20,7 @@ def check_recaptcha(turing_value,_ip):
         return force_output
     if not isinstance(turing_value, str):
         return False
-    if not isinstance(_ip, str):
+    if not isinstance(ip, str):
         return False
     v = json.loads(s=turing_value,encoding="utf8")
     if not isinstance(v, dict):
@@ -29,7 +29,7 @@ def check_recaptcha(turing_value,_ip):
         return False
     if not isinstance(v["response"], unicode):
         return False
-    output = captcha.submit(v["challenge"], v["response"], core_config.RECAPTCHA_PRIVATE_KEY, _ip)
+    output = captcha.submit(v["challenge"], v["response"], core_config.RECAPTCHA_PRIVATE_KEY, ip)
     if not output.is_valid:
         return False
     return True

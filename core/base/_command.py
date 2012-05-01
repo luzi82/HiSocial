@@ -11,21 +11,21 @@ def command_guest_get_version():
     """
     return Command.ok({"version":Version.VERSION, "type":Version.TYPE})
 
-def command_guest_ping(value):
+def command_guest_ping(txt_value):
     '''
     Ping the system
     
-    @type value: str
-    @param value: len-8 hex string
+    @type txt_value: str
+    @param txt_value: len-8 hex string
     
     @rtype: dict
-    @return: ret["value"]=~(value), len-8 hex string.  No value if bad input.
+    @return: ret["value"]=~(txt_value), len-8 hex string.  No value if bad input.
     '''
     BAD_VALUE = Command.fail(reason="bad value")
-    if(len(value) != 8):return BAD_VALUE
-    for c in value : 
+    if(len(txt_value) != 8):return BAD_VALUE
+    for c in txt_value : 
         if c not in string.hexdigits: return BAD_VALUE
-    t = int(value, 16)
+    t = int(txt_value, 16)
     t = ~t
     t = ("00000000%x" % (t & 0xffffffff))[-8:]
     return Command.ok({"value":t})

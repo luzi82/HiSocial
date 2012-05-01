@@ -1,7 +1,7 @@
 import turing
 from base import Command
 
-def command_guest_test_turing(turing_value,_ip):
+def command_guest_test_turing(txtf_turing_turing,env_ip):
     '''
     Check recaptcha, wrapper of turing.check_recaptcha.
     
@@ -13,6 +13,9 @@ def command_guest_test_turing(turing_value,_ip):
     @rtype: dict
     @return: Command response, OK iff success
     '''
-    if not turing.check_recaptcha(turing_value,_ip):
-        return Command.fail()
     return Command.ok()
+
+def argfilter_turing(v,env_ip):
+    if not turing.check_recaptcha(v,env_ip):
+        return Command.fail(reason="bad turing value")
+    return Command.ok(value="")

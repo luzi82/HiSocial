@@ -12,6 +12,7 @@ import pprint
 import unittest
 import user.User
 import user.UserLoginToken
+import user._command
 import time
 
 class TestHiFile(unittest.TestCase):
@@ -66,16 +67,18 @@ class TestHiFile(unittest.TestCase):
     def test_command_user_upload_torrent(self):
         cleanup = Cleanup()
 
-        session = Database.create_sqlalchemy_session_push(cleanup)
-        user.User.add_user_account(session=session, user_id="uuuu0", password="pppp0")
-        session.flush()
-        session.commit()
-        cleanup.clean_all()
+#        session = Database.create_sqlalchemy_session_push(cleanup)
+#        user.User.add_user_account(session=session, user_id="uuuu0", password="pppp0")
+#        session.flush()
+#        session.commit()
+#        cleanup.clean_all()
+        
+        user._command.command_human_create_user_account("", "", "uuuu0", "pppp0")
 
-        user_login_token=user.UserLoginToken.generate_user_login_token("uuuu0")
+#        user_login_token=user.UserLoginToken.generate_user_login_token("uuuu0")
 
         torrent_file=open("res/test0.torrent","rb")
-        ret=HiFile._command.command_user_upload_torrent(user_login_token, torrent_file)
+        ret=HiFile._command.command_user_upload_torrent("uuuu0", torrent_file)
         self.assertEqual(ret,{"result":"ok","torrent_id":1})
         torrent_file.close()
         
@@ -106,7 +109,7 @@ class TestHiFile(unittest.TestCase):
 
         cleanup.clean_all()
         
-        ret=HiFile._command.command_user_list_user_torrent(user_login_token, "uuuu0")
+        ret=HiFile._command.command_user_list_user_torrent("uuuu0", "uuuu0")
         self.assertEqual(len(ret),2)
         self.assertEqual(ret["result"],"ok")
         ret_torrent_list=ret["torrent_list"]
@@ -118,7 +121,7 @@ class TestHiFile(unittest.TestCase):
         self.assertNotEquals(ret_torrent_list[0]["torrent_token"],None)
 
         torrent_file=open("res/test2.torrent","rb")
-        ret=HiFile._command.command_user_upload_torrent(user_login_token, torrent_file)
+        ret=HiFile._command.command_user_upload_torrent("uuuu0", torrent_file)
         self.assertEqual(ret,{"result":"ok","torrent_id":2})
         torrent_file.close()
 
@@ -159,7 +162,7 @@ class TestHiFile(unittest.TestCase):
         cleanup.clean_all()
 
         torrent_file=open("res/test3.torrent","rb")
-        ret=HiFile._command.command_user_upload_torrent(user_login_token, torrent_file)
+        ret=HiFile._command.command_user_upload_torrent("uuuu0", torrent_file)
         self.assertEqual(ret,{"result":"ok","torrent_id":3})
         torrent_file.close()
 
@@ -190,16 +193,18 @@ class TestHiFile(unittest.TestCase):
     def test_get_torrent_data(self):
         cleanup = Cleanup()
 
-        session = Database.create_sqlalchemy_session_push(cleanup)
-        user.User.add_user_account(session=session, user_id="uuuu0", password="pppp0")
-        session.flush()
-        session.commit()
-        cleanup.clean_all()
+#        session = Database.create_sqlalchemy_session_push(cleanup)
+#        user.User.add_user_account(session=session, user_id="uuuu0", password="pppp0")
+#        session.flush()
+#        session.commit()
+#        cleanup.clean_all()
 
-        user_login_token=user.UserLoginToken.generate_user_login_token("uuuu0")
+        user._command.command_human_create_user_account("", "", "uuuu0", "pppp0")
+
+#        user_login_token=user.UserLoginToken.generate_user_login_token("uuuu0")
         
         torrent_file=open("res/test0.torrent","rb")
-        ret=HiFile._command.command_user_upload_torrent(user_login_token, torrent_file)
+        ret=HiFile._command.command_user_upload_torrent("uuuu0", torrent_file)
         self.assertEqual(ret,{"result":"ok","torrent_id":1})
         torrent_file.close()
 

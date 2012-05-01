@@ -12,6 +12,8 @@ FAIL_REASON_KEY = "fail_reason"
 RESULT_FAIL = {RESULT_KEY:RESULT_VALUE_FAIL_TXT}
 RESULT_OK = {RESULT_KEY:RESULT_VALUE_OK_TXT}
 
+VALUE_KEY = "value"
+
 def call(package, func_name, args={}):
     """
     Call a command in a sub-package
@@ -44,13 +46,29 @@ def call(package, func_name, args={}):
         if(f.__module__ != package + "._command"):
             return BAD_CALL
         av = inspect.getargspec(f).args
-        args0 = dict((k,args[k])for k in av)
+#        args0 = dict((k,args[k])for k in av)
+        args0={}
+        for key in av:
+            if key.startswith("txt_"):
+                args0[key]=args[key]
+            elif key.startswith("env_"):
+                args0[key]=args[key]
+            elif key.startswith("file_"):
+                args0[key]=args[key]
+            elif key.startswith("txtf_"):
+                tmp = _convert_arg(key,args[key],args)
+                if(tmp[RESULT_KEY]==RESULT_VALUE_OK_TXT):
+                    args0[key]=tmp[VALUE_KEY]
+                else:
+                    return tmp
+            else:
+                return BAD_API
         ret = f(**args0)
         if(ret == None):return NOT_IMPLEMENTED
         return ret
     except:
-        return BAD_CALL
-
+        return UNKNOWN_ERR
+    
 def get_file(package, func_name, args={}):
     try:
         if(not _is_call_name(package)):
@@ -104,18 +122,23 @@ def list_cmd():
     return ret
                 
 
-def ok(result=None):
+def ok(result=None, value=None):
     '''
     Create a OK command return
     
     @type  result: dict
     @param result: dict key-value add to return value
+    @type  value: str
+    @param value: return value
     
     @rtype:  dict
     @return: A OK command return
     '''
     global RESULT_OK
-    return _merge_dict(RESULT_OK, result)
+    ret = _merge_dict(RESULT_OK, result)
+    if(value != None):
+        ret[VALUE_KEY] = value
+    return ret
 
 def fail(result=None, reason=None):
     '''
@@ -134,6 +157,37 @@ def fail(result=None, reason=None):
     if(reason != None):
         ret[FAIL_REASON_KEY] = reason
     return ret
+
+def _convert_arg(key,value,args):
+    try:
+        kk = key.rsplit("_")
+        if(len(kk)<3):
+            return BAD_API
+        package=kk[1]
+        func_name=kk[2]
+        if(not _is_call_name(package)):
+            debug("not _is_call_name(package)")
+            return BAD_CALL
+        if(not _is_call_name(func_name)):
+            debug("not _is_call_name(func_name)")
+            return BAD_CALL
+        mm = __import__(name=package, fromlist=["_command"])
+        f = getattr(mm._command, "argfilter_"+func_name)
+        if(not isinstance(f, FunctionType)):
+            return BAD_CALL
+        if(f.__module__ != package + "._command"):
+            return BAD_CALL
+        av = inspect.getargspec(f).args
+        args0={}
+        args0["v"]=value
+        for key in av:
+            if key.startswith("env_"):
+                args0[key]=args[key]
+        ret = f(**args0)
+        if(ret == None):return NOT_IMPLEMENTED
+        return ret
+    except:
+        return UNKNOWN_ERR
 
 def _merge_dict(a, b):
     '''
@@ -168,4 +222,6 @@ def _is_call_name(v):
     return True
 
 BAD_CALL = fail(reason="bad call")
+BAD_API = fail(reason="bad api")
 NOT_IMPLEMENTED = fail(reason="not implemented")
+UNKNOWN_ERR = fail(reason="unknown err")

@@ -13,25 +13,25 @@ class TestCommand(unittest.TestCase):
               ["0da581bf", "f25a7e40"]
              ]
         for c in cv :
-            r = Command.call("base", "guest_ping", {"value":c[0].upper()})
+            r = Command.call("base", "guest_ping", {"txt_value":c[0].upper()})
             self.assertTrue(r != None)
             self.assertTrue(isinstance(r,dict))
             self.assertEqual(len(r), 2)
             self.assertEqual(r[Command.RESULT_KEY], Command.RESULT_VALUE_OK_TXT)
             self.assertEqual(r["value"],c[1].lower())
-            r = Command.call("base", "guest_ping", {"value":c[0].lower()})
+            r = Command.call("base", "guest_ping", {"txt_value":c[0].lower()})
             self.assertTrue(r != None)
             self.assertTrue(isinstance(r,dict))
             self.assertEqual(len(r), 2)
             self.assertEqual(r[Command.RESULT_KEY], Command.RESULT_VALUE_OK_TXT)
             self.assertEqual(r["value"],c[1].lower())
-            r = Command.call("base", "guest_ping", {"value":c[1].upper()})
+            r = Command.call("base", "guest_ping", {"txt_value":c[1].upper()})
             self.assertTrue(r != None)
             self.assertTrue(isinstance(r,dict))
             self.assertEqual(len(r), 2)
             self.assertEqual(r[Command.RESULT_KEY], Command.RESULT_VALUE_OK_TXT)
             self.assertEqual(r["value"],c[0].lower())
-            r = Command.call("base", "guest_ping", {"value":c[1].lower()})
+            r = Command.call("base", "guest_ping", {"txt_value":c[1].lower()})
             self.assertTrue(r != None)
             self.assertTrue(isinstance(r,dict))
             self.assertEqual(len(r), 2)
@@ -50,7 +50,7 @@ class TestCommand(unittest.TestCase):
               "999999999"
              ]
         for c in cv :
-            r = Command.call("base", "guest_ping", {"value":c})
+            r = Command.call("base", "guest_ping", {"txt_value":c})
             self.assertTrue(r != None)
             self.assertTrue(isinstance(r,dict))
             self.assertEqual(len(r), 2)

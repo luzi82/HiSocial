@@ -26,7 +26,7 @@ def action():
         if(k[:1]=="_"):continue
         if(k=="CMD"):continue
         if(k=="PKG"):continue
-        if(k.startswith("FILE_")):
+        if(k.startswith("file_")):
             v = form[k].file
             if not v:continue
             args[k] = v
