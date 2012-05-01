@@ -116,7 +116,9 @@ def list_cmd():
             av = inspect.getargspec(f).args
             avv = []
             for k in av :
-                if k[:1]!="_" : avv.append(k)
+                if k.startswith("env_") :
+                    continue 
+                avv.append(k)
             mv[attr[8:]] = avv
         if(len(mv)>0):ret[pkg]=mv
     return ret
