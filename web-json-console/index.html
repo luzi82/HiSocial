@@ -81,14 +81,17 @@ function update_arg(){
 			i=0;
 			$.each(argList,function(k,v){
 				iframeUrl+="&VAR"+i+"NAME="+v;
-				if(v.indexOf("FILE") === 0){
+				if(v.indexOf("file") === 0){
 					iframeUrl+="&VAR"+i+"TYPE=file";
+				}else if(v.indexOf("txtf_user_turing") === 0){
+					iframeUrl+="&VAR"+i+"TYPE=text";
+					iframeUrl+="&TURING="+v;
 				}else{
 					iframeUrl+="&VAR"+i+"TYPE=text";
 				}
-				if(v=="turing_value"){
-					iframeUrl+="&TURING="+v;
-				}
+				// if(v=="turing_value"){
+					// iframeUrl+="&TURING="+v;
+				// }
 				++i;
 			});
 			iframeE.prop("src",iframeUrl);
