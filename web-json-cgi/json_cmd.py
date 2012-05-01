@@ -30,7 +30,7 @@ def action():
             v = form[k].file
             if not v:continue
             args[k] = v
-        else:
+        elif(k.startswith("txt_") or k.startswith("txtf_")):
             v = form[k].value
             if(not isinstance(v, str)):continue
             args[k] = v
