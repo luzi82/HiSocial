@@ -26,11 +26,12 @@ def action():
         if(k[:1]=="_"):continue
         if(k=="CMD"):continue
         if(k=="PKG"):continue
+        if(k.startswith("env_")):continue
         if(k.startswith("file_")):
             v = form[k].file
             if not v:continue
             args[k] = v
-        elif(k.startswith("txt_") or k.startswith("txtf_")):
+        else:
             v = form[k].value
             if(not isinstance(v, str)):continue
             args[k] = v
