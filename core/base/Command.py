@@ -51,6 +51,31 @@ def call(package, func_name, args={}):
     except:
         return BAD_CALL
 
+def get_file(package, func_name, args={}):
+    try:
+        if(not _is_call_name(package)):
+            debug("not _is_call_name(package)")
+            return BAD_CALL
+        if(not _is_call_name(func_name)):
+            debug("not _is_call_name(func_name)")
+            return BAD_CALL
+        if(not isinstance(args, dict)):
+            debug("not isinstance(args, dict)")
+            return BAD_CALL
+        mm = __import__(name=package, fromlist=["_command"])
+        f = getattr(mm._command, "publicfile_"+func_name)
+        if(not isinstance(f, FunctionType)):
+            return BAD_CALL
+        if(f.__module__ != package + "._command"):
+            return BAD_CALL
+        av = inspect.getargspec(f).args
+        args0 = dict((k,args[k])for k in av)
+        ret = f(**args0)
+        if(ret == None):return NOT_IMPLEMENTED
+        return ret
+    except:
+        return BAD_CALL
+
 def list_cmd():
     '''
     list all pkg and cmd

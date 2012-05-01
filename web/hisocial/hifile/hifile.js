@@ -40,7 +40,10 @@ function hi_hifile_refresh_hifile_list_0(data){
 			r=$('<tr>');
 				// Name
 				d=$('<td>');
-					d.html(item.name);
+					da=$('<a>');
+						da.html(item.name);
+						da.attr("href","?type=hifile_torrent&torrent_token="+hisocial_escape(item.torrent_token));
+					d.append(da)
 				r.append(d);
 				// Size
 				d=$('<td>');
@@ -85,3 +88,23 @@ function hi_hifile_size_string(size){
 	}
 }
 
+function hi_hifile_show_torrent(){
+	unload_body();
+	$('body').load('hisocial/hifile/hifile.html #hifile_torrent_view',function(){
+		query={
+			PKG:"HiFile",
+			CMD:"guest_get_torrent_data",
+			torrent_token:getParameterByName("torrent_token")
+		};
+		$.post(HISOCIAL_JSON_URL,query,hi_hifile_show_torrent_0,"json");
+	});
+}
+
+function hi_hifile_show_torrent_0(data){
+	if(data.result=="ok"){
+		$('#hifile_torrent_view_torrent_link').html(data.torrent_data.name);
+		$('#hifile_torrent_view_torrent_link').attr("href","get_file.py?torrent_token="+getParameterByName("torrent_token"));
+	}else{
+		alert("unable to load data");
+	}
+}

@@ -210,3 +210,13 @@ class TestHiFile(unittest.TestCase):
         self.assertEqual(ret["info_hash_bin"],"2034385a2621c53a490f34c5893a860664741da4")
         self.assertEqual(ret["name"],"Super Eurobeat Vol. 220 - Anniversary Hits")
         self.assertEqual(ret["size"],365751495)
+
+#    def test_get_torrent_file(self):
+#        cleanup = Cleanup()
+#
+#        session = Database.create_sqlalchemy_session_push(cleanup)
+#        user.User.add_user_account(session=session, user_id="uuuu0", password="pppp0")
+#        self.assertEqual(1,HiFile._database.add_torrent(session,"uuuu0","0123456789012345678901234567890123456789","name",123))
+#        session.flush()
+#        session.commit()
+#        cleanup.clean_all()

@@ -43,3 +43,7 @@ def list_user_torrent(session, user_id):
     t = session.query(Torrent).filter(Torrent.user_id == user_id).order_by(Torrent.torrent_id.desc()).all()
     if t == None : return []
     return [ i.to_map() for i in t ]
+
+def get_torrent_data(session, torrent_id):
+    t = session.query(Torrent).filter(Torrent.torrent_id == torrent_id).one()
+    return t.to_map()

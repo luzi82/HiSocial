@@ -54,6 +54,8 @@ core_config_file.writelines([
     "RECAPTCHA_PRIVATE_KEY = \'%s\'\n" % install_config.RECAPTCHA_PRIVATE_KEY,
     "HIFILE_ENC_KEY = \'%s\'\n" % random_hex(32),
     "HIFILE_HASH_HMAC = \'%s\'\n" % random_hex(32),
+    "FILE_TOKEN_ENC_KEY = \'%s\'\n" % random_hex(32),
+    "FILE_TOKEN_HASH_HMAC = \'%s\'\n" % random_hex(32),
 ])
 
 core_config_file.close()
@@ -94,6 +96,7 @@ web_config_file = open(web_config_filename,"w")
 
 web_config_file.writelines([
     "var HISOCIAL_JSON_URL = \'%s\';\n" % (install_config.URL_ROOT+"/"+install_config.WEB_JSON_CGI_URL_PATH+"/json_cmd.py"),
+    "var HISOCIAL_FILE_URL = \'%s\';\n" % (install_config.URL_ROOT+"/"+install_config.WEB_JSON_CGI_URL_PATH+"/file.py"),
     "var RECAPTCHA_PUBLIC_KEY = \'%s\';\n" % (install_config.RECAPTCHA_PUBLIC_KEY)
 ])
 

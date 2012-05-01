@@ -1,5 +1,7 @@
 $(document).ready(function() {
-	if(hi_user_get_user_login_token()==null){
+	if(getParameterByName("type")=="hifile_torrent"){
+		hi_hifile_show_torrent();
+	}else if(hi_user_get_user_login_token()==null){
 		hi_user_show_auth_view();
 	}else{
 		hi_main_show_main_view();
