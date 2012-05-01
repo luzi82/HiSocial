@@ -1,7 +1,7 @@
 import turing
 from base import Command
 
-def public_guest_test_turing(turing_value,_ip):
+def COMMAND_guest_test_turing(turing_value,_ip):
     '''
     Check recaptcha, wrapper of turing.check_recaptcha.
     

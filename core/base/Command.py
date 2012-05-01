@@ -38,7 +38,7 @@ def call(package, func_name, args={}):
             debug("not isinstance(args, dict)")
             return BAD_CALL
         mm = __import__(name=package, fromlist=["_command"])
-        f = getattr(mm._command, "public_"+func_name)
+        f = getattr(mm._command, "COMMAND_"+func_name)
         if(not isinstance(f, FunctionType)):
             return BAD_CALL
         if(f.__module__ != package + "._command"):

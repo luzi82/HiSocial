@@ -7,7 +7,7 @@ from user import Permission
 
 FAIL_REASON_USER_EXIST = "user exist"
 
-def public_guest_generate_user_login_token(user_id, password):
+def COMMAND_guest_generate_user_login_token(user_id, password):
     '''
     Generate admin token
     '''
@@ -23,7 +23,7 @@ def public_guest_generate_user_login_token(user_id, password):
     
     return Command.ok({"user_login_token":token})
 
-def public_human_create_user_account(turing_value,_ip,user_id, password):
+def COMMAND_human_create_user_account(turing_value,_ip,user_id, password):
     if not turing.check_recaptcha(turing_value, _ip):
         return Command.fail(reason="turing")
     
@@ -42,7 +42,7 @@ def public_human_create_user_account(turing_value,_ip,user_id, password):
     
     return Command.ok({"user_login_token":token})
 
-def public_user_create_user_account(user_login_token,user_id, password):
+def COMMAND_user_create_user_account(user_login_token,user_id, password):
     actor_id = UserLoginToken.check_user_login_token(user_login_token)
     if actor_id == None:
         return Command.fail(reason="user_login_token")
@@ -63,7 +63,7 @@ def public_user_create_user_account(user_login_token,user_id, password):
     
     return Command.ok()
 
-def public_guest_remove_user_account(user_id, password):
+def COMMAND_guest_remove_user_account(user_id, password):
     cleanup = Cleanup()
     session = Database.create_sqlalchemy_session_push(cleanup)
     
@@ -76,7 +76,7 @@ def public_guest_remove_user_account(user_id, password):
 
     return Command.ok()
 
-def public_user_remove_user_account(user_login_token, user_id):
+def COMMAND_user_remove_user_account(user_login_token, user_id):
     actor_id = UserLoginToken.check_user_login_token(user_login_token)
     
     if actor_id == None:
@@ -97,7 +97,7 @@ def public_user_remove_user_account(user_login_token, user_id):
 
     return Command.ok()
 
-def public_guest_change_user_account_password(user_id, old_password, new_password):
+def COMMAND_guest_change_user_account_password(user_id, old_password, new_password):
     cleanup = Cleanup()
     session = Database.create_sqlalchemy_session_push(cleanup)
     
@@ -110,7 +110,7 @@ def public_guest_change_user_account_password(user_id, old_password, new_passwor
 
     return Command.ok()
 
-def public_user_change_user_account_password(user_login_token, user_id, new_password):
+def COMMAND_user_change_user_account_password(user_login_token, user_id, new_password):
     actor_id = UserLoginToken.check_user_login_token(user_login_token)
     
     if actor_id == None:
