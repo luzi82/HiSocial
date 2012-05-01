@@ -15,7 +15,7 @@ RESULT_OK = {RESULT_KEY:RESULT_VALUE_OK_TXT}
 def call(package, func_name, args={}):
     """
     Call a command in a sub-package
-    It will call (package)/_command.py COMMAND_(func_name)(args)
+    It will call (package)/_command.py command_(func_name)(args)
     
     @type  package: string
     @param package: package name
@@ -38,7 +38,7 @@ def call(package, func_name, args={}):
             debug("not isinstance(args, dict)")
             return BAD_CALL
         mm = __import__(name=package, fromlist=["_command"])
-        f = getattr(mm._command, "COMMAND_"+func_name)
+        f = getattr(mm._command, "command_"+func_name)
         if(not isinstance(f, FunctionType)):
             return BAD_CALL
         if(f.__module__ != package + "._command"):
@@ -92,7 +92,7 @@ def list_cmd():
         attr_list=dir(m._command)
         mv={}
         for attr in attr_list:
-            if not attr.startswith("COMMAND_"): continue
+            if not attr.startswith("command_"): continue
             f = getattr(m._command,attr)
             if not isinstance(f,FunctionType): continue
             av = inspect.getargspec(f).args

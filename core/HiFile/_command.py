@@ -9,7 +9,7 @@ from HiFile import TorrentStorage
 import time
 import HiFile
 
-def COMMAND_user_upload_torrent(user_login_token, FILE_torrent):
+def command_user_upload_torrent(user_login_token, FILE_torrent):
     actor_id = user.UserLoginToken.check_user_login_token(user_login_token)
     if actor_id == None:
         return Command.fail(reason="user_login_token")
@@ -34,7 +34,7 @@ def COMMAND_user_upload_torrent(user_login_token, FILE_torrent):
     
     return Command.ok(result={"torrent_id":torrent_id})
 
-def COMMAND_user_list_user_torrent(user_login_token, user_id):
+def command_user_list_user_torrent(user_login_token, user_id):
     actor_id = user.UserLoginToken.check_user_login_token(user_login_token)
     if actor_id == None:
         return Command.fail(reason="user_login_token")
@@ -58,7 +58,7 @@ def COMMAND_user_list_user_torrent(user_login_token, user_id):
     
     return Command.ok(result={"torrent_list":ret})
 
-def COMMAND_guest_get_torrent_data(torrent_token):
+def command_guest_get_torrent_data(torrent_token):
     ret = HiFile.verify_torrent_token(torrent_token)
     if(ret == None):
         return Command.fail(reason="torrent_token",result={"torrent_token":torrent_token})
@@ -72,7 +72,7 @@ def COMMAND_guest_get_torrent_data(torrent_token):
 
     return Command.ok(result={"torrent_data":torrent_data})
 
-#def COMMAND_test(FILE_in):
+#def command_test(FILE_in):
 #    file_bin=FILE_in.read()
 #    torrent_data = HiFile.Torrent.parse_torrent_data(file_bin)
 #    return Command.ok(result={"info_hash_hex":HiFile.Torrent.get_info_hash_hex(torrent_data)})

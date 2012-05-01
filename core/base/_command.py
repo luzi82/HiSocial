@@ -2,7 +2,7 @@ from base import Command
 import string
 import Version
 
-def COMMAND_guest_get_version():
+def command_guest_get_version():
     """
     Return the HiSocial version info
     
@@ -11,7 +11,7 @@ def COMMAND_guest_get_version():
     """
     return Command.ok({"version":Version.VERSION, "type":Version.TYPE})
 
-def COMMAND_guest_ping(value):
+def command_guest_ping(value):
     '''
     Ping the system
     
@@ -30,7 +30,7 @@ def COMMAND_guest_ping(value):
     t = ("00000000%x" % (t & 0xffffffff))[-8:]
     return Command.ok({"value":t})
 
-def COMMAND_guest_list_cmd():
+def command_guest_list_cmd():
     '''
     List all command
     wrapper of base.Command.list_cmd()

@@ -58,7 +58,7 @@ class TestCommand(unittest.TestCase):
             self.assertEqual(r["fail_reason"],"bad value")
 
     def test_list_cmd(self):
-        ret = base._command.COMMAND_guest_list_cmd()
+        ret = base._command.command_guest_list_cmd()
         self.assertEqual(ret[base.Command.RESULT_KEY],base.Command.RESULT_VALUE_OK_TXT)
 #        pprint.pprint(ret)
         self.assertTrue("value" in ret)
