@@ -52,6 +52,7 @@ elif(ret["file_type"]=="local"):
     print "Status: 200"
     print "Content-Type: %(mime)"%{"mime":mime}
     print
+    # TODO
     pass
 elif(ret["file_type"]=="buffer"):
     pass
