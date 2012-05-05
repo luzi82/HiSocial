@@ -1,7 +1,7 @@
 from base import Command
-import web_func
+import _testfunc
 
-class TestWebBasic(web_func.TestWebFunc):
+class TestWebBasic(_testfunc.TestFunc):
     
     def test_ping(self):
         data=self.call_web({'PKG': "base", 'CMD': "guest_ping", 'txt_value': "0000ffff"})
