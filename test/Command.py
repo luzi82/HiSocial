@@ -65,3 +65,10 @@ class TestCommand(unittest.TestCase):
         self.assertTrue("base" in ret["value"])
         self.assertTrue("guest_list_cmd" in ret["value"]["base"])
         self.assertEqual(ret["value"]["base"]["guest_list_cmd"],[])
+
+    def test_test_module(self):
+        ret = Command.call("test","helloworld")
+        self.assertTrue(ret != None)
+        self.assertTrue(isinstance(ret,dict))
+        self.assertEqual(ret[Command.RESULT_KEY], Command.RESULT_VALUE_OK_TXT)
+        self.assertEqual(ret["value"], "helloworld")
