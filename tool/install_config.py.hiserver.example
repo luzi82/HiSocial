@@ -8,7 +8,9 @@ DB_SCHEMATA = "MYSQL_DATABASE";
 OWNER_USERNAME = "owner"
 OWNER_PASSWORD = "owner_password"
 
-URL_ROOT="http://domain/path"
+DOMAIN="domain"
+ROOT_PATH="/path"
+URL_ROOT="http://%(domain)%(path)"%{"domain":DOMAIN,"path":ROOT_PATH}
 
 DATA_FOLDER="/HISOCIAL_DATA"
 
