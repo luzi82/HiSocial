@@ -72,3 +72,17 @@ class TestCommand(unittest.TestCase):
         self.assertTrue(isinstance(ret,dict))
         self.assertEqual(ret[Command.RESULT_KEY], Command.RESULT_VALUE_OK_TXT)
         self.assertEqual(ret["value"], "helloworld")
+
+    def test_arg(self):
+        ret = Command.call("test","uppercase",{"txt_a":"asdf"})
+        self.assertTrue(ret != None)
+        self.assertTrue(isinstance(ret,dict))
+        self.assertEqual(ret[Command.RESULT_KEY], Command.RESULT_VALUE_OK_TXT)
+        self.assertEqual(ret["value"], "ASDF")
+
+    def test_arg_filter(self):
+        ret = Command.call("test","uppercase_arg",{"txtf_test_upper":"qwer"})
+        self.assertTrue(ret != None)
+        self.assertTrue(isinstance(ret,dict))
+        self.assertEqual(ret[Command.RESULT_KEY], Command.RESULT_VALUE_OK_TXT)
+        self.assertEqual(ret["value"], "QWER")
