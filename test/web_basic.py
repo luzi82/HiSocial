@@ -17,3 +17,4 @@ class TestWebBasic(_testcommon.HsTest):
         data=self.call_web({'PKG': "test", 'CMD': "uppercase", "txt_a":"asdf"})
         self.assertEqual(data[Command.RESULT_KEY], Command.RESULT_VALUE_OK_TXT)
         self.assertEqual(data["value"], "ASDF")
+

@@ -4,6 +4,9 @@ import json
 import unittest
 import urllib
 
+OWNER_USERNAME="akari"
+OWNER_PASSWORD="mizunashi"
+
 class HsTest(unittest.TestCase):
     
     def call_web(self,value):
