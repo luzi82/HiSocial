@@ -4,7 +4,7 @@ import json
 import unittest
 import urllib
 
-class TestFunc(unittest.TestCase):
+class HsTest(unittest.TestCase):
     
     def call_web(self,value):
         v_map = { \
