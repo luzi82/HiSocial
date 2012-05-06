@@ -56,6 +56,7 @@ core_config_file.writelines([
     "HIFILE_HASH_HMAC = \'%s\'\n" % random_hex(32),
     "FILE_TOKEN_ENC_KEY = \'%s\'\n" % random_hex(32),
     "FILE_TOKEN_HASH_HMAC = \'%s\'\n" % random_hex(32),
+    "TEST_KEY = \'%s\'\n" % (random_hex(64) if install_config.TEST_ENABLE else ""),
 ])
 
 core_config_file.close()

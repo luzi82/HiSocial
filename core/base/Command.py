@@ -3,6 +3,9 @@ from types import FunctionType
 import os
 import string
 import inspect
+import core_config
+import sys
+
 RESULT_KEY = "result"
 RESULT_VALUE_FAIL_TXT = "fail"
 RESULT_VALUE_OK_TXT = "ok"
@@ -38,6 +41,9 @@ def call(package, func_name, args={}):
             return BAD_CALL
         if(not isinstance(args, dict)):
             debug("not isinstance(args, dict)")
+            return BAD_CALL
+        if(_check_test(args)==False):
+            debug("_check_test(args)==False")
             return BAD_CALL
         mm = __import__(name=package, fromlist=["_command"])
         f = getattr(mm._command, "command_"+func_name)
@@ -79,6 +85,9 @@ def get_file(package, func_name, args={}):
             return BAD_CALL
         if(not isinstance(args, dict)):
             debug("not isinstance(args, dict)")
+            return BAD_CALL
+        if(_check_test(args)==False):
+            debug("_check_test(args)==False")
             return BAD_CALL
         mm = __import__(name=package, fromlist=["_command"])
         f = getattr(mm._command, "FILE_"+func_name)
@@ -159,6 +168,20 @@ def fail(result=None, reason=None):
     if(reason != None):
         ret[FAIL_REASON_KEY] = reason
     return ret
+
+def _check_test(args):
+    if(core_config.TEST_KEY==None):
+        return None
+    if(core_config.TEST_KEY==""):
+        return None
+    if(not ("test" in args)):
+        return None
+    if args["test"] != core_config.TEST_KEY:
+        return False
+    me=os.path.abspath(__file__)
+    hisocial_root_path=os.path.dirname(os.path.dirname(os.path.dirname(me)))
+    sys.path.insert(0, hisocial_root_path+"/test")
+    return True
 
 def _convert_arg(key,value,args):
     try:
