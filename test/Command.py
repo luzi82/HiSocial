@@ -86,3 +86,21 @@ class TestCommand(unittest.TestCase):
         self.assertTrue(isinstance(ret,dict))
         self.assertEqual(ret[Command.RESULT_KEY], Command.RESULT_VALUE_OK_TXT)
         self.assertEqual(ret["value"], "QWER")
+
+    def test_hellofile(self):
+        ret = Command.get_file("test","hellofile")
+        self.assertTrue(ret != None)
+        self.assertTrue(isinstance(ret,dict))
+        self.assertEqual(ret[Command.RESULT_KEY], Command.RESULT_VALUE_OK_TXT)
+        self.assertEqual(ret["file_type"], "local")
+        self.assertEqual(ret["mime"], "text/plain; charset=us-ascii")
+        self.assertTrue(ret["file_name"].endswith("/test/res/test0.torrent.txt"))
+
+    def test_hellofile2(self):
+        ret = Command.get_file("test","hellofile2")
+        self.assertTrue(ret != None)
+        self.assertTrue(isinstance(ret,dict))
+        self.assertEqual(ret[Command.RESULT_KEY], Command.RESULT_VALUE_OK_TXT)
+        self.assertEqual(ret["file_type"], "local")
+        self.assertTrue(not ("mime" in ret))
+        self.assertTrue(ret["file_name"].endswith("/test/res/test0.torrent.txt"))

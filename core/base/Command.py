@@ -90,7 +90,7 @@ def get_file(package, func_name, args={}):
             debug("_check_test(args)==False")
             return BAD_CALL
         mm = __import__(name=package, fromlist=["_command"])
-        f = getattr(mm._command, "FILE_"+func_name)
+        f = getattr(mm._command, "file_"+func_name)
         if(not isinstance(f, FunctionType)):
             return BAD_CALL
         if(f.__module__ != package + "._command"):

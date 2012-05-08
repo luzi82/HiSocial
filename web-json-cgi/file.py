@@ -8,6 +8,7 @@ sys.path.insert(0, webjsoncgi_config.CORE_PATH)
 from base import Command
 import cgi
 import os
+import base.MimeDetection
 
 form = cgi.FieldStorage()
 
@@ -39,21 +40,18 @@ def output_error():
 if((ret==None) or (ret[Command.RESULT_KEY]!=Command.RESULT_VALUE_OK_TXT)):
     output_error();
 elif(ret["file_type"]=="local"):
-    filename=ret.has_key("file_name")
+    filename=ret["file_name"]
     if(ret.has_key("mime")):
         mime=ret["mime"]
     else:
-        tmp=mimetypes.guess_type(filename)
-        if(tmp[1]!=None):
-            mime="%(type); charset=$(encoding)"%{"type":tmp[0],"encoding":tmp[1]}
-        else:
-            mime="%(type)"%{"type":tmp[0]}
+        mime=base.MimeDetection.read_file(filename)
     # Should add expire info/check?
     print "Status: 200"
-    print "Content-Type: %(mime)"%{"mime":mime}
-    print
-    # TODO
-    pass
+    print "Content-Type: %(mime)s"%{"mime":mime}
+    print ""
+    fo = open(filename,"rb")
+    sys.stdout.write(fo.read())
+    fo.close()
 elif(ret["file_type"]=="buffer"):
     pass
 else:
