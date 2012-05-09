@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from admin import reset
-from base import Database, Runtime
+from base import Database, Runtime, Command
 from base.Cleanup import Cleanup
 import HiFile.TorrentStorage
 import HiFile._command
@@ -215,12 +215,26 @@ class TestHiFile(unittest.TestCase):
         self.assertEqual(ret["name"],"Super Eurobeat Vol. 220 - Anniversary Hits")
         self.assertEqual(ret["size"],365751495)
 
-#    def test_get_torrent_file(self):
+    def test_get_torrent_file(self):
 #        cleanup = Cleanup()
-#
+
+        user._command.command_human_create_user_account("", "", "uuuu0", "pppp0")
+        
+        torrent_file=open("res/test0.torrent","rb")
+        ret=HiFile._command.command_user_upload_torrent("uuuu0", torrent_file)
+        self.assertEqual(ret,{"result":"ok","torrent_id":1})
+        torrent_file.close()
+        
+        ret=HiFile._command.file_guest_get_torrent(1)
+        self.assertTrue(ret != None)
+        self.assertTrue(isinstance(ret,dict))
+        self.assertEqual(ret[Command.RESULT_KEY], Command.RESULT_VALUE_OK_TXT)
+        self.assertEqual(ret["file_type"], "local")
+
 #        session = Database.create_sqlalchemy_session_push(cleanup)
 #        user.User.add_user_account(session=session, user_id="uuuu0", password="pppp0")
 #        self.assertEqual(1,HiFile._database.add_torrent(session,"uuuu0","0123456789012345678901234567890123456789","name",123))
+#        se
 #        session.flush()
 #        session.commit()
 #        cleanup.clean_all()
