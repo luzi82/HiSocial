@@ -10,10 +10,7 @@ $ : Normal user shell commands
 
 ==========================================
 
-# apt-get install git lighttpd mysql-server python-crypto python-sqlalchemy python-mysqldb python-nose python-recaptcha -y
-
-# mkdir /HISOCIAL_WWW
-# chmod -R /HISOCIAL_WWW USERNAME:USERNAME # create directory for installation
+# apt-get install git lighttpd mysql-server python-bittorrent python-crypto python-magic python-recaptcha python-sqlalchemy python-mysqldb -y
 
 $ mysql --user=root mysql --password=MYSQL_ROOT_PASSWORD
 > CREATE USER 'MYSQL_USERNAME'@'localhost' IDENTIFIED BY 'MYSQL_PASSWORD';
@@ -25,29 +22,11 @@ $ mkdir /WORKING_DIR
 $ cd /WORKING_DIR
 $ git clone git://github.com/luzi82/HiSocial.git -b test-server
 $ cd /WORKING_DIR/HiSocial/tool
-$ cp /WORKING_DIR/HiSocial/tool/install_config.py.hiserver.example /WORKING_DIR/HiSocial/tool/install_config.py 
-$ nano /WORKING_DIR/HiSocial/tool/install_config.py # Modify it
+$ cp install_config.py.hiserver.example install_config.py 
+$ nano install_config.py # Modify it
 
-$ cd /WORKING_DIR/HiSocial/tool/
-$ ./install.py
-
-# nano /etc/lighttpd/conf-available/99-hiauntie.conf
-
-### /etc/lighttpd/conf-available/99-hiauntie.conf ###
-
-static-file.exclude-extensions += ( ".py " )
-
-alias.url += ( "/json-cgi" => "/HISOCIAL_WWW/json-cgi" )
-$HTTP["url"] =~ "^/json-cgi/" {
-	cgi.assign += ( ".py" => "/usr/bin/python" )
-	dir-listing.activate = "disable"
-}
-$HTTP["url"] =~ "^/json-cgi/webjsoncgi_config.py$" { url.access-deny = ("") }
-
-alias.url += ( "/json-console" => "/HISOCIAL_WWW/json-console" )
-$HTTP["url"] =~ "^/json-console/" {
-	dir-listing.activate = "disable"
-}
+# cd /WORKING_DIR/HiSocial/tool/
+# ./install.py
 
 ############
 
