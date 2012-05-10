@@ -22,6 +22,19 @@ DEFAULT_USER_TOKEN_VALID_TIME_PERIOD = 7 * 24 * 60 * 60
 my_path=os.path.abspath(__file__)
 hisocial_root_path=os.path.dirname(os.path.dirname(my_path))
 
+# path
+
+DATA_FOLDER=install_config.HISOCIAL_ROOT+"/data"
+
+WEB_JSON_CGI_LOCAL_PATH=install_config.HISOCIAL_ROOT+"/www/json-cgi"
+WEB_JSON_CGI_URL_PATH="json-cgi"
+
+WEB_JSON_CONSOLE_LOCAL_PATH=install_config.HISOCIAL_ROOT+"/www/json-console"
+WEB_JSON_CONSOLE_URL_PATH="json-console"
+
+WEB_LOCAL_PATH=install_config.HISOCIAL_ROOT+"/www/root"
+WEB_URL_PATH=""
+
 # func
 
 randompool = RandomPool()
@@ -41,7 +54,7 @@ core_config_file.writelines([
     "DB_USERNAME = \'%s\'\n" % install_config.DB_USERNAME,
     "DB_PASSWORD = \'%s\'\n" % install_config.DB_PASSWORD,
     "DB_SCHEMATA = \'%s\'\n" % install_config.DB_SCHEMATA,
-    "DATA_FOLDER = \'%s\'\n" % install_config.DATA_FOLDER,
+    "DATA_FOLDER = \'%s\'\n" % DATA_FOLDER,
     "USER_ID_LENGTH_MIN = %d\n" % DEFAULT_USER_ID_LENGTH_MIN,
     "USER_ID_LENGTH_MAX = %d\n" % DEFAULT_USER_ID_LENGTH_MAX,
     "USER_PASSWORD_LENGTH_MIN = %d\n" % DEFAULT_USER_PASSWORD_LENGTH_MIN,
@@ -82,7 +95,7 @@ except OSError: pass
 webjsonconsole_config_file = open(webjsonconsole_config_filename,"w")
 
 webjsonconsole_config_file.writelines([
-    "var HISOCIAL_JSON_URL = \'%s\';\n" % (install_config.URL_ROOT+"/"+install_config.WEB_JSON_CGI_URL_PATH+"/json_cmd.py"),
+    "var HISOCIAL_JSON_URL = \'%s\';\n" % (install_config.URL_ROOT+"/"+WEB_JSON_CGI_URL_PATH+"/json_cmd.py"),
     "var RECAPTCHA_PUBLIC_KEY = \'%s\';\n" % (install_config.RECAPTCHA_PUBLIC_KEY)
 ])
 
@@ -96,8 +109,8 @@ except OSError: pass
 web_config_file = open(web_config_filename,"w")
 
 web_config_file.writelines([
-    "var HISOCIAL_JSON_URL = \'%s\';\n" % (install_config.URL_ROOT+"/"+install_config.WEB_JSON_CGI_URL_PATH+"/json_cmd.py"),
-    "var HISOCIAL_FILE_URL = \'%s\';\n" % (install_config.URL_ROOT+"/"+install_config.WEB_JSON_CGI_URL_PATH+"/file.py"),
+    "var HISOCIAL_JSON_URL = \'%s\';\n" % (install_config.URL_ROOT+"/"+WEB_JSON_CGI_URL_PATH+"/json_cmd.py"),
+    "var HISOCIAL_FILE_URL = \'%s\';\n" % (install_config.URL_ROOT+"/"+WEB_JSON_CGI_URL_PATH+"/file.py"),
     "var RECAPTCHA_PUBLIC_KEY = \'%s\';\n" % (install_config.RECAPTCHA_PUBLIC_KEY)
 ])
 
@@ -105,30 +118,58 @@ web_config_file.close()
 
 # install web-json-cgi
 
-if hasattr(install_config,"WEB_JSON_CGI_LOCAL_PATH"):
-    try: os.makedirs(os.path.dirname(install_config.WEB_JSON_CGI_LOCAL_PATH))
-    except OSError: pass
-    try: os.unlink(install_config.WEB_JSON_CGI_LOCAL_PATH)
-    except OSError: pass
-    os.symlink(hisocial_root_path+"/web-json-cgi",install_config.WEB_JSON_CGI_LOCAL_PATH)
+try: os.makedirs(os.path.dirname(WEB_JSON_CGI_LOCAL_PATH))
+except OSError: pass
+try: os.unlink(WEB_JSON_CGI_LOCAL_PATH)
+except OSError: pass
+os.symlink(hisocial_root_path+"/web-json-cgi",WEB_JSON_CGI_LOCAL_PATH)
 
 # install web-json-console
 
-if hasattr(install_config,"WEB_JSON_CONSOLE_LOCAL_PATH"):
-    try: os.makedirs(os.path.dirname(install_config.WEB_JSON_CONSOLE_LOCAL_PATH))
-    except OSError: pass
-    try: os.unlink(install_config.WEB_JSON_CONSOLE_LOCAL_PATH)
-    except OSError: pass
-    os.symlink(hisocial_root_path+"/web-json-console",install_config.WEB_JSON_CONSOLE_LOCAL_PATH)
+try: os.makedirs(os.path.dirname(WEB_JSON_CONSOLE_LOCAL_PATH))
+except OSError: pass
+try: os.unlink(WEB_JSON_CONSOLE_LOCAL_PATH)
+except OSError: pass
+os.symlink(hisocial_root_path+"/web-json-console",WEB_JSON_CONSOLE_LOCAL_PATH)
 
 # install web
 
-if hasattr(install_config,"WEB_LOCAL_PATH"):
-    try: os.makedirs(os.path.dirname(install_config.WEB_LOCAL_PATH))
-    except OSError: pass
-    try: os.unlink(install_config.WEB_LOCAL_PATH)
-    except OSError: pass
-    os.symlink(hisocial_root_path+"/web",install_config.WEB_LOCAL_PATH)
+try: os.makedirs(os.path.dirname(WEB_LOCAL_PATH))
+except OSError: pass
+try: os.unlink(WEB_LOCAL_PATH)
+except OSError: pass
+os.symlink(hisocial_root_path+"/web",WEB_LOCAL_PATH)
+
+# debian-lighttpd
+
+hiauntie_mod_filename = install_config.HISOCIAL_ROOT+"/system/debian-lighttpd/99-hiauntie.conf"
+try: os.makedirs(os.path.dirname(hiauntie_mod_filename))
+except OSError: pass
+try: os.unlink(hiauntie_mod_filename)
+except OSError: pass
+hiauntie_mod_file = open(hiauntie_mod_filename,"w")
+hiauntie_mod_file.write( \
+'''static-file.exclude-extensions += ( ".py " )
+
+alias.url += ( "%(WEB_JSON_CGI_URL_PATH)s" => "%(WEB_JSON_CGI_LOCAL_PATH)s" )
+$HTTP["url"] =~ "^%(WEB_JSON_CGI_URL_PATH)s/" {
+    cgi.assign += ( ".py" => "/usr/bin/python" )
+    dir-listing.activate = "disable"
+}
+$HTTP["url"] =~ "^%(WEB_JSON_CGI_URL_PATH)s/webjsoncgi_config.py$" { url.access-deny = ("") }
+
+alias.url += ( "%(WEB_JSON_CONSOLE_URL_PATH)s" => "%(WEB_JSON_CONSOLE_LOCAL_PATH)s" )
+$HTTP["url"] =~ "^%(WEB_JSON_CONSOLE_URL_PATH)s/" {
+    dir-listing.activate = "disable"
+}
+''' % { \
+    "WEB_JSON_CGI_URL_PATH":install_config.ROOT_PATH+"/"+WEB_JSON_CGI_URL_PATH, \
+    "WEB_JSON_CGI_LOCAL_PATH":WEB_JSON_CGI_LOCAL_PATH, \
+    "WEB_JSON_CONSOLE_URL_PATH":install_config.ROOT_PATH+"/"+WEB_JSON_CONSOLE_URL_PATH, \
+    "WEB_JSON_CONSOLE_LOCAL_PATH":WEB_JSON_CONSOLE_LOCAL_PATH, \
+}
+)
+hiauntie_mod_file.close()
 
 # reset everything
 

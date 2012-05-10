@@ -2,6 +2,8 @@ from base import Secret
 import core_config
 import time
 
+STORAGE_PATH = core_config.DATA_FOLDER+"/HiFile"
+
 def generate_torrent_token(torrent_id, time_start, time_end, token_creator_user_id):
     data = { \
         "torrent_id":torrent_id, \

@@ -34,15 +34,21 @@ def clean():
     trace_down("done")
     
     trace_up("Clean filesystem")
-    data_folder=os.listdir(core_config.DATA_FOLDER)
-    for i in data_folder:
-        shutil.rmtree(core_config.DATA_FOLDER+"/"+i)
+    if os.path.isdir(core_config.DATA_FOLDER):
+        data_folder=os.listdir(core_config.DATA_FOLDER)
+        for i in data_folder:
+            shutil.rmtree(core_config.DATA_FOLDER+"/"+i)
     trace_down("done")
 
 def build_order():
     return 0
 
 def build(install_config):
+    trace_up("Create data folder")
+    try: os.makedirs(core_config.DATA_FOLDER)
+    except OSError: pass
+    trace_down("done")
+
     trace_up("Set data folder permission")
     os.chmod(core_config.DATA_FOLDER,0777)
     trace_down("done")
