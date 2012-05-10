@@ -1,6 +1,6 @@
-import core_config
+import HiFile
 
-STORAGE_PATH = core_config.DATA_FOLDER+"/HiFile/torrent"
+STORAGE_PATH = HiFile.STORAGE_PATH+"/torrent"
 
 def store_torrent(torrent_id,file_bin):
     file_path=_torrentid_to_path(torrent_id)

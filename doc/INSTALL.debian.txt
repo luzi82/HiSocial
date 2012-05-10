@@ -25,8 +25,10 @@ $ cd /WORKING_DIR/HiSocial/tool
 $ cp install_config.py.hiserver.example install_config.py 
 $ nano install_config.py # Modify it
 
-# cd /WORKING_DIR/HiSocial/tool/
-# ./install.py
+$ cd /WORKING_DIR/HiSocial/tool/
+$ ./install.py
+
+# ln -s /HISOCIAL_ROOT/system/debian-lighttpd/99-hiauntie.conf /etc/lighttpd/conf-available/99-hiauntie.conf
 
 ############
 
@@ -35,7 +37,7 @@ $ nano install_config.py # Modify it
 ### /etc/lighttpd/lighttpd.conf ###
 
 ...
-server.document-root = "/HISOCIAL_WWW/root"
+server.document-root = "/HISOCIAL_ROOT/www/root"
 ...
 
 ############

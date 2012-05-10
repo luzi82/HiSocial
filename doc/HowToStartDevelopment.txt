@@ -1,0 +1,42 @@
+The following is the example how me, Luzi82, start the development environment.
+
+
+Start
+=====
+
+# Install Xubuntu 12.04.  I hate Unity.
+
+# Do everything in INSTALL.debian.txt
+
+# Install dev tools
+sudo apt-get install python-nose openjdk-7-jdk -y
+
+# Get Eclipse
+
+# In Eclipse, install PyDev, EGit
+
+# Add HiSocial root folder as Eclipse project
+
+# Right click project root > Team, setup Git config
+
+# Top menu > Window > Preferences > PyDev > Interpreter - Python > Auto Config
+
+# Do your nice editing
+
+
+Test
+====
+
+# Modify /WORKING_DIR/HiSocial/tool/install_config.py
+
+TEST_ENABLE=True
+
+# Install again
+
+$ cd /WORKING_DIR/HiSocial/tool/
+$ ./install.py
+
+# Run test
+
+$ cd /WORKING_DIR/HiSocial/test/
+$ ./run_all.sh

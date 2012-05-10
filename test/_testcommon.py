@@ -8,12 +8,16 @@ import pprint
 OWNER_USERNAME="akari"
 OWNER_PASSWORD="mizunashi"
 
+WEB_JSON_CGI_URL_PATH="json-cgi"
+WEB_JSON_CONSOLE_URL_PATH="json-console"
+WEB_URL_PATH=""
+
 class HsTest(unittest.TestCase):
     
     def call_web(self,value):
         v_map = { \
            "root_path":install_config.ROOT_PATH, \
-           "json_cgi":install_config.WEB_JSON_CGI_URL_PATH \
+           "json_cgi":WEB_JSON_CGI_URL_PATH \
         }
         params = urllib.urlencode(value)
         headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
@@ -29,7 +33,7 @@ class HsTest(unittest.TestCase):
     def call_web_file(self,value):
         v_map = { \
            "root_path":install_config.ROOT_PATH, \
-           "json_cgi":install_config.WEB_JSON_CGI_URL_PATH \
+           "json_cgi":WEB_JSON_CGI_URL_PATH \
         }
         params = urllib.urlencode(value)
         headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}

@@ -3,10 +3,9 @@
 
 <pydev_project>
 <pydev_property name="org.python.pydev.PYTHON_PROJECT_VERSION">python 2.7</pydev_property>
-<pydev_property name="org.python.pydev.PYTHON_PROJECT_INTERPRETER">/usr/bin/python2.7</pydev_property>
+<pydev_property name="org.python.pydev.PYTHON_PROJECT_INTERPRETER">Default</pydev_property>
 <pydev_pathproperty name="org.python.pydev.PROJECT_SOURCE_PATH">
 <path>/HiSocial/core</path>
-<path>/HiSocial/tmp</path>
 <path>/HiSocial/test</path>
 <path>/HiSocial/tool</path>
 <path>/HiSocial/web-json-cgi</path>
