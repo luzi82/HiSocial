@@ -15,7 +15,7 @@ OWNER_PASSWORD="mizunashi"
 
 class HsTest(unittest.TestCase):
     
-    def call_web(self,value):
+    def call_web_json(self,value):
         v_map = { \
            "root_path":install_config.ROOT_PATH, \
            "json_cgi":install_config.WEB_JSON_CGI_URL_PATH \
@@ -38,12 +38,12 @@ class HsTest(unittest.TestCase):
         data = json.loads(data)
         return data
         
-    def call_web_ok(self,value):
-        data = self.call_web(value)
+    def call_web_json_ok(self,value):
+        data = self.call_web_json(value)
         self.assertEqual(data[base.Command.RESULT_KEY], base.Command.RESULT_VALUE_OK_TXT)
         return data
 
-    def call_web_file(self,value):
+    def call_web_raw(self,value):
         v_map = { \
            "root_path":install_config.ROOT_PATH, \
            "json_cgi":install_config.WEB_JSON_CGI_URL_PATH \
