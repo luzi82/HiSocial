@@ -20,7 +20,7 @@ class HsTest(unittest.TestCase):
            "json_cgi":WEB_JSON_CGI_URL_PATH \
         }
         params = urllib.urlencode(value)
-        headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
+        headers = {"Content-type": "application/x-www-form-urlencoded"}
         conn = httplib.HTTPConnection(install_config.DOMAIN)
         conn.request("POST", "%(root_path)s/%(json_cgi)s/json_cmd.py" % v_map, params, headers)
         response = conn.getresponse()
@@ -36,7 +36,7 @@ class HsTest(unittest.TestCase):
            "json_cgi":WEB_JSON_CGI_URL_PATH \
         }
         params = urllib.urlencode(value)
-        headers = {"Content-type": "application/x-www-form-urlencoded", "Accept": "text/plain"}
+        headers = {"Content-type": "application/x-www-form-urlencoded"}
         conn = httplib.HTTPConnection(install_config.DOMAIN)
         conn.request("POST", "%(root_path)s/%(json_cgi)s/file.py" % v_map, params, headers)
         response = conn.getresponse()
