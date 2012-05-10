@@ -9,10 +9,10 @@ def generate_torrent_token(torrent_id, time_start, time_end, token_creator_user_
         "time_end":time_end, \
         "token_creator_user_id":token_creator_user_id, \
     }
-    return Secret.encrypt(data, core_config.HIFILE_HASH_HMAC, core_config.HIFILE_HASH_HMAC)
+    return Secret.encrypt(data, core_config.HIFILE_ENC_KEY, core_config.HIFILE_HASH_HMAC)
 
 def verify_torrent_token(token):
-    data = Secret.decrypt(token, core_config.HIFILE_HASH_HMAC, core_config.HIFILE_HASH_HMAC)
+    data = Secret.decrypt(token, core_config.HIFILE_ENC_KEY, core_config.HIFILE_HASH_HMAC)
     if(data == None):return None
     now = int(time.time())
     if(data["time_start"] > now):return None
