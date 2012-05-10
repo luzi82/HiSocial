@@ -3,6 +3,7 @@ import _testcommon
 from base import Runtime
 from admin import reset
 import core_config
+from base.Cleanup import Cleanup
 
 class TestWebBasic(_testcommon.HsTest):
     
@@ -50,3 +51,11 @@ class TestWebBasic(_testcommon.HsTest):
         d = fo.read()
         fo.close()
         self.assertEqual(data,d)
+
+    def test_upload(self):
+        cleanup = Cleanup()
+        f = open("res/math0.png")
+        cleanup.push(f.close)
+        data=self.call_web_ok({'PKG': "test", 'CMD': "file_md5sum", "file_v": f, "test": core_config.TEST_KEY})
+        cleanup.clean_all()
+        self.assertEqual(data[Command.VALUE_KEY], "953f955591ac68da817cf66972e79d60")

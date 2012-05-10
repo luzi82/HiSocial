@@ -1,5 +1,6 @@
 import base.Command
 import os.path
+import hashlib
 
 def command_helloworld():
     return base.Command.ok(value="helloworld")
@@ -9,6 +10,14 @@ def command_uppercase(txt_a):
 
 def command_uppercase_arg(txtf_test_upper):
     return base.Command.ok(value=txtf_test_upper)
+
+def command_file_md5sum(file_v):
+    file_bin = file_v.read()
+    file_v.close()
+    h = hashlib.md5()
+    h.update(file_bin)
+    h = h.hexdigest()
+    return base.Command.ok(value=h)
 
 def argfilter_upper(v):
     return base.Command.ok(value=v.upper())
