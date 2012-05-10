@@ -86,6 +86,12 @@ class HsTest(unittest.TestCase):
         content_type = 'multipart/form-data; boundary=%s' % BOUNDARY
         return content_type, body
 
+    def check_ok(self,result):
+        self.assertEqual(result["result"],"ok")
+
+    def check_fail(self,result):
+        self.assertEqual(result["result"],"fail")
+
 randompool = RandomPool()
 def random_hex(size):
     b=randompool.get_bytes(size/2)

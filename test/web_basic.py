@@ -4,6 +4,7 @@ from base import Runtime
 from admin import reset
 import core_config
 from base.Cleanup import Cleanup
+import pprint
 
 class TestWebBasic(_testcommon.HsTest):
     

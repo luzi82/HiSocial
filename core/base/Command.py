@@ -5,6 +5,8 @@ import string
 import inspect
 import core_config
 import sys
+import traceback
+import pprint
 
 RESULT_KEY = "result"
 RESULT_VALUE_FAIL_TXT = "fail"
@@ -72,8 +74,8 @@ def call(package, func_name, args={}):
         ret = f(**args0)
         if(ret == None):return NOT_IMPLEMENTED
         return ret
-    except:
-        return UNKNOWN_ERR
+    except Exception as e:
+        return _unknown_err()
     
 def get_file(package, func_name, args={}):
     try:
@@ -96,7 +98,23 @@ def get_file(package, func_name, args={}):
         if(f.__module__ != package + "._command"):
             return BAD_CALL
         av = inspect.getargspec(f).args
-        args0 = dict((k,args[k])for k in av)
+#        args0 = dict((k,args[k])for k in av)
+        args0={}
+        for key in av:
+            if key.startswith("txt_"):
+                args0[key]=args[key]
+            elif key.startswith("env_"):
+                args0[key]=args[key]
+            elif key.startswith("file_"):
+                args0[key]=args[key]
+            elif key.startswith("txtf_"):
+                tmp = _convert_arg(key,args[key],args)
+                if(tmp[RESULT_KEY]==RESULT_VALUE_OK_TXT):
+                    args0[key]=tmp[VALUE_KEY]
+                else:
+                    return tmp
+            else:
+                return BAD_API
         ret = f(**args0)
         if(ret == None):return NOT_IMPLEMENTED
         return ret
@@ -212,7 +230,7 @@ def _convert_arg(key,value,args):
         if(ret == None):return NOT_IMPLEMENTED
         return ret
     except:
-        return UNKNOWN_ERR
+        return _unknown_err()
 
 def _merge_dict(a, b):
     '''
@@ -249,4 +267,12 @@ def _is_call_name(v):
 BAD_CALL = fail(reason="bad call")
 BAD_API = fail(reason="bad api")
 NOT_IMPLEMENTED = fail(reason="not implemented")
-UNKNOWN_ERR = fail(reason="unknown err")
+#UNKNOWN_ERR = fail(reason="unknown err")
+
+def _unknown_err():
+    if core_config.TEST_KEY:
+        f = traceback.extract_stack(limit=2)
+        xfile, xline, xfunc, xtext = f[0]
+        return fail(reason="unknown err %s %d"%(xfile,xline))
+    else:
+        return fail(reason="unknown err")

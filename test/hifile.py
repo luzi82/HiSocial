@@ -9,12 +9,14 @@ import HiFile._database
 import binascii
 import filecmp
 import pprint
-import unittest
+import _testcommon
 import user.User
 import user._command
 import time
+import os.path
+import base.Command
 
-class TestHiFile(unittest.TestCase):
+class TestHiFile(_testcommon.HsTest):
     
     pp = pprint.PrettyPrinter()
     
@@ -216,8 +218,6 @@ class TestHiFile(unittest.TestCase):
         self.assertEqual(ret["size"],365751495)
 
     def test_get_torrent_file(self):
-#        cleanup = Cleanup()
-
         user._command.command_human_create_user_account("", "", "uuuu0", "pppp0")
         
         torrent_file=open("res/test0.torrent","rb")
@@ -230,11 +230,95 @@ class TestHiFile(unittest.TestCase):
         self.assertTrue(isinstance(ret,dict))
         self.assertEqual(ret[Command.RESULT_KEY], Command.RESULT_VALUE_OK_TXT)
         self.assertEqual(ret["file_type"], "local")
+        self.assertTrue(os.path.exists(ret["file_name"]))
+        
+    def test_command_get_torrent_file(self):
+        cleanup = Cleanup()
 
-#        session = Database.create_sqlalchemy_session_push(cleanup)
-#        user.User.add_user_account(session=session, user_id="uuuu0", password="pppp0")
-#        self.assertEqual(1,HiFile._database.add_torrent(session,"uuuu0","0123456789012345678901234567890123456789","name",123))
-#        se
-#        session.flush()
-#        session.commit()
-#        cleanup.clean_all()
+        # TODO: Should put this command back to command layer, enable backdoor for human test skip
+        user._command.command_human_create_user_account("", "", "uuuu0", "pppp0")
+        
+        data=base.Command.call(
+            "user","guest_generate_user_login_token",{
+                'txt_user_id': "uuuu0",
+                "txt_password": "pppp0"
+            }
+        )
+        self.check_ok(data)
+        user_login_token = data["user_login_token"]
+        
+        f=open("res/test0.torrent")
+        cleanup.push(f.close)
+        data=base.Command.call(
+            "HiFile","user_upload_torrent",{
+                'txtf_user_token_user': user_login_token,
+                "file_torrent": f
+            }
+        )
+        cleanup.clean_all()
+        self.check_ok(data)
+        
+        data=base.Command.call(
+            "HiFile","user_list_user_torrent",{
+                'txtf_user_token_user': user_login_token,
+                "txt_user_id": "uuuu0"
+            }
+        )
+        self.check_ok(data)
+        torrent_list=data["torrent_list"]
+        self.assertEqual(len(torrent_list),1)
+        torrent_data=torrent_list[0]
+        torrent_token=torrent_data["torrent_token"]
+        
+        data=base.Command.get_file(
+            "HiFile","guest_get_torrent",{
+                'txtf_HiFile_torrenttoken_torrent': torrent_token
+            }
+        )
+        self.check_ok(data)
+        self.assertEqual(data["file_type"], "local")
+        self.assertTrue(os.path.exists(data["file_name"]))
+
+
+    def test_web_get_torrent_file(self):
+        cleanup = Cleanup()
+        
+        # TODO: Should put this command back to web layer, enable backdoor for human test skip
+        user._command.command_human_create_user_account("", "", "uuuu0", "pppp0")
+        
+        data=self.call_web_json_ok({
+            'PKG': "user", 'CMD': "guest_generate_user_login_token",
+            'txt_user_id': "uuuu0",
+            "txt_password": "pppp0"
+        })
+        user_login_token=str(data["user_login_token"])
+        
+        f=open("res/test0.torrent")
+        cleanup.push(f.close)
+        self.call_web_json_ok({
+            'PKG': "HiFile", 'CMD': "user_upload_torrent",
+            'txtf_user_token_user': user_login_token,
+            "file_torrent": f
+        })
+        cleanup.clean_all()
+
+        data=self.call_web_json_ok({
+            'PKG': "HiFile", 'CMD': "user_list_user_torrent",
+            'txtf_user_token_user': user_login_token,
+            "txt_user_id": "uuuu0"
+        })
+        torrent_list=data["torrent_list"]
+        self.assertEqual(len(torrent_list),1)
+        torrent_data=torrent_list[0]
+        torrent_token=torrent_data["torrent_token"]
+        
+        data=self.call_web_raw({
+            'PKG': "HiFile", 'CMD': "guest_get_torrent",
+            'txtf_HiFile_torrenttoken_torrent': torrent_token,
+        })
+        
+        f=open("res/test0.torrent")
+        cleanup.push(f.close)
+        fbin=f.read()
+        cleanup.clean_all()
+        self.assertEqual(data,fbin)
