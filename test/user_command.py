@@ -16,7 +16,7 @@ class Test_user_command(unittest.TestCase):
     def test_user_create_login(self):
         ret=_command.command_guest_generate_user_login_token(_testcommon.OWNER_USERNAME,_testcommon.OWNER_PASSWORD)
         self.check_ok(ret)
-        tokenA=ret["user_login_token"]
+        tokenA=ret[base.Command.VALUE_KEY]
         self.assertTrue(isinstance(tokenA,str))
         self.assertEqual(_testcommon.OWNER_USERNAME,UserLoginToken.check_user_login_token(tokenA))
         
@@ -25,7 +25,7 @@ class Test_user_command(unittest.TestCase):
 
         ret=_command.command_guest_generate_user_login_token("user0","password0")
         self.check_ok(ret)
-        tokenU=ret["user_login_token"]
+        tokenU=ret[base.Command.VALUE_KEY]
         self.assertTrue(isinstance(tokenU,str))
         self.assertEqual("user0",UserLoginToken.check_user_login_token(tokenU))
     
@@ -35,7 +35,7 @@ class Test_user_command(unittest.TestCase):
         
         ret=_command.command_guest_generate_user_login_token("user0","password0")
         self.check_ok(ret)
-        tokenU=ret["user_login_token"]
+        tokenU=ret[base.Command.VALUE_KEY]
         self.assertTrue(isinstance(tokenU,str))
         self.assertEqual("user0",UserLoginToken.check_user_login_token(tokenU))
                                   

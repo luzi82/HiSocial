@@ -245,7 +245,7 @@ class TestHiFile(_testcommon.HsTest):
             }
         )
         self.check_ok(data)
-        user_login_token = data["user_login_token"]
+        user_login_token = data[base.Command.VALUE_KEY]
         
         f=open("res/test0.torrent")
         cleanup.push(f.close)
@@ -291,7 +291,7 @@ class TestHiFile(_testcommon.HsTest):
             'txt_user_id': "uuuu0",
             "txt_password": "pppp0"
         })
-        user_login_token=str(data["user_login_token"])
+        user_login_token=str(data[base.Command.VALUE_KEY])
         
         f=open("res/test0.torrent")
         cleanup.push(f.close)

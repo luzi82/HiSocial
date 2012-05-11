@@ -21,7 +21,7 @@ def command_guest_generate_user_login_token(txt_user_id, txt_password):
 
     token = UserLoginToken.generate_user_login_token(txt_user_id)
     
-    return Command.ok({"user_login_token":token})
+    return Command.ok(value=token)
 
 def command_human_create_user_account(txtf_turing_turing,env_ip,txt_user_id, txt_password):
 
