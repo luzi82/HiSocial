@@ -4,6 +4,7 @@ from base import Runtime
 from admin import reset
 from user import UserLoginToken
 import _testcommon
+import base.Command
 
 class Test_user_command(unittest.TestCase):
 
@@ -122,6 +123,24 @@ class Test_user_command(unittest.TestCase):
 
         ret=_command.command_user_remove_user_account(_testcommon.OWNER_USERNAME,"user0")
         self.check_fail(ret)
+
+    def test_login_command(self):
+#        cleanup = Cleanup()
+        
+        # TODO: Should put this command back to Command layer, enable backdoor for human test skip
+        _command.command_human_create_user_account("", "", "uuuu0", "pppp0")
+
+        ret=base.Command.call(
+            "user","guest_generate_user_login_token",
+            {
+                'txt_user_id': "uuuu0",
+                "txt_password": "pppp0"
+            }
+        )
+        self.assertEqual(
+            ret[base.Command.RESULT_KEY],
+            base.Command.RESULT_VALUE_OK_TXT
+        )
         
     def check_ok(self,result):
         self.assertEqual(result["result"],"ok")

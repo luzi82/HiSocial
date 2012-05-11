@@ -5,6 +5,7 @@ import _database
 import TrackerManager
 from HiFile import TorrentStorage
 import time
+import base.Command
 
 def command_user_upload_torrent(txtf_user_token_user, file_torrent):
     file_bin = file_torrent.read()
@@ -54,6 +55,14 @@ def command_guest_get_torrent_data(txtf_HiFile_torrenttoken_torrent):
     torrent_data = _database.get_torrent_data(session, txtf_HiFile_torrenttoken_torrent)
 
     return Command.ok(result={"torrent_data":torrent_data})
+
+def file_guest_get_torrent(txtf_HiFile_torrenttoken_torrent):
+    torrent_path=TorrentStorage._torrentid_to_path(txtf_HiFile_torrenttoken_torrent)
+    
+    return base.Command.ok(result={
+        "file_type":"local",
+        "file_name":torrent_path,
+    })
 
 def argfilter_torrenttoken(v):
     ret = HiFile.verify_torrent_token(v)

@@ -30,3 +30,4 @@ def build(install_config):
     os.makedirs(TorrentStorage.STORAGE_PATH)
 
     os.chmod(HiFile.STORAGE_PATH,0777)
+    os.chmod(TorrentStorage.STORAGE_PATH,0777)
