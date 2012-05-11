@@ -9,11 +9,11 @@ Start
 # Do everything in INSTALL.debian.txt
 
 # Install dev tools
-sudo apt-get install python-nose openjdk-7-jdk -y
+sudo apt-get install python-nose openjdk-7-jdk xmlto -y
 
 # Get Eclipse
 
-# In Eclipse, install PyDev, EGit
+# In Eclipse, install PyDev, EGit, XML Editor
 
 # Add HiSocial root folder as Eclipse project
 
