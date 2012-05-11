@@ -20,106 +20,10 @@ RESULT_OK = {RESULT_KEY:RESULT_VALUE_OK_TXT}
 VALUE_KEY = "value"
 
 def call(package, func_name, args={}):
-    """
-    Call a command in a sub-package
-    It will call (package)/_command.py command_(func_name)(args)
-    
-    @type  package: string
-    @param package: package name
-    @type  func_name: string
-    @param func_name: function name
-    @type  args: dict
-    @param args: funtion arguments
-    
-    @rtype:  dict
-    @return: command result
-    """
-    try:
-        if(not _is_call_name(package)):
-            debug("not _is_call_name(package)")
-            return BAD_CALL
-        if(not _is_call_name(func_name)):
-            debug("not _is_call_name(func_name)")
-            return BAD_CALL
-        if(not isinstance(args, dict)):
-            debug("not isinstance(args, dict)")
-            return BAD_CALL
-        if(_check_test(args)==False):
-            debug("_check_test(args)==False")
-            return BAD_CALL
-        mm = __import__(name=package, fromlist=["_command"])
-        f = getattr(mm._command, "command_"+func_name)
-        if(not isinstance(f, FunctionType)):
-            return BAD_CALL
-        if(f.__module__ != package + "._command"):
-            return BAD_CALL
-        av = inspect.getargspec(f).args
-#        args0 = dict((k,args[k])for k in av)
-        args0={}
-        for key in av:
-            if key.startswith("txt_"):
-                args0[key]=args[key]
-            elif key.startswith("env_"):
-                args0[key]=args[key]
-            elif key.startswith("file_"):
-                args0[key]=args[key]
-            elif key.startswith("txtf_"):
-                tmp = _convert_arg(key,args[key],args)
-                if(tmp[RESULT_KEY]==RESULT_VALUE_OK_TXT):
-                    args0[key]=tmp[VALUE_KEY]
-                else:
-                    return tmp
-            else:
-                return BAD_API
-        ret = f(**args0)
-        if(ret == None):return NOT_IMPLEMENTED
-        return ret
-    except Exception as e:
-        return _unknown_err()
-    
+    return _call("command", package, func_name, args)
+
 def get_file(package, func_name, args={}):
-    try:
-        if(not _is_call_name(package)):
-            debug("not _is_call_name(package)")
-            return BAD_CALL
-        if(not _is_call_name(func_name)):
-            debug("not _is_call_name(func_name)")
-            return BAD_CALL
-        if(not isinstance(args, dict)):
-            debug("not isinstance(args, dict)")
-            return BAD_CALL
-        if(_check_test(args)==False):
-            debug("_check_test(args)==False")
-            return BAD_CALL
-        mm = __import__(name=package, fromlist=["_command"])
-        f = getattr(mm._command, "file_"+func_name)
-        if(not isinstance(f, FunctionType)):
-            return BAD_CALL
-        if(f.__module__ != package + "._command"):
-            return BAD_CALL
-        av = inspect.getargspec(f).args
-#        args0 = dict((k,args[k])for k in av)
-        args0={}
-        for key in av:
-            if key.startswith("txt_"):
-                args0[key]=args[key]
-            elif key.startswith("env_"):
-                args0[key]=args[key]
-            elif key.startswith("file_"):
-                args0[key]=args[key]
-            elif key.startswith("txtf_"):
-                tmp = _convert_arg(key,args[key],args)
-                if(tmp[RESULT_KEY]==RESULT_VALUE_OK_TXT):
-                    args0[key]=tmp[VALUE_KEY]
-                else:
-                    return tmp
-            else:
-                return BAD_API
-        ret = f(**args0)
-        if(ret == None):return NOT_IMPLEMENTED
-        return ret
-    except:
-        return BAD_CALL
+    return _call("file", package, func_name, args)
 
 def list_cmd():
     '''
@@ -186,6 +90,50 @@ def fail(result=None, reason=None):
     if(reason != None):
         ret[FAIL_REASON_KEY] = reason
     return ret
+
+def _call(prefix, package, func_name, args={}):
+    try:
+        if(not _is_call_name(package)):
+            debug("not _is_call_name(package)")
+            return BAD_CALL
+        if(not _is_call_name(func_name)):
+            debug("not _is_call_name(func_name)")
+            return BAD_CALL
+        if(not isinstance(args, dict)):
+            debug("not isinstance(args, dict)")
+            return BAD_CALL
+        if(_check_test(args)==False):
+            debug("_check_test(args)==False")
+            return BAD_CALL
+        mm = __import__(name=package, fromlist=["_command"])
+        f = getattr(mm._command, prefix+"_"+func_name)
+        if(not isinstance(f, FunctionType)):
+            return BAD_CALL
+        if(f.__module__ != package + "._command"):
+            return BAD_CALL
+        av = inspect.getargspec(f).args
+#        args0 = dict((k,args[k])for k in av)
+        args0={}
+        for key in av:
+            if key.startswith("txt_"):
+                args0[key]=args[key]
+            elif key.startswith("env_"):
+                args0[key]=args[key]
+            elif key.startswith("file_"):
+                args0[key]=args[key]
+            elif key.startswith("txtf_"):
+                tmp = _convert_arg(key,args[key],args)
+                if(tmp[RESULT_KEY]==RESULT_VALUE_OK_TXT):
+                    args0[key]=tmp[VALUE_KEY]
+                else:
+                    return tmp
+            else:
+                return BAD_API
+        ret = f(**args0)
+        if(ret == None):return NOT_IMPLEMENTED
+        return ret
+    except Exception:
+        return _unknown_err()
 
 def _check_test(args):
     if(core_config.TEST_KEY==None):
