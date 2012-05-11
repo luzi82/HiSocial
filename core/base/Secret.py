@@ -13,6 +13,7 @@ from base.Runtime import debug
 HASH_SALT_LENGTH = 8
 HASH_SPLIT = "#"
 KEY_SIZE = 32
+HMAC_SIZE = 4
 
 def gen_hash(data, hmac_value, salt=None):
     """
@@ -62,12 +63,9 @@ def check_hash(data, hmac_str, hash_value):
     vv = gen_hash(data, hmac_str, v[0])
     return vv == hash_value
 
-def encrypt(data, hmac_str, key_hex):
+def encrypt(data, key_hex):
     '''
     @param data: any obj to be pickle.dumps
-    
-    @type hmac_str: str
-    @param hmac_str: hmac string
     
     @type key_hex: str
     @param key_hex: key in hex format
@@ -78,10 +76,14 @@ def encrypt(data, hmac_str, key_hex):
     block_size = AES.block_size
     
     if(len(key_hex) != KEY_SIZE):return None
+    
+    # create hmackey
+    
+    hmackey = _random_byte(HMAC_SIZE)
 
     # Create raw data
     dump = pickle.dumps(data, 2)
-    dump_hash = hmac.new(key=hmac_str, msg=dump , digestmod=hashlib.md5).digest()
+    dump_hash = hmac.new(key=hmackey, msg=dump , digestmod=hashlib.md5).digest()
     vdump = dump_hash + dump
     vdumpz = zlib.compress(vdump)
     
@@ -95,15 +97,12 @@ def encrypt(data, hmac_str, key_hex):
     aes = AES.new(key, AES.MODE_CBC, iv)
     enc = aes.encrypt(vdumpz)
 
-    return base64.b64encode(iv + enc)
+    return base64.b64encode(hmackey + iv + enc)
 
-def decrypt(enc_data_b64, hmac_str, key_hex):
+def decrypt(enc_data_b64, key_hex):
     '''
     @type enc_data_b64: str
     @param enc_data_b64: encrypted data in base64
-    
-    @type hmac_str: str
-    @param hmac_str: hmac string
     
     @type key_hex: str
     @param key_hex: key in hex format
@@ -114,13 +113,18 @@ def decrypt(enc_data_b64, hmac_str, key_hex):
 
     if(len(key_hex) != KEY_SIZE):raise AssertionError()
 
-    iv_enc = base64.b64decode(enc_data_b64)
+    hmac_iv_enc = base64.b64decode(enc_data_b64)
+    if(len(hmac_iv_enc) < HMAC_SIZE+block_size):return None
+
+    offset = 0
+    hmackey = hmac_iv_enc[offset:offset+HMAC_SIZE]
+    offset += HMAC_SIZE
+    iv = hmac_iv_enc[offset:offset+block_size]
+    offset += block_size
+    enc = hmac_iv_enc[offset:]
     
-    if(len(iv_enc) % block_size):return None
-    if(len(iv_enc) < block_size):return None
+    if(len(enc) % block_size):return None
     
-    iv = iv_enc[0:block_size]
-    enc = iv_enc[block_size:]
     key = binascii.a2b_hex(key_hex)
     
     aes = AES.new(key, AES.MODE_CBC, iv)
@@ -130,7 +134,7 @@ def decrypt(enc_data_b64, hmac_str, key_hex):
     
     dump_hash = vdump[0:16]
     dump = vdump[16:]
-    check_hash = hmac.new(key=hmac_str, msg=dump , digestmod=hashlib.md5).digest()
+    check_hash = hmac.new(key=hmackey, msg=dump , digestmod=hashlib.md5).digest()
     if(check_hash != dump_hash):
         return None
     return pickle.loads(dump)
