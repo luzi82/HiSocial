@@ -10,7 +10,6 @@ OWNER_PASSWORD = "owner_password"
 
 DOMAIN="domain"
 ROOT_PATH="/path"
-URL_ROOT="http://%(domain)%(path)"%{"domain":DOMAIN,"path":ROOT_PATH}
 
 HISOCIAL_ROOT="/HISOCIAL_ROOT"
 

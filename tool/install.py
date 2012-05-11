@@ -24,6 +24,8 @@ hisocial_root_path=os.path.dirname(os.path.dirname(my_path))
 
 # path
 
+URL_ROOT="http://%(domain)s%(path)s"%{"domain":install_config.DOMAIN,"path":install_config.ROOT_PATH}
+
 DATA_FOLDER=install_config.HISOCIAL_ROOT+"/data"
 
 WEB_JSON_CGI_LOCAL_PATH=install_config.HISOCIAL_ROOT+"/www/json-cgi"
@@ -95,7 +97,7 @@ except OSError: pass
 webjsonconsole_config_file = open(webjsonconsole_config_filename,"w")
 
 webjsonconsole_config_file.writelines([
-    "var HISOCIAL_JSON_URL = \'%s\';\n" % (install_config.URL_ROOT+"/"+WEB_JSON_CGI_URL_PATH+"/json_cmd.py"),
+    "var HISOCIAL_JSON_URL = \'%s\';\n" % (URL_ROOT+"/"+WEB_JSON_CGI_URL_PATH+"/json_cmd.py"),
     "var RECAPTCHA_PUBLIC_KEY = \'%s\';\n" % (install_config.RECAPTCHA_PUBLIC_KEY)
 ])
 
@@ -109,8 +111,8 @@ except OSError: pass
 web_config_file = open(web_config_filename,"w")
 
 web_config_file.writelines([
-    "var HISOCIAL_JSON_URL = \'%s\';\n" % (install_config.URL_ROOT+"/"+WEB_JSON_CGI_URL_PATH+"/json_cmd.py"),
-    "var HISOCIAL_FILE_URL = \'%s\';\n" % (install_config.URL_ROOT+"/"+WEB_JSON_CGI_URL_PATH+"/file.py"),
+    "var HISOCIAL_JSON_URL = \'%s\';\n" % (URL_ROOT+"/"+WEB_JSON_CGI_URL_PATH+"/json_cmd.py"),
+    "var HISOCIAL_FILE_URL = \'%s\';\n" % (URL_ROOT+"/"+WEB_JSON_CGI_URL_PATH+"/file.py"),
     "var RECAPTCHA_PUBLIC_KEY = \'%s\';\n" % (install_config.RECAPTCHA_PUBLIC_KEY)
 ])
 
