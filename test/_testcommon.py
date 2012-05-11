@@ -20,11 +20,26 @@ WEB_URL_PATH=""
 class HsTest(unittest.TestCase):
     
     def call_web_json(self,value):
+        data = self._call_web(value,"json_cmd.py")
+        data = json.loads(data)
+        return data
+
+    def call_web_json_ok(self,value):
+        data = self.call_web_json(value)
+        self.assertEqual(data[base.Command.RESULT_KEY], base.Command.RESULT_VALUE_OK_TXT)
+        return data
+
+    def call_web_raw(self,value):
+        data = self._call_web(value,"file.py")
+        return data
+
+    def _call_web(self,value,suffix):
         v_map = { \
            "root_path":install_config.ROOT_PATH, \
-           "json_cgi":WEB_JSON_CGI_URL_PATH \
+           "json_cgi":WEB_JSON_CGI_URL_PATH, \
+           "suffix":suffix
         }
-        url = "%(root_path)s/%(json_cgi)s/json_cmd.py" % v_map
+        url = "%(root_path)s/%(json_cgi)s/%(suffix)s" % v_map
         
         content_type, body = self._encode_multipart_formdata(value)
         
@@ -39,27 +54,6 @@ class HsTest(unittest.TestCase):
         self.assertEqual(errcode,200)
         
         data = h.file.read()
-        data = json.loads(data)
-        return data
-        
-    def call_web_json_ok(self,value):
-        data = self.call_web_json(value)
-        self.assertEqual(data[base.Command.RESULT_KEY], base.Command.RESULT_VALUE_OK_TXT)
-        return data
-
-    def call_web_raw(self,value):
-        v_map = { \
-           "root_path":install_config.ROOT_PATH, \
-           "json_cgi":WEB_JSON_CGI_URL_PATH \
-        }
-        params = urllib.urlencode(value)
-        headers = {"Content-type": "application/x-www-form-urlencoded"}
-        conn = httplib.HTTPConnection(install_config.DOMAIN)
-        conn.request("POST", "%(root_path)s/%(json_cgi)s/file.py" % v_map, params, headers)
-        response = conn.getresponse()
-        data = response.read()
-        conn.close()
-        self.assertEqual(200, response.status)
         return data
 
     def _encode_multipart_formdata(self,value):

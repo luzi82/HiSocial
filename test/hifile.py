@@ -310,7 +310,7 @@ class TestHiFile(_testcommon.HsTest):
         torrent_list=data["torrent_list"]
         self.assertEqual(len(torrent_list),1)
         torrent_data=torrent_list[0]
-        torrent_token=torrent_data["torrent_token"]
+        torrent_token=str(torrent_data["torrent_token"])
         
         data=self.call_web_raw({
             'PKG': "HiFile", 'CMD': "guest_get_torrent",
