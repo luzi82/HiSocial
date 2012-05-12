@@ -45,6 +45,7 @@ class HsTest(unittest.TestCase):
         
         h = httplib.HTTP(install_config.DOMAIN)
         h.putrequest('POST', url)
+        h.putheader('Host', install_config.DOMAIN)
         h.putheader('content-type', content_type)
         h.putheader('content-length', str(len(body)))
         h.endheaders()
