@@ -30,6 +30,7 @@ def file_hellofile():
         "file_type":"local",
         "mime":"text/plain; charset=us-ascii",
         "file_name":tmp,
+        "output_name":"test.txt",
     })
 
 def file_hellofile2():
@@ -39,6 +40,7 @@ def file_hellofile2():
     return base.Command.ok(result={
         "file_type":"local",
         "file_name":tmp,
+        "output_name":"test.txt",
     })
 
 def file_helloimage():
@@ -48,4 +50,15 @@ def file_helloimage():
     return base.Command.ok(result={
         "file_type":"local",
         "file_name":tmp,
+        "output_name":"test.png",
+    })
+
+def file_helloimage2():
+    tmp=os.path.abspath(__file__) # ../test/test/_command.py
+    tmp=os.path.dirname(os.path.dirname(tmp)) # ../test
+    tmp=tmp+"/res/math0.png" # ../test/res/math0.png
+    return base.Command.ok(result={
+        "file_type":"local",
+        "file_name":tmp,
+        "output_name":"test.png",
     })

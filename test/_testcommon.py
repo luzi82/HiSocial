@@ -20,7 +20,7 @@ WEB_URL_PATH=""
 class HsTest(unittest.TestCase):
     
     def call_web_json(self,value):
-        data = self._call_web(value,"json_cmd.py")
+        output_name,data = self._call_web(value,"json_cmd.py")
         data = json.loads(data)
         return data
 
@@ -30,8 +30,8 @@ class HsTest(unittest.TestCase):
         return data
 
     def call_web_raw(self,value):
-        data = self._call_web(value,"file.py")
-        return data
+        output_name,data = self._call_web(value,"file.py")
+        return output_name,data
 
     def _call_web(self,value,suffix):
         v_map = { \
@@ -54,8 +54,16 @@ class HsTest(unittest.TestCase):
         
         self.assertEqual(errcode,200)
         
+        if "Content-Disposition" in headers:
+            pfx = "attachment; filename="
+            tmp = headers["Content-Disposition"]
+            self.assertTrue(tmp.startswith(pfx))
+            output_name = tmp[len(pfx):]
+        else:
+            output_name = None
+        
         data = h.file.read()
-        return data
+        return output_name,data
 
     def _encode_multipart_formdata(self,value):
         # ref: http://code.activestate.com/recipes/146306-http-client-to-post-using-multipartform-data/

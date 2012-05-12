@@ -48,6 +48,8 @@ elif(ret["file_type"]=="local"):
     # Should add expire info/check?
     print "Status: 200"
     print "Content-Type: %(mime)s"%{"mime":mime}
+    if "output_name" in ret :
+        print "Content-Disposition: attachment; filename=%(output_name)s"%ret
     print ""
     fo = open(filename,"rb")
     sys.stdout.write(fo.read())

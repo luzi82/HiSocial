@@ -33,21 +33,24 @@ class TestWebBasic(_testcommon.HsTest):
         self.assertEqual(data[Command.RESULT_KEY], Command.RESULT_VALUE_FAIL_TXT)
 
     def test_file(self):
-        data=self.call_web_raw({'PKG': "test", 'CMD': "hellofile", "test": core_config.TEST_KEY})
+        output_name,data=self.call_web_raw({'PKG': "test", 'CMD': "hellofile", "test": core_config.TEST_KEY})
+        self.assertEqual(output_name,"test.txt")
         fo = open("res/test0.torrent.txt")
         d = fo.read()
         fo.close()
         self.assertEqual(data,d)
 
     def test_file2(self):
-        data=self.call_web_raw({'PKG': "test", 'CMD': "hellofile2", "test": core_config.TEST_KEY})
+        output_name,data=self.call_web_raw({'PKG': "test", 'CMD': "hellofile2", "test": core_config.TEST_KEY})
+        self.assertEqual(output_name,"test.txt")
         fo = open("res/test0.torrent.txt")
         d = fo.read()
         fo.close()
         self.assertEqual(data,d)
 
     def test_fileimage(self):
-        data=self.call_web_raw({'PKG': "test", 'CMD': "helloimage", "test": core_config.TEST_KEY})
+        output_name,data=self.call_web_raw({'PKG': "test", 'CMD': "helloimage", "test": core_config.TEST_KEY})
+        self.assertEqual(output_name,"test.png")
         fo = open("res/math0.png")
         d = fo.read()
         fo.close()
