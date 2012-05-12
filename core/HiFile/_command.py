@@ -54,7 +54,7 @@ def command_guest_get_torrent_data(txtf_HiFile_torrenttoken_torrent):
     
     torrent_data = _database.get_torrent_data(session, txtf_HiFile_torrenttoken_torrent)
 
-    return Command.ok(result={"torrent_data":torrent_data})
+    return Command.ok(value=torrent_data)
 
 def file_guest_get_torrent(txtf_HiFile_torrenttoken_torrent):
     torrent_path=TorrentStorage._torrentid_to_path(txtf_HiFile_torrenttoken_torrent)

@@ -194,28 +194,17 @@ class TestHiFile(_testcommon.HsTest):
     def test_get_torrent_data(self):
         cleanup = Cleanup()
 
-#        session = Database.create_sqlalchemy_session_push(cleanup)
-#        user.User.add_user_account(session=session, user_id="uuuu0", password="pppp0")
-#        session.flush()
-#        session.commit()
-#        cleanup.clean_all()
-
         user._command.command_human_create_user_account("", "", "uuuu0", "pppp0")
 
-#        user_login_token=user.UserLoginToken.generate_user_login_token("uuuu0")
-        
         torrent_file=open("res/test0.torrent","rb")
+        cleanup.push(torrent_file.close)
         ret=HiFile._command.command_user_upload_torrent("uuuu0", torrent_file)
+        cleanup.clean() # torrent_file.close
         self.assertEqual(ret,{"result":"ok","torrent_id":1})
-        torrent_file.close()
 
-        session = Database.create_sqlalchemy_session_push(cleanup)
-        ret = HiFile._database.get_torrent_data(session,1)
-        self.assertEqual(ret["torrent_id"],1)
-        self.assertEqual(ret["user_id"],"uuuu0")
-        self.assertEqual(ret["info_hash_bin"],"2034385a2621c53a490f34c5893a860664741da4")
-        self.assertEqual(ret["name"],"Super Eurobeat Vol. 220 - Anniversary Hits")
-        self.assertEqual(ret["size"],365751495)
+        ret = HiFile._command.command_guest_get_torrent_data(1)
+        self.check_ok(ret)
+        self.assertTrue(Command.VALUE_KEY in ret)
 
     def test_get_torrent_file(self):
         user._command.command_human_create_user_account("", "", "uuuu0", "pppp0")
