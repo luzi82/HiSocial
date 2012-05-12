@@ -149,22 +149,28 @@ hiauntie_mod_file = open(hiauntie_mod_filename,"w")
 hiauntie_mod_file.write( \
 '''static-file.exclude-extensions += ( ".py " )
 
-alias.url += ( "%(WEB_JSON_CGI_URL_PATH)s" => "%(WEB_JSON_CGI_LOCAL_PATH)s" )
-$HTTP["url"] =~ "^%(WEB_JSON_CGI_URL_PATH)s/" {
-    cgi.assign += ( ".py" => "/usr/bin/python" )
-    dir-listing.activate = "disable"
-}
-$HTTP["url"] =~ "^%(WEB_JSON_CGI_URL_PATH)s/webjsoncgi_config.py$" { url.access-deny = ("") }
-
-alias.url += ( "%(WEB_JSON_CONSOLE_URL_PATH)s" => "%(WEB_JSON_CONSOLE_LOCAL_PATH)s" )
-$HTTP["url"] =~ "^%(WEB_JSON_CONSOLE_URL_PATH)s/" {
-    dir-listing.activate = "disable"
+$HTTP["host"] =~ "^%(DOMAIN)s$" {
+    alias.url += ( "%(WEB_JSON_CGI_URL_PATH)s" => "%(WEB_JSON_CGI_LOCAL_PATH)s" )
+    $HTTP["url"] =~ "^%(WEB_JSON_CGI_URL_PATH)s/" {
+        cgi.assign += ( ".py" => "/usr/bin/python" )
+        dir-listing.activate = "disable"
+    }
+    $HTTP["url"] =~ "^%(WEB_JSON_CGI_URL_PATH)s/webjsoncgi_config.py$" { url.access-deny = ("") }
+    
+    alias.url += ( "%(WEB_JSON_CONSOLE_URL_PATH)s" => "%(WEB_JSON_CONSOLE_LOCAL_PATH)s" )
+    $HTTP["url"] =~ "^%(WEB_JSON_CONSOLE_URL_PATH)s/" {
+        dir-listing.activate = "disable"
+    }
+    
+    server.document-root = "%(WEB_LOCAL_PATH)s"
 }
 ''' % { \
+    "DOMAIN":install_config.DOMAIN.replace(".", "\\."), \
     "WEB_JSON_CGI_URL_PATH":install_config.ROOT_PATH+"/"+WEB_JSON_CGI_URL_PATH, \
     "WEB_JSON_CGI_LOCAL_PATH":WEB_JSON_CGI_LOCAL_PATH, \
     "WEB_JSON_CONSOLE_URL_PATH":install_config.ROOT_PATH+"/"+WEB_JSON_CONSOLE_URL_PATH, \
     "WEB_JSON_CONSOLE_LOCAL_PATH":WEB_JSON_CONSOLE_LOCAL_PATH, \
+    "WEB_LOCAL_PATH":WEB_LOCAL_PATH, \
 }
 )
 hiauntie_mod_file.close()
