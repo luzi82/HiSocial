@@ -40,3 +40,11 @@ $ ./install.py
 
 $ cd /WORKING_DIR/HiSocial/test/
 $ ./run_all.sh
+
+
+Tips
+====
+
+If you test on Chrome/Chromium, disable network cache.
+In Developer Tools, bottom right gear, you can disable network cache.
+ref: http://productforums.google.com/forum/#!topic/chrome/yVwRwyqu1e0
