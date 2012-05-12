@@ -58,10 +58,16 @@ def command_guest_get_torrent_data(txtf_HiFile_torrenttoken_torrent):
 
 def file_guest_get_torrent(txtf_HiFile_torrenttoken_torrent):
     torrent_path=TorrentStorage._torrentid_to_path(txtf_HiFile_torrenttoken_torrent)
+
+    cleanup = Cleanup()
+    session = Database.create_sqlalchemy_session_push(cleanup)
+    torrent_data = _database.get_torrent_data(session, txtf_HiFile_torrenttoken_torrent)
+    cleanup.clean_all()
     
     return base.Command.ok(result={
         "file_type":"local",
         "file_name":torrent_path,
+        "output_name":torrent_data["name"]+".torrent",
     })
 
 def argfilter_torrenttoken(v):

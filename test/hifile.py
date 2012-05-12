@@ -301,10 +301,11 @@ class TestHiFile(_testcommon.HsTest):
         torrent_data=torrent_list[0]
         torrent_token=str(torrent_data["torrent_token"])
         
-        data=self.call_web_raw({
+        output_name,data=self.call_web_raw({
             'PKG': "HiFile", 'CMD': "guest_get_torrent",
             'txtf_HiFile_torrenttoken_torrent': torrent_token,
         })
+        self.assertEqual(output_name,"Super Eurobeat Vol. 220 - Anniversary Hits.torrent")
         
         f=open("res/test0.torrent")
         cleanup.push(f.close)
