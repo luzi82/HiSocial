@@ -3,10 +3,8 @@ class Cleanup(object):
     A cleanup stack to do auto cleanup in scope.
     """
 
-    cleanup_stack = []
-    
     def __init__(self):
-        pass
+        self.cleanup_stack = []
     
     def __del__(self):
         self.clean_all()
