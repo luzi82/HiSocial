@@ -132,8 +132,8 @@ def _call(prefix, package, func_name, args={}):
         ret = f(**args0)
         if(ret == None):return NOT_IMPLEMENTED
         return ret
-    except Exception:
-        return _unknown_err()
+    except Exception as e:
+        return _unknown_err(e)
 
 def _check_test(args):
     if(core_config.TEST_KEY==None):
@@ -217,10 +217,13 @@ BAD_API = fail(reason="bad api")
 NOT_IMPLEMENTED = fail(reason="not implemented")
 #UNKNOWN_ERR = fail(reason="unknown err")
 
-def _unknown_err():
+def _unknown_err(ex = None):
     if core_config.TEST_KEY:
         f = traceback.extract_stack(limit=2)
         xfile, xline, xfunc, xtext = f[0]
-        return fail(reason="unknown err %s %d"%(xfile,xline))
+        if ex == None:
+            return fail(reason="ERR %s %d"%(xfile,xline))
+        else:
+            return fail(reason="ERR %s %d %s"%(xfile,xline,pprint.pformat(ex)))
     else:
         return fail(reason="unknown err")
