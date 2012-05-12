@@ -53,7 +53,7 @@ function hi_user_createacc_hide(){
 }
 
 function hi_user_createacc_form_on_submit(){
-	if($('input[name=password]').val()!=$('input[name=repeat_password]').val()){
+	if($('input[name=txt_password]').val()!=$('input[name=repeat_password]').val()){
 		alert("Password not match");
 		return false;
 	}
@@ -64,7 +64,7 @@ function hi_user_createacc_form_on_submit(){
 	Recaptcha.destroy();
 	turing_value_t=JSON.stringify(turing_value_t);
 	$("#turing_value_input").val(turing_value_t);
-	hi_user_pending_user_id=$('input[name=user_id]').val();
+	hi_user_pending_user_id=$('input[name=txt_user_id]').val();
 	s=$(this).serialize();
 	$.post(HISOCIAL_JSON_URL,s,hi_user_login_form_on_reply,"json");
 	return false;
@@ -79,7 +79,7 @@ function hi_user_login_show(){
 }
 
 function hi_user_login_form_on_submit(){
-	hi_user_pending_user_id=$('input[name=user_id]').val();
+	hi_user_pending_user_id=$('input[name=txt_user_id]').val();
 	s=$(this).serialize();
 	$.post(HISOCIAL_JSON_URL,s,hi_user_login_form_on_reply,"json");
 	return false;
@@ -89,7 +89,7 @@ hi_user_pending_user_id=null;
 function hi_user_login_form_on_reply(data){
 	if(data.result=="ok"){
 		$.cookie("user_id",hi_user_pending_user_id); 
-		$.cookie("user_login_token",data.user_login_token);
+		$.cookie("user_login_token",data.value);
 		hi_user_pending_user_id=null;
 		hi_main_show_main_view();
 	}else{

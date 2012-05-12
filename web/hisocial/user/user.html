@@ -25,12 +25,12 @@
 <div id="login_view">
 	<form class="form-horizontal" id="login_form"><fieldset>
 		<div class="control-group">
-			<label class="control-label" for="user_id">User ID</label>
-			<div class="controls"><input type="text" class="input-xlarge" name="user_id" id="login_user_id_input"/></div>
+			<label class="control-label" for="txt_user_id">User ID</label>
+			<div class="controls"><input type="text" class="input-xlarge" name="txt_user_id" id="login_user_id_input"/></div>
 		</div>
 		<div class="control-group">
-			<label class="control-label" for="password">Password</label>
-			<div class="controls"><input type="password" class="input-xlarge" name="password" id="login_password_input"/></div>
+			<label class="control-label" for="txt_password">Password</label>
+			<div class="controls"><input type="password" class="input-xlarge" name="txt_password" id="login_password_input"/></div>
 		</div>
 		<div class="form-actions">
 			<button type="submit" class="btn btn-primary">Submit</button>
@@ -42,16 +42,16 @@
 <div id="createacc_view">
 	<form class="form-horizontal" id="createacc_form"><fieldset>
 		<div class="control-group">
-			<label class="control-label" for="user_id">CAPTCHA</label>
+			<label class="control-label">CAPTCHA</label>
 			<div class="controls" id="createacc_captcha_captcha_ctrl"></div>
 		</div>
 		<div class="control-group">
-			<label class="control-label" for="user_id">User ID</label>
-			<div class="controls"><input type="text" class="input-xlarge" name="user_id" id="createacc_user_id_input"/></div>
+			<label class="control-label" for="txt_user_id">User ID</label>
+			<div class="controls"><input type="text" class="input-xlarge" name="txt_user_id" id="createacc_user_id_input"/></div>
 		</div>
 		<div class="control-group">
-			<label class="control-label" for="password">Password</label>
-			<div class="controls"><input type="password" class="input-xlarge" name="password" id="createacc_password_input"/></div>
+			<label class="control-label" for="txt_password">Password</label>
+			<div class="controls"><input type="password" class="input-xlarge" name="txt_password" id="createacc_password_input"/></div>
 		</div>
 		<div class="control-group">
 			<label class="control-label" for="repeat_password">Repeat password</label>
@@ -60,7 +60,7 @@
 		<div class="form-actions">
 			<button type="submit" class="btn btn-primary">Submit</button>
 		</div>
-		<input type="hidden" name="turing_value" id="turing_value_input"></input>
+		<input type="hidden" name="txtf_turing_turing" id="turing_value_input"></input>
 		<input type="hidden" name="CMD" value="human_create_user_account"></input>
 		<input type="hidden" name="PKG" value="user"></input>
 	</fieldset></form>

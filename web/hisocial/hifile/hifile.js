@@ -5,7 +5,7 @@ function hi_hifile_show_hifile_view(){
 	        formData: {
 	        	PKG:"HiFile",
 	        	CMD:"user_upload_torrent",
-	        	user_login_token:hi_user_get_user_login_token()
+	        	txtf_user_token_user:hi_user_get_user_login_token()
 	        },
 	        url: HISOCIAL_JSON_URL,
 	        done: function (e, data) {
@@ -23,8 +23,8 @@ function hi_hifile_refresh_hifile_list(){
 		query={
 			PKG:"HiFile",
 			CMD:"user_list_user_torrent",
-			user_login_token:user_login_token,
-			user_id:user_id
+			txtf_user_token_user:user_login_token,
+			txt_user_id:user_id
 		};
 		$.post(HISOCIAL_JSON_URL,query,hi_hifile_refresh_hifile_list_0,"json");
 	}
@@ -32,11 +32,12 @@ function hi_hifile_refresh_hifile_list(){
 
 function hi_hifile_refresh_hifile_list_0(data){
 	if(data.result=="ok"){
-		len=data.torrent_list.length;
+		torrent_list=data.torrent_list
+		len=torrent_list.length;
 		l=$('#hifile_list');
 		l.html("");
 		for(i=0;i<len;++i){
-			item=data.torrent_list[i];
+			item=torrent_list[i];
 			r=$('<tr>');
 				// Name
 				d=$('<td>');
@@ -94,7 +95,7 @@ function hi_hifile_show_torrent(){
 		query={
 			PKG:"HiFile",
 			CMD:"guest_get_torrent_data",
-			torrent_token:getParameterByName("torrent_token")
+			txtf_HiFile_torrenttoken_torrent:getParameterByName("torrent_token")
 		};
 		$.post(HISOCIAL_JSON_URL,query,hi_hifile_show_torrent_0,"json");
 	});
@@ -102,8 +103,8 @@ function hi_hifile_show_torrent(){
 
 function hi_hifile_show_torrent_0(data){
 	if(data.result=="ok"){
-		$('#hifile_torrent_view_torrent_link').html(data.torrent_data.name);
-		$('#hifile_torrent_view_torrent_link').attr("href","get_file.py?torrent_token="+getParameterByName("torrent_token"));
+		$('#hifile_torrent_view_torrent_link').html(data.value.name);
+		$('#hifile_torrent_view_torrent_link').attr("href",HISOCIAL_FILE_URL+"?PKG=HiFile&CMD=guest_get_torrent&txtf_HiFile_torrenttoken_torrent="+hisocial_escape(getParameterByName("torrent_token")));
 	}else{
 		alert("unable to load data");
 	}
