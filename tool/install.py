@@ -3,10 +3,9 @@
 import sys
 sys.path.insert(0, "../common")
 
-from Crypto.Util.randpool import RandomPool
-import binascii
 import os
 import runpy
+from hisocial.common import Random
 try:
     import install_config
 except ImportError:
@@ -40,13 +39,6 @@ WEB_JSON_CONSOLE_URL_PATH="json-console"
 WEB_LOCAL_PATH=install_config.HISOCIAL_ROOT+"/www/root"
 WEB_URL_PATH=""
 
-# func
-
-randompool = RandomPool()
-def random_hex(size):
-    b=randompool.get_bytes(size/2)
-    return binascii.b2a_hex(b)
-
 # core/core_config.py
 
 core_config_filename=hisocial_root_path+"/core/core_config.py"
@@ -64,13 +56,13 @@ core_config_file.writelines([
     "USER_ID_LENGTH_MAX = %d\n" % DEFAULT_USER_ID_LENGTH_MAX,
     "USER_PASSWORD_LENGTH_MIN = %d\n" % DEFAULT_USER_PASSWORD_LENGTH_MIN,
     "USER_PASSWORD_LENGTH_MAX = %d\n" % DEFAULT_USER_PASSWORD_LENGTH_MAX,
-    "USER_TOKEN_ENC_KEY = \'%s\'\n" % random_hex(32),
+    "USER_TOKEN_ENC_KEY = \'%s\'\n" % Random.random_hex(32),
     "USER_TOKEN_VALID_TIME_PERIOD = %d\n" % DEFAULT_USER_TOKEN_VALID_TIME_PERIOD,
-    "USER_ACCOUNT_PASSWORD_HMAC = \'%s\'\n" % random_hex(32),
+    "USER_ACCOUNT_PASSWORD_HMAC = \'%s\'\n" % Random.random_hex(32),
     "RECAPTCHA_PUBLIC_KEY = \'%s\'\n" % install_config.RECAPTCHA_PUBLIC_KEY,
     "RECAPTCHA_PRIVATE_KEY = \'%s\'\n" % install_config.RECAPTCHA_PRIVATE_KEY,
-    "HIFILE_ENC_KEY = \'%s\'\n" % random_hex(32),
-    "TEST_KEY = \'%s\'\n" % (random_hex(64) if install_config.TEST_ENABLE else ""),
+    "HIFILE_ENC_KEY = \'%s\'\n" % Random.random_hex(32),
+    "TEST_KEY = \'%s\'\n" % (Random.random_hex(64) if install_config.TEST_ENABLE else ""),
 ])
 
 core_config_file.close()

@@ -9,6 +9,7 @@ from Crypto.Util.randpool import RandomPool
 import binascii
 import os.path
 import base.MimeDetection
+from hisocial.common import Random
 
 OWNER_USERNAME="akari"
 OWNER_PASSWORD="mizunashi"
@@ -67,7 +68,7 @@ class HsTest(unittest.TestCase):
 
     def _encode_multipart_formdata(self,value):
         # ref: http://code.activestate.com/recipes/146306-http-client-to-post-using-multipartform-data/
-        BOUNDARY = random_hex(64)
+        BOUNDARY = Random.random_hex(64)
         CRLF = '\r\n'
         L = []
         for k in value:
@@ -98,8 +99,3 @@ class HsTest(unittest.TestCase):
 
     def check_fail(self,result):
         self.assertEqual(result["result"],"fail")
-
-randompool = RandomPool()
-def random_hex(size):
-    b=randompool.get_bytes(size/2)
-    return binascii.b2a_hex(b)

@@ -9,6 +9,7 @@ import random
 import string
 import zlib
 from base.Runtime import debug
+import Random
 
 HASH_SALT_LENGTH = 8
 HASH_SPLIT = "#"
@@ -79,7 +80,7 @@ def encrypt(data, key_hex):
     
     # create hmackey
     
-    hmackey = _random_byte(HMAC_SIZE)
+    hmackey = Random.random_byte(HMAC_SIZE)
 
     # Create raw data
     dump = pickle.dumps(data, 2)
@@ -91,7 +92,7 @@ def encrypt(data, key_hex):
     while(len(vdumpz) % block_size):
         vdumpz += '\0'
     
-    iv = _random_byte(block_size)
+    iv = Random.random_byte(block_size)
     key = binascii.a2b_hex(key_hex)
     
     aes = AES.new(key, AES.MODE_CBC, iv)
@@ -140,12 +141,3 @@ def decrypt(enc_data_b64, key_hex):
     return pickle.loads(dump)
     
 rp = RandomPool()
-
-def _random_byte(size):
-    """
-    Generate random length byte data
-
-    @type size: integer
-    @param size: size of byte data
-    """
-    return rp.get_bytes(size)
