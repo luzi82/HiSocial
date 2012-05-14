@@ -9,5 +9,6 @@
 <path>/HiSocial/test</path>
 <path>/HiSocial/tool</path>
 <path>/HiSocial/web-json-cgi</path>
+<path>/HiSocial/common</path>
 </pydev_pathproperty>
 </pydev_project>

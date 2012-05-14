@@ -1,5 +1,8 @@
 #!/usr/bin/python
 
+import sys
+sys.path.insert(0, "../common")
+
 from Crypto.Util.randpool import RandomPool
 import binascii
 import os
@@ -71,6 +74,15 @@ core_config_file.writelines([
 ])
 
 core_config_file.close()
+
+# install common
+
+common_source_filename = hisocial_root_path+"/common"
+common_target_filename = install_config.HISOCIAL_ROOT+"/common"
+
+try: os.unlink(common_target_filename)
+except OSError: pass
+os.symlink(common_source_filename,common_target_filename)
 
 # web-json-cgi/webjsoncgi_config.py
 

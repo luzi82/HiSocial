@@ -1,4 +1,4 @@
-from base import Secret
+from hisocial.common import Secret
 import core_config
 import time
 

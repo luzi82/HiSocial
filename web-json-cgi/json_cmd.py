@@ -3,6 +3,7 @@
 import sys
 import webjsoncgi_config
 sys.path.insert(0, webjsoncgi_config.CORE_PATH)
+sys.path.insert(0, "../common")
 
 from base import Command
 import cgi

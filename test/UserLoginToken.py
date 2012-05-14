@@ -1,7 +1,7 @@
 from Crypto.Cipher import AES
 from base import Runtime
 from base.Runtime import trace
-from base.Secret import _random_byte
+from hisocial.common.Secret import _random_byte
 from user import UserLoginToken
 import base64
 import time
