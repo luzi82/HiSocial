@@ -1,5 +1,5 @@
 import _testcommon
-import base.Cleanup
+from hisocial.common.Cleanup import Cleanup
 
 class Dummy(object):
 
@@ -11,7 +11,7 @@ class Dummy(object):
 class CleanupTest(_testcommon.HsTest):
     
     def test_cleanup(self):
-        cl = base.Cleanup.Cleanup()
+        cl = Cleanup()
         
         d = Dummy()
         cl.push(d.x)
@@ -19,7 +19,7 @@ class CleanupTest(_testcommon.HsTest):
         self.assertEqual(d.x_count,1)
 
     def test_cleanall(self):
-        cl = base.Cleanup.Cleanup()
+        cl = Cleanup()
         
         d = Dummy()
         cl.push(d.x)
@@ -28,8 +28,8 @@ class CleanupTest(_testcommon.HsTest):
         self.assertEqual(d.x_count,2)
 
     def test_double(self):
-        cl0 = base.Cleanup.Cleanup()
-        cl1 = base.Cleanup.Cleanup()
+        cl0 = Cleanup()
+        cl1 = Cleanup()
         
         a0 = Dummy()
         a1 = Dummy()

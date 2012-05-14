@@ -1,5 +1,5 @@
 from base import Database
-from base.Cleanup import Cleanup
+from hisocial.common.Cleanup import Cleanup
 import Group
 import GroupPermission
 import User

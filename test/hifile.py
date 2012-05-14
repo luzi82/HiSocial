@@ -2,7 +2,7 @@
 
 from admin import reset
 from base import Database, Runtime, Command
-from base.Cleanup import Cleanup
+from hisocial.common.Cleanup import Cleanup
 import HiFile.TorrentStorage
 import HiFile._command
 import HiFile._database

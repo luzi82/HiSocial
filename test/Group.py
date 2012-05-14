@@ -1,6 +1,6 @@
 from admin import reset
 from base import Database, Runtime
-from base.Cleanup import Cleanup
+from hisocial.common.Cleanup import Cleanup
 from base.Runtime import trace
 from sqlalchemy.orm.session import sessionmaker
 import unittest
