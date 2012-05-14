@@ -5,7 +5,6 @@ import binascii
 import hashlib
 import hmac
 import pickle
-import random
 import string
 import zlib
 from base.Runtime import debug
@@ -34,10 +33,7 @@ def gen_hash(data, hmac_value, salt=None):
     @return: hash value in SALT#base64(HASH) format
     """
     if(salt == None):
-        char_list = string.ascii_letters + string.digits
-        salt = ""
-        while(len(salt) < HASH_SALT_LENGTH):
-            salt += random.choice(char_list)
+        salt = Random.random_ascii(HASH_SALT_LENGTH)
     h = hmac.new(hmac_value, salt, hashlib.sha256)
     h.update(data)
     return salt + HASH_SPLIT + base64.b64encode(h.digest())
