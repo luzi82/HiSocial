@@ -2,7 +2,7 @@
 @author: luzi82
 '''
 
-from hisocial.common import Secret
+from hisocial.common import hs_secret
 from sqlalchemy import Column, String, func
 from sqlalchemy.ext.declarative import declarative_base
 import core_config
@@ -167,7 +167,7 @@ def _gen_password_hash(password, salt=None):
     :rtype: str
     :return: hash value in SALT#base64(HASH) format
     """
-    return Secret.gen_hash(password, core_config.USER_ACCOUNT_PASSWORD_HMAC, salt)
+    return hs_secret.gen_hash(password, core_config.USER_ACCOUNT_PASSWORD_HMAC, salt)
 
 def _check_password_hash(password, hash_value):
     """
@@ -182,4 +182,4 @@ def _check_password_hash(password, hash_value):
     :rtype: boolean
     :return: True iff match
     """
-    return Secret.check_hash(password, core_config.USER_ACCOUNT_PASSWORD_HMAC, hash_value)
+    return hs_secret.check_hash(password, core_config.USER_ACCOUNT_PASSWORD_HMAC, hash_value)
