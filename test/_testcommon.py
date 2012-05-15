@@ -8,8 +8,7 @@ import base.Command
 from Crypto.Util.randpool import RandomPool
 import binascii
 import os.path
-import base.MimeDetection
-from hisocial.common import hs_random
+from hisocial.common import hs_random, hs_mime
 
 OWNER_USERNAME="akari"
 OWNER_PASSWORD="mizunashi"
@@ -83,7 +82,7 @@ class HsTest(unittest.TestCase):
                 v.close()
                 L.append('--' + BOUNDARY)
                 L.append('Content-Disposition: form-data; name="%s"; filename="%s"' % (k, os.path.basename(v.name)))
-                L.append('Content-Type: %s' % base.MimeDetection.read_file(v.name))
+                L.append('Content-Type: %s' % hs_mime.read_file(v.name))
                 L.append('')
                 L.append(vbin)
             else:

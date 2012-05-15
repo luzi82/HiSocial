@@ -1,25 +1,25 @@
 import unittest
-import base.MimeDetection
+from hisocial.common import hs_mime
 
 class mime_test(unittest.TestCase):
     
     def test_torrent(self):
-        ret = base.MimeDetection.read_file("res/test0.torrent")
+        ret = hs_mime.read_file("res/test0.torrent")
         self.assertEqual(ret,"application/x-bittorrent; charset=binary")
 
     def test_image(self):
-        ret = base.MimeDetection.read_file("res/math0.png")
+        ret = hs_mime.read_file("res/math0.png")
         self.assertEqual(ret,"image/png; charset=binary")
 
     def test_html(self):
-        ret = base.MimeDetection.read_file("res/html_simple_0.html")
+        ret = hs_mime.read_file("res/html_simple_0.html")
         self.assertEqual(ret,"application/xml; charset=utf-8")
 
-        ret = base.MimeDetection.read_file("res/html_simple_1.html")
+        ret = hs_mime.read_file("res/html_simple_1.html")
         self.assertEqual(ret,"text/html; charset=utf-8")
 
-        ret = base.MimeDetection.read_file("res/html_simple_2.html")
+        ret = hs_mime.read_file("res/html_simple_2.html")
         self.assertEqual(ret,"application/xml; charset=utf-8")
 
-        ret = base.MimeDetection.read_file("res/html_simple_3.xml")
+        ret = hs_mime.read_file("res/html_simple_3.xml")
         self.assertEqual(ret,"application/xml; charset=utf-8")

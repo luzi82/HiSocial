@@ -8,7 +8,7 @@ sys.path.insert(0, "../common")
 from base import Command
 import cgi
 import os
-import base.MimeDetection
+from hisocial.common import hs_mime
 
 form = cgi.FieldStorage()
 
@@ -44,7 +44,7 @@ elif(ret["file_type"]=="local"):
     if(ret.has_key("mime")):
         mime=ret["mime"]
     else:
-        mime=base.MimeDetection.read_file(filename)
+        mime=hs_mime.read_file(filename)
     # Should add expire info/check?
     print "Status: 200"
     print "Content-Type: %(mime)s"%{"mime":mime}
