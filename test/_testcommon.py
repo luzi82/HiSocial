@@ -2,11 +2,7 @@ import httplib
 import install_config
 import json
 import unittest
-import urllib
-import pprint
 import base.Command
-from Crypto.Util.randpool import RandomPool
-import binascii
 import os.path
 from hisocial.common import hs_random, hs_mime
 
@@ -94,7 +90,11 @@ class HsTest(unittest.TestCase):
         return content_type, body
 
     def check_ok(self,result):
-        self.assertEqual(result["result"],"ok")
+        self.assertTrue(result != None)
+        self.assertTrue(isinstance(result,dict))
+        self.assertEqual(result["result"],base.Command.RESULT_VALUE_OK_TXT)
 
     def check_fail(self,result):
-        self.assertEqual(result["result"],"fail")
+        self.assertTrue(result != None)
+        self.assertTrue(isinstance(result,dict))
+        self.assertEqual(result["result"],base.Command.RESULT_VALUE_FAIL_TXT)

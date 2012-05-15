@@ -15,22 +15,22 @@ class TestWebBasic(_testcommon.HsTest):
 
     def test_ping(self):
         data=self.call_web_json({'PKG': "base", 'CMD': "guest_ping", 'txt_value': "0000ffff"})
-        self.assertEqual(data[Command.RESULT_KEY], Command.RESULT_VALUE_OK_TXT)
+        self.check_ok(data)
         self.assertEqual(data["value"], "ffff0000")
 
     def test_helloworld(self):
         data=self.call_web_json({'PKG': "test", 'CMD': "helloworld", "test": core_config.TEST_KEY})
-        self.assertEqual(data[Command.RESULT_KEY], Command.RESULT_VALUE_OK_TXT)
+        self.check_ok(data)
         self.assertEqual(data["value"], "helloworld")
 
     def test_uppercase(self):
         data=self.call_web_json({'PKG': "test", 'CMD': "uppercase", "txt_a":"asdf", "test": core_config.TEST_KEY})
-        self.assertEqual(data[Command.RESULT_KEY], Command.RESULT_VALUE_OK_TXT)
+        self.check_ok(data)
         self.assertEqual(data["value"], "ASDF")
 
     def test_nokey(self):
         data=self.call_web_json({'PKG': "test", 'CMD': "helloworld"})
-        self.assertEqual(data[Command.RESULT_KEY], Command.RESULT_VALUE_FAIL_TXT)
+        self.check_fail(data)
 
     def test_file(self):
         output_name,data=self.call_web_raw({'PKG': "test", 'CMD': "hellofile", "test": core_config.TEST_KEY})

@@ -1,4 +1,3 @@
-import unittest
 from user import _command
 from base import Runtime
 from admin import reset
@@ -6,7 +5,7 @@ from user import UserLoginToken
 import _testcommon
 import base.Command
 
-class Test_user_command(unittest.TestCase):
+class Test_user_command(_testcommon.HsTest):
 
     def setUp(self):
         Runtime.enable_trace = False
@@ -141,10 +140,4 @@ class Test_user_command(unittest.TestCase):
             ret[base.Command.RESULT_KEY],
             base.Command.RESULT_VALUE_OK_TXT
         )
-        
-    def check_ok(self,result):
-        self.assertEqual(result["result"],"ok")
-
-    def check_fail(self,result):
-        self.assertEqual(result["result"],"fail")
     

@@ -68,20 +68,13 @@ class TestHiFile(_testcommon.HsTest):
     def test_command_user_upload_torrent(self):
         cleanup = Cleanup()
 
-#        session = Database.create_sqlalchemy_session_push(cleanup)
-#        user.User.add_user_account(session=session, user_id="uuuu0", password="pppp0")
-#        session.flush()
-#        session.commit()
-#        cleanup.clean_all()
-        
         user._command.command_human_create_user_account("", "", "uuuu0", "pppp0")
 
-#        user_login_token=user.UserLoginToken.generate_user_login_token("uuuu0")
-
         torrent_file=open("res/test0.torrent","rb")
+        cleanup.push(torrent_file.close)
         ret=HiFile._command.command_user_upload_torrent("uuuu0", torrent_file)
-        self.assertEqual(ret,{"result":"ok","torrent_id":1})
-        torrent_file.close()
+        cleanup.clean()
+        self.check_ok(ret)
         
         session = Database.create_sqlalchemy_session_push(cleanup)
         
@@ -108,11 +101,11 @@ class TestHiFile(_testcommon.HsTest):
         self.assertEqual(r[0].size,365751495)
         self.assertEqual(binascii.b2a_hex(r[0].info_hash_bin),"2034385a2621c53a490f34c5893a860664741da4")
 
-        cleanup.clean_all()
+        cleanup.clean()
         
         ret=HiFile._command.command_user_list_user_torrent("uuuu0", "uuuu0")
         self.assertEqual(len(ret),2)
-        self.assertEqual(ret["result"],"ok")
+        self.check_ok(ret)
         ret_torrent_list=ret["torrent_list"]
         self.assertEqual(len(ret_torrent_list),1)
         self.assertEqual(len(ret_torrent_list[0]),4)
