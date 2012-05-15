@@ -1,7 +1,7 @@
 from Crypto.Cipher import AES
 from base import Runtime
 from base.Runtime import trace
-from hisocial.common import Random
+from hisocial.common import hs_random
 from user import UserLoginToken
 import base64
 import time
@@ -27,7 +27,7 @@ class UserLoginTokenTest(unittest.TestCase):
         self.assertEqual(UserLoginToken.check_user_login_token("asdf"),None)
         self.assertEqual(UserLoginToken.check_user_login_token("@%!%$!@#$!%"),None)
         for i in xrange(100):
-            x = Random.random_byte(AES.block_size*i)
+            x = hs_random.random_byte(AES.block_size*i)
             x = base64.b64encode(x)
             self.assertEqual(UserLoginToken.check_user_login_token(x),None)
 

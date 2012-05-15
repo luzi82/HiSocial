@@ -9,7 +9,7 @@ from Crypto.Util.randpool import RandomPool
 import binascii
 import os.path
 import base.MimeDetection
-from hisocial.common import Random
+from hisocial.common import hs_random
 
 OWNER_USERNAME="akari"
 OWNER_PASSWORD="mizunashi"
@@ -68,7 +68,7 @@ class HsTest(unittest.TestCase):
 
     def _encode_multipart_formdata(self,value):
         # ref: http://code.activestate.com/recipes/146306-http-client-to-post-using-multipartform-data/
-        BOUNDARY = Random.random_hex(64)
+        BOUNDARY = hs_random.random_hex(64)
         CRLF = '\r\n'
         L = []
         for k in value:
