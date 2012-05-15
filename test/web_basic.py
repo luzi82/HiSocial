@@ -3,7 +3,7 @@ import _testcommon
 from base import Runtime
 from admin import reset
 import core_config
-from hisocial.common.Cleanup import Cleanup
+from hisocial.common.hs_cleanup import Cleanup
 import pprint
 
 class TestWebBasic(_testcommon.HsTest):

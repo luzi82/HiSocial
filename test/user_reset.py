@@ -1,6 +1,6 @@
 import unittest
 from user import User,UserGroup,Permission
-from hisocial.common.Cleanup import Cleanup
+from hisocial.common.hs_cleanup import Cleanup
 from base import Database, Runtime
 from admin import reset
 from base.Runtime import trace

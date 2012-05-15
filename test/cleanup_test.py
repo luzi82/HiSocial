@@ -1,5 +1,5 @@
 import _testcommon
-from hisocial.common.Cleanup import Cleanup
+from hisocial.common.hs_cleanup import Cleanup
 
 class Dummy(object):
 

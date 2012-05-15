@@ -1,7 +1,7 @@
 from base import Database, Command
 from base.Runtime import trace
 import User,UserLoginToken
-from hisocial.common.Cleanup import Cleanup
+from hisocial.common.hs_cleanup import Cleanup
 from turing import turing
 from user import Permission
 
