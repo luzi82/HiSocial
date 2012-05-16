@@ -12,7 +12,7 @@ $ : Normal user shell commands
 
 # apt-get install git lighttpd mysql-server python-bittorrent python-crypto python-magic python-recaptcha python-sqlalchemy python-mysqldb -y
 
-$ mysql --user=root mysql --password=MYSQL_ROOT_PASSWORD
+$ mysql --user=root mysql
 > CREATE USER 'MYSQL_USERNAME'@'localhost' IDENTIFIED BY 'MYSQL_PASSWORD';
 > CREATE DATABASE MYSQL_DATABASE CHARACTER SET utf8 COLLATE utf8_unicode_ci;
 > GRANT ALL ON MYSQL_DATABASE.* TO 'MYSQL_USERNAME'@'localhost';
