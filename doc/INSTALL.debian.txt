@@ -20,7 +20,7 @@ $ mysql --user=root mysql
 
 $ mkdir /WORKING_DIR
 $ cd /WORKING_DIR
-$ git clone git://github.com/luzi82/HiSocial.git -b test-server
+$ git clone git://github.com/luzi82/HiSocial.git # You may choose other git path in case
 $ cd /WORKING_DIR/HiSocial/tool
 $ cp install_config.py.hiserver.example install_config.py 
 $ nano install_config.py # Modify it
