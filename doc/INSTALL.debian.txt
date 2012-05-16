@@ -30,18 +30,6 @@ $ ./install.py
 
 # ln -s /HISOCIAL_ROOT/system/debian-lighttpd/99-hiauntie.conf /etc/lighttpd/conf-available/99-hiauntie.conf
 
-############
-
-# nano /etc/lighttpd/lighttpd.conf
-
-### /etc/lighttpd/lighttpd.conf ###
-
-...
-server.document-root = "/HISOCIAL_ROOT/www/root"
-...
-
-############
-
 # lighttpd-enable-mod cgi
 # lighttpd-enable-mod fastcgi
 # lighttpd-enable-mod hiauntie
