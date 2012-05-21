@@ -39,6 +39,14 @@ WEB_JSON_CONSOLE_URL_PATH="json-console"
 WEB_LOCAL_PATH=install_config.HISOCIAL_ROOT+"/www/root"
 WEB_URL_PATH=""
 
+# create ROOT_PATH
+
+if not os.path.isdir(install_config.HISOCIAL_ROOT):
+    os.makedirs(install_config.HISOCIAL_ROOT)
+
+if not os.path.isdir(install_config.HISOCIAL_ROOT):
+    raise Exception()
+
 # core/core_config.py
 
 core_config_filename=hisocial_root_path+"/core/core_config.py"
