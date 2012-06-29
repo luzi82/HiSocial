@@ -29,13 +29,3 @@ def command_guest_ping(txt_value):
     t = ~t
     t = ("00000000%x" % (t & 0xffffffff))[-8:]
     return hs_command.ok({"value":t})
-
-def command_guest_list_cmd():
-    '''
-    List all command
-    wrapper of base.hs_command.list_cmd()
-    
-    @rtype: dict
-    @return: ["value"] = base.hs_command.list_cmd() output
-    '''
-    return hs_command.ok({"value":hs_command.list_cmd()})
