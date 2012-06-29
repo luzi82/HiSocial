@@ -5,7 +5,7 @@ import _database
 import TrackerManager
 from HiFile import TorrentStorage
 import time
-from base import hs_command
+from hs_command import hs_command
 
 def command_user_upload_torrent(txtf_user_token_user, file_torrent):
     file_bin = file_torrent.read()

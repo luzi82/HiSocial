@@ -1,4 +1,4 @@
-from base import hs_command
+from hs_command import hs_command
 import string
 import Version
 

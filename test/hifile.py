@@ -14,7 +14,7 @@ import user.User
 import user._command
 import time
 import os.path
-from base import hs_command
+from hs_command import hs_command
 
 class TestHiFile(_testcommon.HsTest):
     

@@ -1,5 +1,5 @@
 import turing
-from base import hs_command
+from hs_command import hs_command
 
 def command_guest_test_turing(txtf_turing_turing,env_ip):
     '''

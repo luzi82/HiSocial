@@ -4,7 +4,7 @@ import User,UserLoginToken
 from hs_common.hs_cleanup import Cleanup
 from turing import turing
 from user import Permission
-from base import hs_command
+from hs_command import hs_command
 
 FAIL_REASON_USER_EXIST = "user exist"
 

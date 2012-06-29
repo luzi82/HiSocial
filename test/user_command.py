@@ -3,7 +3,7 @@ from base import Runtime
 from admin import reset
 from user import UserLoginToken
 import _testcommon
-from base import hs_command
+from hs_command import hs_command
 
 class Test_user_command(_testcommon.HsTest):
 

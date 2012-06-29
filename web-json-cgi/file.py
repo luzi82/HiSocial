@@ -5,7 +5,7 @@ import webjsoncgi_config
 sys.path.insert(0, webjsoncgi_config.CORE_PATH)
 sys.path.insert(0, "../common")
 
-from base import hs_command
+from hs_command import hs_command
 import cgi
 import os
 from hs_common import hs_mime

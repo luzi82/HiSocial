@@ -4,7 +4,7 @@ import json
 import unittest
 import os.path
 from hs_common import hs_random, hs_mime
-from base import hs_command
+from hs_command import hs_command
 
 OWNER_USERNAME="akari"
 OWNER_PASSWORD="mizunashi"
