@@ -2,9 +2,9 @@ import httplib
 import install_config
 import json
 import unittest
-import base.Command
 import os.path
-from hisocial.common import hs_random, hs_mime
+from hs_common import hs_random, hs_mime
+from base import hs_command
 
 OWNER_USERNAME="akari"
 OWNER_PASSWORD="mizunashi"
@@ -22,7 +22,7 @@ class HsTest(unittest.TestCase):
 
     def call_web_json_ok(self,value):
         data = self.call_web_json(value)
-        self.assertEqual(data[base.Command.RESULT_KEY], base.Command.RESULT_VALUE_OK_TXT)
+        self.assertEqual(data[hs_command.RESULT_KEY], hs_command.RESULT_VALUE_OK_TXT)
         return data
 
     def call_web_raw(self,value):
@@ -92,9 +92,9 @@ class HsTest(unittest.TestCase):
     def check_ok(self,result):
         self.assertTrue(result != None)
         self.assertTrue(isinstance(result,dict))
-        self.assertEqual(result["result"],base.Command.RESULT_VALUE_OK_TXT)
+        self.assertEqual(result["result"],hs_command.RESULT_VALUE_OK_TXT)
 
     def check_fail(self,result):
         self.assertTrue(result != None)
         self.assertTrue(isinstance(result,dict))
-        self.assertEqual(result["result"],base.Command.RESULT_VALUE_FAIL_TXT)
+        self.assertEqual(result["result"],hs_command.RESULT_VALUE_FAIL_TXT)

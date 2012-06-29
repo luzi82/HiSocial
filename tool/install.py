@@ -5,7 +5,7 @@ sys.path.insert(0, "../common")
 
 import os
 import runpy
-from hisocial.common import hs_random
+from hs_common import hs_random
 try:
     import install_config
 except ImportError:

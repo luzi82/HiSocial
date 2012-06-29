@@ -2,7 +2,7 @@
 @author: luzi82
 '''
 
-from hisocial.common import hs_secret
+from hs_common import hs_secret
 from sqlalchemy import Column, String, func
 from sqlalchemy.ext.declarative import declarative_base
 import core_config

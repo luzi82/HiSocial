@@ -1,5 +1,5 @@
 import turing
-from base import Command
+from base import hs_command
 
 def command_guest_test_turing(txtf_turing_turing,env_ip):
     '''
@@ -13,9 +13,9 @@ def command_guest_test_turing(txtf_turing_turing,env_ip):
     @rtype: dict
     @return: Command response, OK iff success
     '''
-    return Command.ok()
+    return hs_command.ok()
 
 def argfilter_turing(v,env_ip):
     if not turing.check_recaptcha(v,env_ip):
-        return Command.fail(reason="bad turing value")
-    return Command.ok(value="")
+        return hs_command.fail(reason="bad turing value")
+    return hs_command.ok(value="")

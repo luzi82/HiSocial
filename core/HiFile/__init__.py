@@ -1,4 +1,4 @@
-from hisocial.common import hs_secret
+from hs_common import hs_secret
 import core_config
 import time
 

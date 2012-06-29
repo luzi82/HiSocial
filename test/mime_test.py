@@ -1,5 +1,5 @@
 import unittest
-from hisocial.common import hs_mime
+from hs_common import hs_mime
 
 class mime_test(unittest.TestCase):
     

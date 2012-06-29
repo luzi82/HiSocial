@@ -1,6 +1,6 @@
 from HiFile import TrackerManager
 from base import Runtime, Database
-from hisocial.common.hs_cleanup import Cleanup
+from hs_common.hs_cleanup import Cleanup
 import pprint
 import unittest
 from admin import reset

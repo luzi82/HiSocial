@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 
 from admin import reset
-from base import Database, Runtime, Command
-from hisocial.common.hs_cleanup import Cleanup
+from base import Database, Runtime
+from hs_common.hs_cleanup import Cleanup
 import HiFile.TorrentStorage
 import HiFile._command
 import HiFile._database
@@ -14,7 +14,7 @@ import user.User
 import user._command
 import time
 import os.path
-import base.Command
+from base import hs_command
 
 class TestHiFile(_testcommon.HsTest):
     
@@ -197,7 +197,7 @@ class TestHiFile(_testcommon.HsTest):
 
         ret = HiFile._command.command_guest_get_torrent_data(1)
         self.check_ok(ret)
-        self.assertTrue(Command.VALUE_KEY in ret)
+        self.assertTrue(hs_command.VALUE_KEY in ret)
 
     def test_get_torrent_file(self):
         user._command.command_human_create_user_account("", "", "uuuu0", "pppp0")
@@ -210,7 +210,7 @@ class TestHiFile(_testcommon.HsTest):
         ret=HiFile._command.file_guest_get_torrent(1)
         self.assertTrue(ret != None)
         self.assertTrue(isinstance(ret,dict))
-        self.assertEqual(ret[Command.RESULT_KEY], Command.RESULT_VALUE_OK_TXT)
+        self.assertEqual(ret[hs_command.RESULT_KEY], hs_command.RESULT_VALUE_OK_TXT)
         self.assertEqual(ret["file_type"], "local")
         self.assertTrue(os.path.exists(ret["file_name"]))
         
@@ -220,18 +220,18 @@ class TestHiFile(_testcommon.HsTest):
         # TODO: Should put this command back to command layer, enable backdoor for human test skip
         user._command.command_human_create_user_account("", "", "uuuu0", "pppp0")
         
-        data=base.Command.call(
+        data=hs_command.call(
             "user","guest_generate_user_login_token",{
                 'txt_user_id': "uuuu0",
                 "txt_password": "pppp0"
             }
         )
         self.check_ok(data)
-        user_login_token = data[base.Command.VALUE_KEY]
+        user_login_token = data[hs_command.VALUE_KEY]
         
         f=open("res/test0.torrent")
         cleanup.push(f.close)
-        data=base.Command.call(
+        data=hs_command.call(
             "HiFile","user_upload_torrent",{
                 'txtf_user_token_user': user_login_token,
                 "file_torrent": f
@@ -240,7 +240,7 @@ class TestHiFile(_testcommon.HsTest):
         cleanup.clean_all()
         self.check_ok(data)
         
-        data=base.Command.call(
+        data=hs_command.call(
             "HiFile","user_list_user_torrent",{
                 'txtf_user_token_user': user_login_token,
                 "txt_user_id": "uuuu0"
@@ -252,7 +252,7 @@ class TestHiFile(_testcommon.HsTest):
         torrent_data=torrent_list[0]
         torrent_token=torrent_data["torrent_token"]
         
-        data=base.Command.get_file(
+        data=hs_command.get_file(
             "HiFile","guest_get_torrent",{
                 'txtf_HiFile_torrenttoken_torrent': torrent_token
             }
@@ -273,7 +273,7 @@ class TestHiFile(_testcommon.HsTest):
             'txt_user_id': "uuuu0",
             "txt_password": "pppp0"
         })
-        user_login_token=str(data[base.Command.VALUE_KEY])
+        user_login_token=str(data[hs_command.VALUE_KEY])
         
         f=open("res/test0.torrent")
         cleanup.push(f.close)

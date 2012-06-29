@@ -1,4 +1,4 @@
-from base import Command
+from base import hs_command
 import string
 import Version
 
@@ -9,7 +9,7 @@ def command_guest_get_version():
     @rtype: dict
     @return: ret["version"] current version. ret["type"] "development" or "production"
     """
-    return Command.ok({"version":Version.VERSION, "type":Version.TYPE})
+    return hs_command.ok({"version":Version.VERSION, "type":Version.TYPE})
 
 def command_guest_ping(txt_value):
     '''
@@ -21,21 +21,21 @@ def command_guest_ping(txt_value):
     @rtype: dict
     @return: ret["value"]=~(txt_value), len-8 hex string.  No value if bad input.
     '''
-    BAD_VALUE = Command.fail(reason="bad value")
+    BAD_VALUE = hs_command.fail(reason="bad value")
     if(len(txt_value) != 8):return BAD_VALUE
     for c in txt_value : 
         if c not in string.hexdigits: return BAD_VALUE
     t = int(txt_value, 16)
     t = ~t
     t = ("00000000%x" % (t & 0xffffffff))[-8:]
-    return Command.ok({"value":t})
+    return hs_command.ok({"value":t})
 
 def command_guest_list_cmd():
     '''
     List all command
-    wrapper of base.Command.list_cmd()
+    wrapper of base.hs_command.list_cmd()
     
     @rtype: dict
-    @return: ["value"] = base.Command.list_cmd() output
+    @return: ["value"] = base.hs_command.list_cmd() output
     '''
-    return Command.ok({"value":Command.list_cmd()})
+    return hs_command.ok({"value":hs_command.list_cmd()})

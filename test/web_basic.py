@@ -1,9 +1,9 @@
-from base import Command
+from base import hs_command
 import _testcommon
 from base import Runtime
 from admin import reset
 import core_config
-from hisocial.common.hs_cleanup import Cleanup
+from hs_common.hs_cleanup import Cleanup
 import pprint
 
 class TestWebBasic(_testcommon.HsTest):
@@ -62,4 +62,4 @@ class TestWebBasic(_testcommon.HsTest):
         cleanup.push(f.close)
         data=self.call_web_json_ok({'PKG': "test", 'CMD': "file_md5sum", "file_v": f, "test": core_config.TEST_KEY})
         cleanup.clean_all()
-        self.assertEqual(data[Command.VALUE_KEY], "953f955591ac68da817cf66972e79d60")
+        self.assertEqual(data[hs_command.VALUE_KEY], "953f955591ac68da817cf66972e79d60")
