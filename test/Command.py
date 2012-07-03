@@ -1,5 +1,5 @@
 import hs_plugin.hs_plugin
-import hs_plugin._command
+import hs_plugin._hisocial
 import base
 #import pprint
 import unittest
@@ -52,7 +52,7 @@ class TestCommand(_testcommon.HsTest):
             self.assertEqual(r["fail_reason"],"bad value")
 
     def test_list_cmd(self):
-        ret = hs_plugin._command.command_guest_list_cmd()
+        ret = hs_plugin._hisocial.command_guest_list_cmd()
         self.check_ok(ret)
         self.assertTrue("value" in ret)
         self.assertTrue("hs_plugin" in ret["value"])

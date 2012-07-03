@@ -23,7 +23,7 @@ def argfilter_upper(v):
     return hs_plugin.ok(value=v.upper())
 
 def file_hellofile():
-    tmp=os.path.abspath(__file__) # ../test/test/_command.py
+    tmp=os.path.abspath(__file__) # ../test/test/_hisocial.py
     tmp=os.path.dirname(os.path.dirname(tmp)) # ../test
     tmp=tmp+"/res/test0.torrent.txt" # ../test/res/test0.torrent.txt
     return hs_plugin.ok(result={
@@ -34,7 +34,7 @@ def file_hellofile():
     })
 
 def file_hellofile2():
-    tmp=os.path.abspath(__file__) # ../test/test/_command.py
+    tmp=os.path.abspath(__file__) # ../test/test/_hisocial.py
     tmp=os.path.dirname(os.path.dirname(tmp)) # ../test
     tmp=tmp+"/res/test0.torrent.txt" # ../test/res/test0.torrent.txt
     return hs_plugin.ok(result={
@@ -44,7 +44,7 @@ def file_hellofile2():
     })
 
 def file_helloimage():
-    tmp=os.path.abspath(__file__) # ../test/test/_command.py
+    tmp=os.path.abspath(__file__) # ../test/test/_hisocial.py
     tmp=os.path.dirname(os.path.dirname(tmp)) # ../test
     tmp=tmp+"/res/math0.png" # ../test/res/math0.png
     return hs_plugin.ok(result={
@@ -54,7 +54,7 @@ def file_helloimage():
     })
 
 def file_helloimage2():
-    tmp=os.path.abspath(__file__) # ../test/test/_command.py
+    tmp=os.path.abspath(__file__) # ../test/test/_hisocial.py
     tmp=os.path.dirname(os.path.dirname(tmp)) # ../test
     tmp=tmp+"/res/math0.png" # ../test/res/math0.png
     return hs_plugin.ok(result={

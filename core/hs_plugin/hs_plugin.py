@@ -36,13 +36,13 @@ def list_cmd():
     core_path=os.path.dirname(os.path.dirname(me))
     ret={}
     for pkg in os.listdir(core_path):
-        if(not os.path.isfile(core_path+"/"+pkg+"/_command.py")):continue
-        m=__import__(name=pkg,fromlist=["_command"])
-        attr_list=dir(m._command)
+        if(not os.path.isfile(core_path+"/"+pkg+"/_hisocial.py")):continue
+        m=__import__(name=pkg,fromlist=["_hisocial"])
+        attr_list=dir(m._hisocial)
         mv={}
         for attr in attr_list:
             if not attr.startswith("command_"): continue
-            f = getattr(m._command,attr)
+            f = getattr(m._hisocial,attr)
             if not isinstance(f,FunctionType): continue
             av = inspect.getargspec(f).args
             avv = []
@@ -105,11 +105,11 @@ def _call(prefix, package, func_name, args={}):
         if(_check_test(args)==False):
             debug("_check_test(args)==False")
             return BAD_CALL
-        mm = __import__(name=package, fromlist=["_command"])
-        f = getattr(mm._command, prefix+"_"+func_name)
+        mm = __import__(name=package, fromlist=["_hisocial"])
+        f = getattr(mm._hisocial, prefix+"_"+func_name)
         if(not isinstance(f, FunctionType)):
             return BAD_CALL
-        if(f.__module__ != package + "._command"):
+        if(f.__module__ != package + "._hisocial"):
             return BAD_CALL
         av = inspect.getargspec(f).args
 #        args0 = dict((k,args[k])for k in av)
@@ -162,11 +162,11 @@ def _convert_arg(key,value,args):
         if(not _is_call_name(func_name)):
             debug("not _is_call_name(func_name)")
             return BAD_CALL
-        mm = __import__(name=package, fromlist=["_command"])
-        f = getattr(mm._command, "argfilter_"+func_name)
+        mm = __import__(name=package, fromlist=["_hisocial"])
+        f = getattr(mm._hisocial, "argfilter_"+func_name)
         if(not isinstance(f, FunctionType)):
             return BAD_CALL
-        if(f.__module__ != package + "._command"):
+        if(f.__module__ != package + "._hisocial"):
             return BAD_CALL
         av = inspect.getargspec(f).args
         args0={}

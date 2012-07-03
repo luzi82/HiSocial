@@ -4,14 +4,14 @@ from admin import reset
 from base import Database, Runtime
 from hs_common.hs_cleanup import Cleanup
 import HiFile.TorrentStorage
-import HiFile._command
+import HiFile._hisocial
 import HiFile._database
 import binascii
 import filecmp
 import pprint
 import _testcommon
 import user.User
-import user._command
+import user._hisocial
 import time
 import os.path
 from hs_plugin import hs_plugin
@@ -68,11 +68,11 @@ class TestHiFile(_testcommon.HsTest):
     def test_command_user_upload_torrent(self):
         cleanup = Cleanup()
 
-        user._command.command_human_create_user_account("", "", "uuuu0", "pppp0")
+        user._hisocial.command_human_create_user_account("", "", "uuuu0", "pppp0")
 
         torrent_file=open("res/test0.torrent","rb")
         cleanup.push(torrent_file.close)
-        ret=HiFile._command.command_user_upload_torrent("uuuu0", torrent_file)
+        ret=HiFile._hisocial.command_user_upload_torrent("uuuu0", torrent_file)
         cleanup.clean()
         self.check_ok(ret)
         
@@ -103,7 +103,7 @@ class TestHiFile(_testcommon.HsTest):
 
         cleanup.clean()
         
-        ret=HiFile._command.command_user_list_user_torrent("uuuu0", "uuuu0")
+        ret=HiFile._hisocial.command_user_list_user_torrent("uuuu0", "uuuu0")
         self.assertEqual(len(ret),2)
         self.check_ok(ret)
         ret_torrent_list=ret["torrent_list"]
@@ -115,7 +115,7 @@ class TestHiFile(_testcommon.HsTest):
         self.assertNotEquals(ret_torrent_list[0]["torrent_token"],None)
 
         torrent_file=open("res/test2.torrent","rb")
-        ret=HiFile._command.command_user_upload_torrent("uuuu0", torrent_file)
+        ret=HiFile._hisocial.command_user_upload_torrent("uuuu0", torrent_file)
         self.assertEqual(ret,{"result":"ok","torrent_id":2})
         torrent_file.close()
 
@@ -156,7 +156,7 @@ class TestHiFile(_testcommon.HsTest):
         cleanup.clean_all()
 
         torrent_file=open("res/test3.torrent","rb")
-        ret=HiFile._command.command_user_upload_torrent("uuuu0", torrent_file)
+        ret=HiFile._hisocial.command_user_upload_torrent("uuuu0", torrent_file)
         self.assertEqual(ret,{"result":"ok","torrent_id":3})
         torrent_file.close()
 
@@ -187,27 +187,27 @@ class TestHiFile(_testcommon.HsTest):
     def test_get_torrent_data(self):
         cleanup = Cleanup()
 
-        user._command.command_human_create_user_account("", "", "uuuu0", "pppp0")
+        user._hisocial.command_human_create_user_account("", "", "uuuu0", "pppp0")
 
         torrent_file=open("res/test0.torrent","rb")
         cleanup.push(torrent_file.close)
-        ret=HiFile._command.command_user_upload_torrent("uuuu0", torrent_file)
+        ret=HiFile._hisocial.command_user_upload_torrent("uuuu0", torrent_file)
         cleanup.clean() # torrent_file.close
         self.assertEqual(ret,{"result":"ok","torrent_id":1})
 
-        ret = HiFile._command.command_guest_get_torrent_data(1)
+        ret = HiFile._hisocial.command_guest_get_torrent_data(1)
         self.check_ok(ret)
         self.assertTrue(hs_plugin.VALUE_KEY in ret)
 
     def test_get_torrent_file(self):
-        user._command.command_human_create_user_account("", "", "uuuu0", "pppp0")
+        user._hisocial.command_human_create_user_account("", "", "uuuu0", "pppp0")
         
         torrent_file=open("res/test0.torrent","rb")
-        ret=HiFile._command.command_user_upload_torrent("uuuu0", torrent_file)
+        ret=HiFile._hisocial.command_user_upload_torrent("uuuu0", torrent_file)
         self.assertEqual(ret,{"result":"ok","torrent_id":1})
         torrent_file.close()
         
-        ret=HiFile._command.file_guest_get_torrent(1)
+        ret=HiFile._hisocial.file_guest_get_torrent(1)
         self.assertTrue(ret != None)
         self.assertTrue(isinstance(ret,dict))
         self.assertEqual(ret[hs_plugin.RESULT_KEY], hs_plugin.RESULT_VALUE_OK_TXT)
@@ -218,7 +218,7 @@ class TestHiFile(_testcommon.HsTest):
         cleanup = Cleanup()
 
         # TODO: Should put this command back to command layer, enable backdoor for human test skip
-        user._command.command_human_create_user_account("", "", "uuuu0", "pppp0")
+        user._hisocial.command_human_create_user_account("", "", "uuuu0", "pppp0")
         
         data=hs_plugin.call(
             "user","guest_generate_user_login_token",{
@@ -266,7 +266,7 @@ class TestHiFile(_testcommon.HsTest):
         cleanup = Cleanup()
         
         # TODO: Should put this command back to web layer, enable backdoor for human test skip
-        user._command.command_human_create_user_account("", "", "uuuu0", "pppp0")
+        user._hisocial.command_human_create_user_account("", "", "uuuu0", "pppp0")
         
         data=self.call_web_json_ok({
             'PKG': "user", 'CMD': "guest_generate_user_login_token",
