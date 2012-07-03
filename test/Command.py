@@ -1,5 +1,5 @@
-import hs_command.hs_command
-import hs_command._command
+import hs_plugin.hs_plugin
+import hs_plugin._command
 import base
 #import pprint
 import unittest
@@ -15,19 +15,19 @@ class TestCommand(_testcommon.HsTest):
               ["0da581bf", "f25a7e40"]
              ]
         for c in cv :
-            r = hs_command.hs_command.call("base", "guest_ping", {"txt_value":c[0].upper()})
+            r = hs_plugin.hs_plugin.call("base", "guest_ping", {"txt_value":c[0].upper()})
             self.check_ok(r)
             self.assertEqual(len(r), 2)
             self.assertEqual(r["value"],c[1].lower())
-            r = hs_command.hs_command.call("base", "guest_ping", {"txt_value":c[0].lower()})
+            r = hs_plugin.hs_plugin.call("base", "guest_ping", {"txt_value":c[0].lower()})
             self.check_ok(r)
             self.assertEqual(len(r), 2)
             self.assertEqual(r["value"],c[1].lower())
-            r = hs_command.hs_command.call("base", "guest_ping", {"txt_value":c[1].upper()})
+            r = hs_plugin.hs_plugin.call("base", "guest_ping", {"txt_value":c[1].upper()})
             self.check_ok(r)
             self.assertEqual(len(r), 2)
             self.assertEqual(r["value"],c[0].lower())
-            r = hs_command.hs_command.call("base", "guest_ping", {"txt_value":c[1].lower()})
+            r = hs_plugin.hs_plugin.call("base", "guest_ping", {"txt_value":c[1].lower()})
             self.check_ok(r)
             self.assertEqual(len(r), 2)
             self.assertEqual(r["value"],c[0].lower())
@@ -44,45 +44,45 @@ class TestCommand(_testcommon.HsTest):
               "999999999"
              ]
         for c in cv :
-            r = hs_command.hs_command.call("base", "guest_ping", {"txt_value":c})
+            r = hs_plugin.hs_plugin.call("base", "guest_ping", {"txt_value":c})
             self.assertTrue(r != None)
             self.assertTrue(isinstance(r,dict))
             self.assertEqual(len(r), 2)
-            self.assertEqual(r[hs_command.hs_command.RESULT_KEY], hs_command.hs_command.RESULT_VALUE_FAIL_TXT)
+            self.assertEqual(r[hs_plugin.hs_plugin.RESULT_KEY], hs_plugin.hs_plugin.RESULT_VALUE_FAIL_TXT)
             self.assertEqual(r["fail_reason"],"bad value")
 
     def test_list_cmd(self):
-        ret = hs_command._command.command_guest_list_cmd()
+        ret = hs_plugin._command.command_guest_list_cmd()
         self.check_ok(ret)
         self.assertTrue("value" in ret)
-        self.assertTrue("hs_command" in ret["value"])
-        self.assertTrue("guest_list_cmd" in ret["value"]["hs_command"])
-        self.assertEqual(ret["value"]["hs_command"]["guest_list_cmd"],[])
+        self.assertTrue("hs_plugin" in ret["value"])
+        self.assertTrue("guest_list_cmd" in ret["value"]["hs_plugin"])
+        self.assertEqual(ret["value"]["hs_plugin"]["guest_list_cmd"],[])
 
     def test_test_module(self):
-        ret = hs_command.hs_command.call("test","helloworld")
+        ret = hs_plugin.hs_plugin.call("test","helloworld")
         self.check_ok(ret)
         self.assertEqual(ret["value"], "helloworld")
 
     def test_arg(self):
-        ret = hs_command.hs_command.call("test","uppercase",{"txt_a":"asdf"})
+        ret = hs_plugin.hs_plugin.call("test","uppercase",{"txt_a":"asdf"})
         self.check_ok(ret)
         self.assertEqual(ret["value"], "ASDF")
 
     def test_arg_filter(self):
-        ret = hs_command.hs_command.call("test","uppercase_arg",{"txtf_test_upper":"qwer"})
+        ret = hs_plugin.hs_plugin.call("test","uppercase_arg",{"txtf_test_upper":"qwer"})
         self.check_ok(ret)
         self.assertEqual(ret["value"], "QWER")
 
     def test_hellofile(self):
-        ret = hs_command.hs_command.get_file("test","hellofile")
+        ret = hs_plugin.hs_plugin.get_file("test","hellofile")
         self.check_ok(ret)
         self.assertEqual(ret["file_type"], "local")
         self.assertEqual(ret["mime"], "text/plain; charset=us-ascii")
         self.assertTrue(ret["file_name"].endswith("/test/res/test0.torrent.txt"))
 
     def test_hellofile2(self):
-        ret = hs_command.hs_command.get_file("test","hellofile2")
+        ret = hs_plugin.hs_plugin.get_file("test","hellofile2")
         self.check_ok(ret)
         self.assertEqual(ret["file_type"], "local")
         self.assertTrue(not ("mime" in ret))

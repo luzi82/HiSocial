@@ -4,7 +4,7 @@ import json
 import unittest
 import os.path
 from hs_common import hs_random, hs_mime
-from hs_command import hs_command
+from hs_plugin import hs_plugin
 
 OWNER_USERNAME="akari"
 OWNER_PASSWORD="mizunashi"
@@ -22,7 +22,7 @@ class HsTest(unittest.TestCase):
 
     def call_web_json_ok(self,value):
         data = self.call_web_json(value)
-        self.assertEqual(data[hs_command.RESULT_KEY], hs_command.RESULT_VALUE_OK_TXT)
+        self.assertEqual(data[hs_plugin.RESULT_KEY], hs_plugin.RESULT_VALUE_OK_TXT)
         return data
 
     def call_web_raw(self,value):
@@ -92,9 +92,9 @@ class HsTest(unittest.TestCase):
     def check_ok(self,result):
         self.assertTrue(result != None)
         self.assertTrue(isinstance(result,dict))
-        self.assertEqual(result["result"],hs_command.RESULT_VALUE_OK_TXT)
+        self.assertEqual(result["result"],hs_plugin.RESULT_VALUE_OK_TXT)
 
     def check_fail(self,result):
         self.assertTrue(result != None)
         self.assertTrue(isinstance(result,dict))
-        self.assertEqual(result["result"],hs_command.RESULT_VALUE_FAIL_TXT)
+        self.assertEqual(result["result"],hs_plugin.RESULT_VALUE_FAIL_TXT)

@@ -5,7 +5,7 @@ import webjsoncgi_config
 sys.path.insert(0, webjsoncgi_config.CORE_PATH)
 sys.path.insert(0, "../common")
 
-from hs_command import hs_command
+from hs_plugin import hs_plugin
 import cgi
 import json
 import os
@@ -17,9 +17,9 @@ form = cgi.FieldStorage()
 
 def action():
     if(not form.has_key("PKG")):
-        return hs_command.fail(reason="bad pkg")
+        return hs_plugin.fail(reason="bad pkg")
     if(not form.has_key("CMD")):
-        return hs_command.fail(reason="bad cmd")
+        return hs_plugin.fail(reason="bad cmd")
     args = {}
     for k in form.keys():
         if(not isinstance(k, str)):continue
@@ -37,7 +37,7 @@ def action():
             if(not isinstance(v, str)):continue
             args[k] = v
     args["env_ip"] = cgi.escape(os.environ["REMOTE_ADDR"])
-    return hs_command.call(form["PKG"].value, form["CMD"].value, args)
+    return hs_plugin.call(form["PKG"].value, form["CMD"].value, args)
 
 ret = action()
 

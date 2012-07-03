@@ -5,7 +5,7 @@ import webjsoncgi_config
 sys.path.insert(0, webjsoncgi_config.CORE_PATH)
 sys.path.insert(0, "../common")
 
-from hs_command import hs_command
+from hs_plugin import hs_plugin
 import cgi
 import os
 from hs_common import hs_mime
@@ -28,7 +28,7 @@ def action():
         if(not isinstance(v, str)):continue
         args[k] = v
     args["env_ip"] = cgi.escape(os.environ["REMOTE_ADDR"])
-    return hs_command.get_file(form["PKG"].value, form["CMD"].value, args)
+    return hs_plugin.get_file(form["PKG"].value, form["CMD"].value, args)
 
 ret = action()
 
@@ -37,7 +37,7 @@ def output_error():
     print "Content-Type: text/plain; charset=utf-8"
     print
 
-if((ret==None) or (ret[hs_command.RESULT_KEY]!=hs_command.RESULT_VALUE_OK_TXT)):
+if((ret==None) or (ret[hs_plugin.RESULT_KEY]!=hs_plugin.RESULT_VALUE_OK_TXT)):
     output_error();
 elif(ret["file_type"]=="local"):
     filename=ret["file_name"]

@@ -3,7 +3,7 @@ from base import Runtime
 from admin import reset
 from user import UserLoginToken
 import _testcommon
-from hs_command import hs_command
+from hs_plugin import hs_plugin
 
 class Test_user_command(_testcommon.HsTest):
 
@@ -15,7 +15,7 @@ class Test_user_command(_testcommon.HsTest):
     def test_user_create_login(self):
         ret=_command.command_guest_generate_user_login_token(_testcommon.OWNER_USERNAME,_testcommon.OWNER_PASSWORD)
         self.check_ok(ret)
-        tokenA=ret[hs_command.VALUE_KEY]
+        tokenA=ret[hs_plugin.VALUE_KEY]
         self.assertTrue(isinstance(tokenA,str))
         self.assertEqual(_testcommon.OWNER_USERNAME,UserLoginToken.check_user_login_token(tokenA))
         
@@ -24,7 +24,7 @@ class Test_user_command(_testcommon.HsTest):
 
         ret=_command.command_guest_generate_user_login_token("user0","password0")
         self.check_ok(ret)
-        tokenU=ret[hs_command.VALUE_KEY]
+        tokenU=ret[hs_plugin.VALUE_KEY]
         self.assertTrue(isinstance(tokenU,str))
         self.assertEqual("user0",UserLoginToken.check_user_login_token(tokenU))
     
@@ -34,7 +34,7 @@ class Test_user_command(_testcommon.HsTest):
         
         ret=_command.command_guest_generate_user_login_token("user0","password0")
         self.check_ok(ret)
-        tokenU=ret[hs_command.VALUE_KEY]
+        tokenU=ret[hs_plugin.VALUE_KEY]
         self.assertTrue(isinstance(tokenU,str))
         self.assertEqual("user0",UserLoginToken.check_user_login_token(tokenU))
                                   
@@ -129,7 +129,7 @@ class Test_user_command(_testcommon.HsTest):
         # TODO: Should put this command back to Command layer, enable backdoor for human test skip
         _command.command_human_create_user_account("", "", "uuuu0", "pppp0")
 
-        ret=hs_command.call(
+        ret=hs_plugin.call(
             "user","guest_generate_user_login_token",
             {
                 'txt_user_id': "uuuu0",
@@ -137,7 +137,7 @@ class Test_user_command(_testcommon.HsTest):
             }
         )
         self.assertEqual(
-            ret[hs_command.RESULT_KEY],
-            hs_command.RESULT_VALUE_OK_TXT
+            ret[hs_plugin.RESULT_KEY],
+            hs_plugin.RESULT_VALUE_OK_TXT
         )
     

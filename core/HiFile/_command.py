@@ -5,7 +5,7 @@ import _database
 import TrackerManager
 from HiFile import TorrentStorage
 import time
-from hs_command import hs_command
+from hs_plugin import hs_plugin
 
 def command_user_upload_torrent(txtf_user_token_user, file_torrent):
     file_bin = file_torrent.read()
@@ -26,11 +26,11 @@ def command_user_upload_torrent(txtf_user_token_user, file_torrent):
     
     TorrentStorage.store_torrent(torrent_id, file_bin)
     
-    return hs_command.ok(result={"torrent_id":torrent_id})
+    return hs_plugin.ok(result={"torrent_id":torrent_id})
 
 def command_user_list_user_torrent(txtf_user_token_user, txt_user_id):
     if txt_user_id != txtf_user_token_user:
-        return hs_command.fail(reason="no permission")
+        return hs_plugin.fail(reason="no permission")
     
     cleanup = Cleanup()
     session = Database.create_sqlalchemy_session_push(cleanup)
@@ -46,7 +46,7 @@ def command_user_list_user_torrent(txtf_user_token_user, txt_user_id):
     for r in ret:
         r["torrent_token"]=HiFile.generate_torrent_token(r["torrent_id"],now,now+600,txt_user_id)
     
-    return hs_command.ok(result={"torrent_list":ret})
+    return hs_plugin.ok(result={"torrent_list":ret})
 
 def command_guest_get_torrent_data(txtf_HiFile_torrenttoken_torrent):
     cleanup = Cleanup()
@@ -54,7 +54,7 @@ def command_guest_get_torrent_data(txtf_HiFile_torrenttoken_torrent):
     
     torrent_data = _database.get_torrent_data(session, txtf_HiFile_torrenttoken_torrent)
 
-    return hs_command.ok(value=torrent_data)
+    return hs_plugin.ok(value=torrent_data)
 
 def file_guest_get_torrent(txtf_HiFile_torrenttoken_torrent):
     torrent_path=TorrentStorage._torrentid_to_path(txtf_HiFile_torrenttoken_torrent)
@@ -64,7 +64,7 @@ def file_guest_get_torrent(txtf_HiFile_torrenttoken_torrent):
     torrent_data = _database.get_torrent_data(session, txtf_HiFile_torrenttoken_torrent)
     cleanup.clean_all()
     
-    return hs_command.ok(result={
+    return hs_plugin.ok(result={
         "file_type":"local",
         "file_name":torrent_path,
         "output_name":torrent_data["name"]+".torrent",
@@ -73,5 +73,5 @@ def file_guest_get_torrent(txtf_HiFile_torrenttoken_torrent):
 def argfilter_torrenttoken(v):
     ret = HiFile.verify_torrent_token(v)
     if(ret == None):
-        return hs_command.fail(reason="bad torrent token")
-    return hs_command.ok(value=ret)
+        return hs_plugin.fail(reason="bad torrent token")
+    return hs_plugin.ok(value=ret)

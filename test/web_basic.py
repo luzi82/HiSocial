@@ -1,4 +1,4 @@
-from hs_command import hs_command
+from hs_plugin import hs_plugin
 import _testcommon
 from base import Runtime
 from admin import reset
@@ -62,4 +62,4 @@ class TestWebBasic(_testcommon.HsTest):
         cleanup.push(f.close)
         data=self.call_web_json_ok({'PKG': "test", 'CMD': "file_md5sum", "file_v": f, "test": core_config.TEST_KEY})
         cleanup.clean_all()
-        self.assertEqual(data[hs_command.VALUE_KEY], "953f955591ac68da817cf66972e79d60")
+        self.assertEqual(data[hs_plugin.VALUE_KEY], "953f955591ac68da817cf66972e79d60")
