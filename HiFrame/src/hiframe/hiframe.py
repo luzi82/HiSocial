@@ -6,7 +6,7 @@ class HiFrame:
     # _plugin_path_list
     _plugin_path_list=None
         
-    # key_id - key_order - [] - {"func":*,"pkg":*}
+    # key_id - key_order - [] - {"call":*,"pkg":*,"func":*}
     _func_dict=None
     
     def __init__(self,plugin_path_list):
