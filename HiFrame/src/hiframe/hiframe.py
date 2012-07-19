@@ -6,7 +6,7 @@ class HiFrame:
     # _plugin_path_list
     _plugin_path_list=None
         
-    # key_id - key_order - [] - {"call":*,"pkg":*,"func":*}
+    # key_id - [] - {"call":*,"pkg":*,"func":*}
     _func_dict=None
     
     def __init__(self,plugin_path_list,filename="_hiframe"):
@@ -17,17 +17,15 @@ class HiFrame:
         if not key in self._func_dict:
             return []
         ret=[]
-        order_list = self._func_dict[key].keys()
-        order_list.sort()
-        for t in order_list:
-            tt = self._func_dict[key][t]
-            for ttt in tt:
-                tttt = ttt["call"](**args)
-                ret.append({"pkg":ttt["pkg"],"func":ttt["func"],"ret":tttt})
+        for t in self._func_dict[key]:
+            tt = t["call"](**args)
+            ret.append({"pkg":t["pkg"],"func":t["func"],"ret":tt})
         return ret
 
 def _scan_func(plugin_path_list,filename):
-    func_dict={}
+
+    # key_id - key_order - [] - {"call":*,"pkg":*,"func":*}
+    func_dict_0={}
     
     for plugin_path in plugin_path_list:
         for pkg_name in os.listdir(plugin_path):
@@ -47,12 +45,23 @@ def _scan_func(plugin_path_list,filename):
                         key_order = key["order"]
                     else:
                         key_order = 0
-                    if not key_id in func_dict:
-                        func_dict[key_id]={}
-                    tmp = func_dict[key_id]
+                    if not key_id in func_dict_0:
+                        func_dict_0[key_id]={}
+                    tmp = func_dict_0[key_id]
                     if not key_order in tmp:
                         tmp[key_order] = []
                     tmp = tmp[key_order]
                     tmp.append({"call":func_call,"pkg":pkg_name,"func":func_name})
+                    
+    # key_id - [] - {"call":*,"pkg":*,"func":*}
+    func_dict_1 = {}
 
-    return func_dict
+    for key,v in func_dict_0.iteritems():
+        t = []
+        order_list=v.keys()
+        order_list.sort()
+        for order in order_list:
+            t.extend(v[order])
+        func_dict_1[key]=t
+
+    return func_dict_1

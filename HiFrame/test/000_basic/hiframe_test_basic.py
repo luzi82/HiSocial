@@ -10,9 +10,9 @@ class HiframeTestBasic(unittest.TestCase):
 
     def test_scan(self):
         tmp = hiframe._scan_func(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_hiframe")
-        self.assertEqual(tmp["simple"][0][0]["call"], hiframe_test_basic_plugin._hiframe.simple_func)
-        self.assertEqual(tmp["simple"][0][0]["pkg"], "hiframe_test_basic_plugin")
-        self.assertEqual(tmp["simple"][0][0]["func"], "simple_func")
+        self.assertEqual(tmp["simple"][0]["call"], hiframe_test_basic_plugin._hiframe.simple_func)
+        self.assertEqual(tmp["simple"][0]["pkg"], "hiframe_test_basic_plugin")
+        self.assertEqual(tmp["simple"][0]["func"], "simple_func")
         
     def test_call(self):
         hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_hiframe")
@@ -31,10 +31,6 @@ class HiframeTestBasic(unittest.TestCase):
 
     def test_order(self):
         hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_hiframe")
-
-        self.assertEqual(hf._func_dict["order"][-1][0]["call"], hiframe_test_basic_plugin._hiframe.order_c)
-        self.assertEqual(hf._func_dict["order"][0][0]["call"], hiframe_test_basic_plugin._hiframe.order_a)
-        self.assertEqual(hf._func_dict["order"][1][0]["call"], hiframe_test_basic_plugin._hiframe.order_b)
 
         tmp = hf.call("order")
         self.assertEqual(tmp,[
