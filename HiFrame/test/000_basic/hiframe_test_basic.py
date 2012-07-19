@@ -99,3 +99,8 @@ class HiframeTestBasic(unittest.TestCase):
             "func":"abc_func",
             "ret":"abc ret"
         }])
+
+    def test_not_exist(self):
+        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_hiframe")
+        tmp = hf.call("not_exist")
+        self.assertEqual(tmp,[])
