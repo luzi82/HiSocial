@@ -10,5 +10,7 @@
 <path>/HiSocial/tool</path>
 <path>/HiSocial/web-json-cgi</path>
 <path>/HiSocial/common</path>
+<path>/HiSocial/HiFrame/src</path>
+<path>/HiSocial/HiFrame/test/000_basic</path>
 </pydev_pathproperty>
 </pydev_project>
