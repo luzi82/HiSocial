@@ -1,8 +1,6 @@
 from base import Database
-from base.Runtime import trace
 import User,UserLoginToken
 from hs_common.hs_cleanup import Cleanup
-from turing import turing
 from user import Permission
 from hs_plugin import hs_plugin
 

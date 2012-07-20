@@ -1,9 +1,8 @@
 from base.DatabaseBase import DBB
-from sqlalchemy import Column, String, func, Integer, Boolean
+from sqlalchemy import Column, String, Integer, Boolean
 from sqlalchemy.schema import ForeignKey
 import Group
 import sqlalchemy.orm.exc
-from base.Runtime import trace
 
 GROUP_PERMISSION_NAME_LENGTH = 128
 KEY_ORDER = "order"

@@ -7,7 +7,6 @@ sys.path.insert(0, hisocial_root_path + "/core")
 
 from admin import reset
 from base import Runtime
-from optparse import OptionParser
 try:
     import install_config
 except ImportError:

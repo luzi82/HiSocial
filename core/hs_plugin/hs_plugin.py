@@ -1,4 +1,4 @@
-from base.Runtime import trace, debug
+from base.Runtime import debug
 from types import FunctionType
 import os
 import string

@@ -1,5 +1,4 @@
 from sqlalchemy import Column, String
-from sqlalchemy.ext.declarative import declarative_base
 from base.DatabaseBase import DBB
 
 GROUP_ID_LENGTH = 8

@@ -5,9 +5,7 @@ import binascii
 import hashlib
 import hmac
 import pickle
-import string
 import zlib
-from base.Runtime import debug
 import hs_random
 
 HASH_SALT_LENGTH = 8

@@ -3,7 +3,6 @@ from user import User,UserGroup,Permission
 from hs_common.hs_cleanup import Cleanup
 from base import Database, Runtime
 from admin import reset
-from base.Runtime import trace
 import _testcommon
 
 class TestUserPackage(unittest.TestCase):

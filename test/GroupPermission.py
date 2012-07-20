@@ -1,7 +1,6 @@
 from admin import reset
 from base import Database, Runtime
 from hs_common.hs_cleanup import Cleanup
-from base.Runtime import trace
 from user import Group
 import unittest
 from user import GroupPermission

@@ -1,8 +1,5 @@
 import hs_plugin.hs_plugin
 import hs_plugin._hisocial
-import base
-#import pprint
-import unittest
 import _testcommon
 
 class TestCommand(_testcommon.HsTest):

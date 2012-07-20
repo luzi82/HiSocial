@@ -46,7 +46,7 @@ class HsTest(unittest.TestCase):
         h.putheader('content-length', str(len(body)))
         h.endheaders()
         h.send(body)
-        errcode, errmsg, headers = h.getreply()
+        errcode, headers = h.getreply()
         
         self.assertEqual(errcode,200)
         

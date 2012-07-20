@@ -3,8 +3,7 @@
 '''
 
 from hs_common import hs_secret
-from sqlalchemy import Column, String, func
-from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy import Column, String
 import core_config
 import string
 from base.DatabaseBase import DBB

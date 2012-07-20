@@ -1,6 +1,4 @@
-from sqlalchemy import Column, String, func, Integer
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, String
 from sqlalchemy.schema import ForeignKey
 from user import User
 import Group

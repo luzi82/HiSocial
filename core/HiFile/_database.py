@@ -1,5 +1,5 @@
 from base.DatabaseBase import DBB
-from sqlalchemy import Column, String, func, Integer
+from sqlalchemy import Column, String
 from sqlalchemy.dialects.mysql import BINARY, INTEGER, BIGINT
 from sqlalchemy.schema import ForeignKey
 from user import User

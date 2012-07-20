@@ -1,7 +1,6 @@
 from admin import reset
 from base import Database, Runtime
 from hs_common.hs_cleanup import Cleanup
-from base.Runtime import trace
 from sqlalchemy.orm.session import sessionmaker
 from user import User
 import unittest

@@ -1,6 +1,5 @@
 from Crypto.Cipher import AES
 from base import Runtime
-from base.Runtime import trace
 from hs_common import hs_random
 from user import UserLoginToken
 import base64
