@@ -21,15 +21,18 @@ class HiFrame:
     
     _config = None
     
-    def __init__(self, plugin_path_list, filename="_hiframe", data_path=None, conf_file=None):
+    def __init__(self, plugin_path_list, filename="_hiframe", conf_file=None):
         self._plugin_path_list = plugin_path_list
         self._func_dict = _scan_func(plugin_path_list, filename)
-        self._data_path = data_path
         self._conf_file = conf_file
         
         if self._conf_file != None:
             self._config = ConfigParser.ConfigParser()
             self._config.read(self._conf_file)
+        
+        if self._config != None :
+            if self._config.has_option(CONF_KEY,"data_path") :
+                self._data_path = self._config.get(CONF_KEY,"data_path")
         
     def call(self, key, args={}):
         if not key in self._func_dict:

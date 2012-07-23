@@ -7,11 +7,14 @@ import hiframe_test_flow_plugin._hiframe as test_hiframe
 MY_ABSOLUTE_PATH = os.path.abspath(__file__)
 MY_ABSOLUTE_PARENT = os.path.dirname(MY_ABSOLUTE_PATH)
 MY_ABSOLUTE_PARENT2 = os.path.dirname(MY_ABSOLUTE_PARENT)
-DATA_PATH = MY_ABSOLUTE_PARENT2+"/tmp"
+WORKING_PATH = MY_ABSOLUTE_PARENT2
+DATA_PATH = WORKING_PATH+"/tmp"
+CONF_FILE = WORKING_PATH+"/res/setting.conf"
 
 class HiframeTestFlow(unittest.TestCase):
     
     def setUp(self):
+        os.chdir(WORKING_PATH)
         if os.path.exists(DATA_PATH):
             shutil.rmtree(DATA_PATH)
         test_hiframe.BUILD_COUNT=0
@@ -19,10 +22,14 @@ class HiframeTestFlow(unittest.TestCase):
         test_hiframe.START_COUNT=0
         test_hiframe.STOP_COUNT=0
 
+    def tearDown(self):
+        if os.path.exists(DATA_PATH):
+            shutil.rmtree(DATA_PATH)
+
     def test_flow_0(self):
         self.assertFalse(os.path.exists(DATA_PATH))
         
-        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],data_path=DATA_PATH)
+        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],conf_file=CONF_FILE)
         self.assertFalse(os.path.exists(DATA_PATH))
         
         hf.build()
@@ -43,7 +50,7 @@ class HiframeTestFlow(unittest.TestCase):
 
     def test_flow_1(self):
         self.assertFalse(os.path.exists(DATA_PATH))
-        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],data_path=DATA_PATH)
+        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],conf_file=CONF_FILE)
         self.assertFalse(os.path.exists(DATA_PATH))
         hf.build()
         self.assertEqual(test_hiframe.BUILD_COUNT,1)
@@ -53,14 +60,14 @@ class HiframeTestFlow(unittest.TestCase):
         self.assertFalse(os.path.exists(DATA_PATH))
 
     def test_build_twice(self):
-        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],data_path=DATA_PATH)
+        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],conf_file=CONF_FILE)
         hf.build()
         self.assertEqual(test_hiframe.BUILD_COUNT,1)
         hf.build()
         self.assertEqual(test_hiframe.BUILD_COUNT,1)
 
     def test_clean_twice(self):
-        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],data_path=DATA_PATH)
+        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],conf_file=CONF_FILE)
         hf.build()
         self.assertEqual(test_hiframe.BUILD_COUNT,1)
         hf.clean()
@@ -69,14 +76,14 @@ class HiframeTestFlow(unittest.TestCase):
         self.assertEqual(test_hiframe.CLEAN_COUNT,1)
 
     def test_start_twice(self):
-        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],data_path=DATA_PATH)
+        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],conf_file=CONF_FILE)
         hf.start()
         self.assertEqual(test_hiframe.START_COUNT,1)
         hf.start()
         self.assertEqual(test_hiframe.START_COUNT,1)
 
     def test_stop_twice(self):
-        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],data_path=DATA_PATH)
+        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],conf_file=CONF_FILE)
         hf.start()
         hf.stop()
         self.assertEqual(test_hiframe.STOP_COUNT,1)
@@ -84,20 +91,20 @@ class HiframeTestFlow(unittest.TestCase):
         self.assertEqual(test_hiframe.STOP_COUNT,1)
 
     def test_auto_build(self):
-        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],data_path=DATA_PATH)
+        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],conf_file=CONF_FILE)
         hf.start()
         self.assertEqual(test_hiframe.BUILD_COUNT,1)
         self.assertEqual(test_hiframe.START_COUNT,1)
 
     def test_auto_stop(self):
-        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],data_path=DATA_PATH)
+        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],conf_file=CONF_FILE)
         hf.start()
         hf.clean()
         self.assertEqual(test_hiframe.STOP_COUNT,1)
         self.assertEqual(test_hiframe.CLEAN_COUNT,1)
 
     def test_build_clean_build_clean(self):
-        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],data_path=DATA_PATH)
+        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],conf_file=CONF_FILE)
 
         hf.build()
         self.assertEqual(test_hiframe.BUILD_COUNT,1)
@@ -116,7 +123,7 @@ class HiframeTestFlow(unittest.TestCase):
         self.assertFalse(os.path.exists(DATA_PATH))
 
     def test_start_stop_start_stop(self):
-        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],data_path=DATA_PATH)
+        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],conf_file=CONF_FILE)
 
         hf.start()
         self.assertEqual(test_hiframe.START_COUNT,1)
@@ -129,7 +136,3 @@ class HiframeTestFlow(unittest.TestCase):
         
         hf.stop()
         self.assertEqual(test_hiframe.STOP_COUNT,2)
-
-    def tearDown(self):
-        if os.path.exists(DATA_PATH):
-            shutil.rmtree(DATA_PATH)
