@@ -3,6 +3,8 @@ from types import FunctionType
 import shutil
 import ConfigParser
 
+CONF_KEY = "HiFrame"
+
 class HiFrame:
     
     # _plugin_path_list
@@ -42,24 +44,24 @@ class HiFrame:
         if self._data_path != None:
             if not os.path.exists(self._data_path):
                 os.makedirs(self._data_path)
-                self.call("HiFrame.build")
+                self.call("HiFrame.build",args={"frame":self})
 
     def clean(self):
         self.stop() # auto stop
         if self._data_path != None:
             if os.path.exists(self._data_path):
                 shutil.rmtree(self._data_path)
-                self.call("HiFrame.clean")
+                self.call("HiFrame.clean",args={"frame":self})
 
     def start(self):
         self.build() # auto build
         if not self._running:
-            self.call("HiFrame.start")
+            self.call("HiFrame.start",args={"frame":self})
             self._running = True
 
     def stop(self):
         if self._running:
-            self.call("HiFrame.stop")
+            self.call("HiFrame.stop",args={"frame":self})
             self._running = False
             
     def get_config(self):
