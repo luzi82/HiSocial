@@ -5,7 +5,8 @@ import shutil
 
 MY_ABSOLUTE_PATH = os.path.abspath(__file__)
 MY_ABSOLUTE_PARENT = os.path.dirname(MY_ABSOLUTE_PATH)
-DATA_PATH = MY_ABSOLUTE_PATH+"/data"
+MY_ABSOLUTE_PARENT2 = os.path.dirname(MY_ABSOLUTE_PARENT)
+DATA_PATH = MY_ABSOLUTE_PARENT2+"/tmp"
 
 class HiframeTestFlow(unittest.TestCase):
     
