@@ -1,6 +1,7 @@
 import os
 from types import FunctionType
 import shutil
+import ConfigParser
 
 class HiFrame:
     
@@ -14,10 +15,19 @@ class HiFrame:
     
     _running = False
     
-    def __init__(self, plugin_path_list, filename="_hiframe", data_path=None):
+    _conf_file = None
+    
+    _config = None
+    
+    def __init__(self, plugin_path_list, filename="_hiframe", data_path=None, conf_file=None):
         self._plugin_path_list = plugin_path_list
         self._func_dict = _scan_func(plugin_path_list, filename)
         self._data_path = data_path
+        self._conf_file = conf_file
+        
+        if self._conf_file != None:
+            self._config = ConfigParser.ConfigParser()
+            self._config.read(self._conf_file)
         
     def call(self, key, args={}):
         if not key in self._func_dict:
@@ -51,6 +61,9 @@ class HiFrame:
         if self._running:
             self.call("HiFrame.stop")
             self._running = False
+            
+    def get_config(self):
+        return self._config
 
 def _scan_func(plugin_path_list, filename):
 
