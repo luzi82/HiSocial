@@ -129,3 +129,7 @@ class HiframeTestFlow(unittest.TestCase):
         
         hf.stop()
         self.assertEqual(test_hiframe.STOP_COUNT,2)
+
+    def tearDown(self):
+        if os.path.exists(DATA_PATH):
+            shutil.rmtree(DATA_PATH)
