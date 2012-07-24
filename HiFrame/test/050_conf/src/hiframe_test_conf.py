@@ -23,3 +23,8 @@ class HiframeTestConf(unittest.TestCase):
         except IOError:
             # good
             pass
+
+    def test_conf_none(self):
+        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT])
+        config = hf.get_config()
+        self.assertIsNone(config)
