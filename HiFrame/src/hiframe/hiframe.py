@@ -28,8 +28,10 @@ class HiFrame:
         
         if self._conf_file != None:
             self._config = ConfigParser.ConfigParser()
-            self._config.read(self._conf_file)
-        
+            tmp=self._config.read(self._conf_file)
+            if len(tmp)==0:
+                raise IOError
+
         if self._config != None :
             if self._config.has_option(CONF_KEY,"data_path") :
                 self._data_path = self._config.get(CONF_KEY,"data_path")

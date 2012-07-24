@@ -16,6 +16,10 @@ class HiframeTestConf(unittest.TestCase):
         self.assertEqual(config.get("test1","abc"), "def")
         
     def test_conf_not_exist(self):
-        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_hiframe",conf_file=RES_FOLDER+"/not_exist.conf")
-        config = hf.get_config()
-        self.assertIsNone(config)
+        try:
+            hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_hiframe",conf_file=RES_FOLDER+"/not_exist.conf")
+            # bad
+            self.fail()
+        except IOError:
+            # good
+            pass
