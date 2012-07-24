@@ -52,9 +52,9 @@ class HsTest(unittest.TestCase):
         
         if "Content-Disposition" in headers:
             pfx = "attachment; filename="
-            tmp = headers["Content-Disposition"]
-            self.assertTrue(tmp.startswith(pfx))
-            output_name = tmp[len(pfx):]
+            m = headers["Content-Disposition"]
+            self.assertTrue(m.startswith(pfx))
+            output_name = m[len(pfx):]
         else:
             output_name = None
         

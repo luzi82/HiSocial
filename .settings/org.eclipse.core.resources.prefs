@@ -1,4 +1,3 @@
-#Tue Mar 27 21:53:34 HKT 2012
 eclipse.preferences.version=1
-encoding//test/Torrent.py=utf-8
-encoding//test/hifile.py=utf-8
+encoding//test_old/Torrent.py=utf-8
+encoding//test_old/hifile.py=utf-8

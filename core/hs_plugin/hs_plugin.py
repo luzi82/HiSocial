@@ -122,11 +122,11 @@ def _call(prefix, package, func_name, args={}):
             elif key.startswith("file_"):
                 args0[key]=args[key]
             elif key.startswith("txtf_"):
-                tmp = _convert_arg(key,args[key],args)
-                if(tmp[RESULT_KEY]==RESULT_VALUE_OK_TXT):
-                    args0[key]=tmp[VALUE_KEY]
+                m = _convert_arg(key,args[key],args)
+                if(m[RESULT_KEY]==RESULT_VALUE_OK_TXT):
+                    args0[key]=m[VALUE_KEY]
                 else:
-                    return tmp
+                    return m
             else:
                 return BAD_API
         ret = f(**args0)
