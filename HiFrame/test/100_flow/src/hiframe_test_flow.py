@@ -10,6 +10,7 @@ MY_ABSOLUTE_PARENT2 = os.path.dirname(MY_ABSOLUTE_PARENT)
 WORKING_PATH = MY_ABSOLUTE_PARENT2
 DATA_PATH = WORKING_PATH+"/tmp"
 CONF_FILE = WORKING_PATH+"/res/setting.conf"
+CONF_FILE_NODATAPATH = WORKING_PATH+"/res/no_data_path.conf"
 
 class HiframeTestFlow(unittest.TestCase):
     
@@ -136,3 +137,12 @@ class HiframeTestFlow(unittest.TestCase):
         
         hf.stop()
         self.assertEqual(test_hiframe.STOP_COUNT,2)
+
+    def test_no_data(self):
+        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],conf_file=CONF_FILE_NODATAPATH)
+
+        hf.start()
+        self.assertEqual(test_hiframe.START_COUNT,1)
+        
+        hf.stop()
+        self.assertEqual(test_hiframe.STOP_COUNT,1)
