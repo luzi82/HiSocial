@@ -10,6 +10,8 @@
 <path>/HiSocial/tool</path>
 <path>/HiSocial/web-json-cgi</path>
 <path>/HiSocial/common</path>
+<path>/HiSocial/HiDatabase/src</path>
+<path>/HiSocial/HiDatabase/test/000_basic/src</path>
 <path>/HiSocial/HiFrame/src</path>
 <path>/HiSocial/HiFrame/test/000_basic/src</path>
 <path>/HiSocial/HiFrame/test/050_conf/src</path>

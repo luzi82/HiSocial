@@ -15,9 +15,9 @@ def deep_test(path,root):
             else: root2 = root+"."+m_name
             deep_test(full_name,root2)
         elif m_name.endswith(".py"):
+            if not "test" in m_name: continue
             if root == "": m_name2 = m_name[:-3]
             else: root2 = m_name2 = root+"."+m_name[:-3]
-            if not "test" in m_name2: continue
             m = __import__(name=m_name2)
             attr_list = dir(m)
             for attr in attr_list:
