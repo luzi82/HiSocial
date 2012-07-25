@@ -72,8 +72,11 @@ class HiFrame:
     def get_config(self):
         return self._config
     
-    def get_data_path(self):
-        return self._data_path
+    def get_data_path(self,plugin_key=None):
+        if plugin_key == None:
+            return self._data_path
+        else:
+            return self._data_path+"/"+plugin_key
 
 def _scan_func(plugin_path_list, filename):
 

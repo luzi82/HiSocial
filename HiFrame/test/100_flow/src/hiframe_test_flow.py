@@ -151,3 +151,4 @@ class HiframeTestFlow(unittest.TestCase):
         hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],conf_file=CONF_FILE)
 
         self.assertEqual(hf.get_data_path(), DATA_PATH)
+        self.assertEqual(hf.get_data_path("abc"), DATA_PATH+"/abc")
