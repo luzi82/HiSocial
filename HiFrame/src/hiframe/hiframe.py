@@ -34,7 +34,7 @@ class HiFrame:
 
         if self._config != None :
             if self._config.has_option(CONF_KEY,"data_path") :
-                self._data_path = self._config.get(CONF_KEY,"data_path")
+                self._data_path = os.path.abspath(self._config.get(CONF_KEY,"data_path"))
         
     def call(self, key, args={}):
         if not key in self._func_dict:
@@ -71,6 +71,9 @@ class HiFrame:
             
     def get_config(self):
         return self._config
+    
+    def get_data_path(self):
+        return self._data_path
 
 def _scan_func(plugin_path_list, filename):
 
