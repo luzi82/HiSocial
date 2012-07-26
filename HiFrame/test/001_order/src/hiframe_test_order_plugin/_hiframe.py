@@ -83,7 +83,7 @@ def before2_ccc():
     pass
 
 before2_aaa.key_list=[{"id":"before2"}]
-before2_bbb.key_list=[{"id":"before2","before":[before2_aaa,before2_bbb]}]
+before2_bbb.key_list=[{"id":"before2","before":[before2_aaa,before2_ccc]}]
 before2_ccc.key_list=[{"id":"before2"}]
 
 ###################

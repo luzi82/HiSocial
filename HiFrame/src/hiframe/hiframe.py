@@ -83,6 +83,9 @@ def _scan_func(plugin_path_list, filename):
     # key_id - key_order - [] - {"call":*,"pkg":*,"func":*}
     func_dict_0 = {}
     
+    # key_id - after_func - [ before_func ]
+    before_after = {}
+    
     for plugin_path in plugin_path_list:
         for pkg_name in os.listdir(plugin_path):
             if(not os.path.isfile(plugin_path + "/" + pkg_name + "/" + filename + ".py")):continue
@@ -97,27 +100,82 @@ def _scan_func(plugin_path_list, filename):
                 key_list = func_call.key_list
                 for key in key_list:
                     key_id = key["id"]
+                    
                     if "order" in key:
                         key_order = key["order"]
                     else:
                         key_order = 0
+
                     if not key_id in func_dict_0:
                         func_dict_0[key_id] = {}
                     tmp = func_dict_0[key_id]
                     if not key_order in tmp:
                         tmp[key_order] = []
                     tmp = tmp[key_order]
+                    
                     tmp.append({"call":func_call, "pkg":pkg_name, "func":func_name})
                     
+                    if "after" in key:
+                        for tmp in key["after"]:
+                            _before_after_link(before_after,key_id,tmp,func_call)
+
+                    if "before" in key:
+                        for tmp in key["before"]:
+                            _before_after_link(before_after,key_id,func_call,tmp)
+
     # key_id - [] - {"call":*,"pkg":*,"func":*}
     func_dict_1 = {}
 
     for key, v in func_dict_0.iteritems():
+        func_done = []
         t = []
         order_list = v.keys()
         order_list.sort()
         for order in order_list:
-            t.extend(v[order])
+            entry_done = []
+            v_order = v[order]
+            while len(entry_done) != len(v_order):
+                have_add = False
+                for entry in v_order:
+                    if entry in entry_done:
+                        continue
+                    if not _full_fill(before_after,key,func_done,entry["call"]):
+                        continue
+                    t.append(entry)
+                    entry_done.append(entry)
+                    func_done.append(entry["call"])
+                    have_add = True
+                if not have_add:
+                    raise FuncOrderingException
         func_dict_1[key] = t
 
     return func_dict_1
+
+def _before_after_link(before_after,key_id,before_func,after_func):
+    if key_id not in before_after:
+        before_after[key_id] = {}
+    tmp = before_after[key_id]
+    
+    if after_func not in tmp:
+        tmp[after_func] = []
+    tmp = tmp[after_func]
+    
+    tmp.append(before_func)
+
+def _full_fill(before_after,key_id,func_done,after_func):
+    if key_id not in before_after:
+        return True
+    tmp = before_after[key_id]
+    
+    if after_func not in tmp:
+        return True
+    tmp = tmp[after_func]
+    
+    for before_func in tmp:
+        if before_func not in func_done:
+            return False
+    
+    return True
+
+class FuncOrderingException(Exception):
+    pass
