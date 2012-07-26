@@ -115,3 +115,16 @@ def afterbefore_cba_ccc():
 afterbefore_cba_aaa.key_list=[{"id":"afterbefore_cba"}]
 afterbefore_cba_bbb.key_list=[{"id":"afterbefore_cba","after":[afterbefore_cba_ccc],"before":[afterbefore_cba_aaa]}]
 afterbefore_cba_ccc.key_list=[{"id":"afterbefore_cba"}]
+
+###################
+
+def order_afterbefore_mix_cba_ccc():
+    pass
+def order_afterbefore_mix_cba_aaa():
+    pass
+def order_afterbefore_mix_cba_bbb():
+    pass
+
+order_afterbefore_mix_cba_aaa.key_list=[{"id":"order_afterbefore_mix_cba","order":2}]
+order_afterbefore_mix_cba_bbb.key_list=[{"id":"order_afterbefore_mix_cba","order":1}]
+order_afterbefore_mix_cba_ccc.key_list=[{"id":"order_afterbefore_mix_cba","before":[order_afterbefore_mix_cba_bbb]}]
