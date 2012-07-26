@@ -115,13 +115,15 @@ def _scan_func(plugin_path_list, filename):
                     
                     tmp.append({"call":func_call, "pkg":pkg_name, "func":func_name})
                     
+                    before_after_key = pkg_name+"."+func_name
+                    
                     if "after" in key:
                         for tmp in key["after"]:
-                            _before_after_link(before_after,key_id,tmp,func_call)
+                            _before_after_link(before_after,key_id,tmp,before_after_key)
 
                     if "before" in key:
                         for tmp in key["before"]:
-                            _before_after_link(before_after,key_id,func_call,tmp)
+                            _before_after_link(before_after,key_id,before_after_key,tmp)
 
     # key_id - [] - {"call":*,"pkg":*,"func":*}
     func_dict_1 = {}
@@ -132,18 +134,19 @@ def _scan_func(plugin_path_list, filename):
         order_list = v.keys()
         order_list.sort()
         for order in order_list:
-            entry_done = []
             v_order = v[order]
-            while len(entry_done) != len(v_order):
+            v_order_done = []
+            while len(v_order_done) != len(v_order):
                 have_add = False
                 for entry in v_order:
-                    if entry in entry_done:
+                    before_after_key = entry["pkg"]+"."+entry["func"]
+                    if before_after_key in v_order_done:
                         continue
-                    if not _full_fill(before_after,key,func_done,entry["call"]):
+                    if not _full_fill(before_after,key,func_done,before_after_key):
                         continue
                     t.append(entry)
-                    entry_done.append(entry)
-                    func_done.append(entry["call"])
+                    v_order_done.append(before_after_key)
+                    func_done.append(before_after_key)
                     have_add = True
                 if not have_add:
                     raise FuncOrderingException
