@@ -88,75 +88,102 @@ class HiframeTestBasic(unittest.TestCase):
         try:
             hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_contra_a")
             self.fail()
-        except hiframe.BadFuncKeyException:
-            pass
+        except hiframe.BadFuncOrderException as e:
+            self.assertEqual(e.key_id,"contra_a")
 
     def test_contra_b(self):
         try:
             hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_contra_b")
             self.fail()
-        except hiframe.BadFuncKeyException:
-            pass
+        except hiframe.BadFuncOrderException as e:
+            self.assertEqual(e.key_id,"contra_b")
 
     def test_bad_id_a(self):
         try:
             hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_bad_id_a")
             self.fail()
-        except hiframe.BadFuncKeyException:
-            pass
+        except hiframe.BadFuncKeyValueException as e:
+            self.assertEqual(e.key_id,None)
+            self.assertEqual(e.pkg,"hiframe_test_order_plugin")
+            self.assertEqual(e.func_name,"a")
+            self.assertEqual(e.bad_key,"id")
 
     def test_bad_id_b(self):
         try:
             hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_bad_id_b")
             self.fail()
-        except hiframe.BadFuncKeyException:
-            pass
+        except hiframe.BadFuncKeyValueException as e:
+            self.assertEqual(e.key_id,None)
+            self.assertEqual(e.pkg,"hiframe_test_order_plugin")
+            self.assertEqual(e.func_name,"a")
+            self.assertEqual(e.bad_key,"id")
 
     def test_bad_after_0(self):
         try:
             hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_bad_after_0")
             self.fail()
-        except hiframe.BadFuncKeyException:
-            pass
+        except hiframe.BadFuncKeyValueException as e:
+            self.assertEqual(e.key_id,"abc")
+            self.assertEqual(e.pkg,"hiframe_test_order_plugin")
+            self.assertEqual(e.func_name,"a")
+            self.assertEqual(e.bad_key,"after")
 
     def test_bad_after_1(self):
         try:
             hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_bad_after_1")
             self.fail()
-        except hiframe.BadFuncKeyException:
-            pass
+        except hiframe.BadFuncKeyValueException as e:
+            self.assertEqual(e.key_id,"abc")
+            self.assertEqual(e.pkg,"hiframe_test_order_plugin")
+            self.assertEqual(e.func_name,"a")
+            self.assertEqual(e.bad_key,"after")
 
     def test_bad_before_0(self):
         try:
             hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_bad_before_0")
             self.fail()
-        except hiframe.BadFuncKeyException:
-            pass
+        except hiframe.BadFuncKeyValueException as e:
+            self.assertEqual(e.key_id,"abc")
+            self.assertEqual(e.pkg,"hiframe_test_order_plugin")
+            self.assertEqual(e.func_name,"a")
+            self.assertEqual(e.bad_key,"before")
 
     def test_bad_before_1(self):
         try:
             hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_bad_before_1")
             self.fail()
-        except hiframe.BadFuncKeyException:
-            pass
+        except hiframe.BadFuncKeyValueException as e:
+            self.assertEqual(e.key_id,"abc")
+            self.assertEqual(e.pkg,"hiframe_test_order_plugin")
+            self.assertEqual(e.func_name,"a")
+            self.assertEqual(e.bad_key,"before")
 
     def test_bad_order(self):
         try:
             hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_bad_order")
             self.fail()
-        except hiframe.BadFuncKeyException:
-            pass
+        except hiframe.BadFuncKeyValueException as e:
+            self.assertEqual(e.key_id,"abc")
+            self.assertEqual(e.pkg,"hiframe_test_order_plugin")
+            self.assertEqual(e.func_name,"a")
+            self.assertEqual(e.bad_key,"order")
 
     def test_not_exist_after(self):
         try:
             hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_not_exist_after")
             self.fail()
-        except hiframe.BadFuncKeyException:
-            pass
+        except hiframe.BadFuncKeyValueException as e:
+            self.assertEqual(e.key_id,"abc")
+            self.assertEqual(e.pkg,"hiframe_test_order_plugin")
+            self.assertEqual(e.func_name,"a")
+            self.assertEqual(e.bad_key,"after")
 
     def test_not_exist_before(self):
         try:
             hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_not_exist_before")
             self.fail()
-        except hiframe.BadFuncKeyException:
-            pass
+        except hiframe.BadFuncKeyValueException as e:
+            self.assertEqual(e.key_id,"abc")
+            self.assertEqual(e.pkg,"hiframe_test_order_plugin")
+            self.assertEqual(e.func_name,"a")
+            self.assertEqual(e.bad_key,"before")

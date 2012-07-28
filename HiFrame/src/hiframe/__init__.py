@@ -88,6 +88,9 @@ def _scan_func(plugin_path_list, filename):
 
     # key_id - set(before_after_key)    
     before_after_key_set = {}
+
+    # key_id - [] - {"before","after","pkg","func","type"}
+    before_after_check = {}
     
     for plugin_path in plugin_path_list:
         for pkg_name in os.listdir(plugin_path):
@@ -105,11 +108,11 @@ def _scan_func(plugin_path_list, filename):
                     key_id = key["id"]
                     
                     if not isinstance(key_id,str):
-                        raise BadFuncKeyException
+                        raise BadFuncKeyValueException(None,pkg_name,func_name,"id")
                     
                     if "order" in key:
                         if not isinstance(key["order"],types.IntType):
-                            raise BadFuncKeyException
+                            raise BadFuncKeyValueException(key_id,pkg_name,func_name,"order")
                         key_order = key["order"]
                     else:
                         key_order = 0
@@ -127,26 +130,48 @@ def _scan_func(plugin_path_list, filename):
                     
                     if not key_id in before_after_key_set:
                         before_after_key_set[key_id] = set()
-                    
                     before_after_key_set[key_id].add(before_after_key)
+                    
+                    if not key_id in before_after_check:
+                        before_after_check[key_id] = []
                     
                     if "after" in key:
                         if not isinstance(key["after"],list):
-                            raise BadFuncKeyException
+                            raise BadFuncKeyValueException(key_id,pkg_name,func_name,"after")
                         for tmp in key["after"]:
+                            if not isinstance(tmp,str):
+                                raise BadFuncKeyValueException(key_id,pkg_name,func_name,"after")
                             _before_after_link(before_after,key_id,tmp,before_after_key)
+                            before_after_check[key_id].append({
+                                "before":tmp,
+                                "after":before_after_key,
+                                "pkg":pkg_name,
+                                "func":func_name,
+                                "type":"after"
+                            })
 
                     if "before" in key:
                         if not isinstance(key["before"],list):
-                            raise BadFuncKeyException
+                            raise BadFuncKeyValueException(key_id,pkg_name,func_name,"before")
                         for tmp in key["before"]:
+                            if not isinstance(tmp,str):
+                                raise BadFuncKeyValueException(key_id,pkg_name,func_name,"after")
                             _before_after_link(before_after,key_id,before_after_key,tmp)
+                            before_after_check[key_id].append({
+                                "before":before_after_key,
+                                "after":tmp,
+                                "pkg":pkg_name,
+                                "func":func_name,
+                                "type":"before"
+                            })
     
     # check before_after
-    for key_id, ba_kid in before_after.iteritems():
-        tmp = set(ba_kid.keys())
-        if not tmp < before_after_key_set[key_id]:
-            raise BadFuncKeyException
+    for bac_k, bac_v in before_after_check.iteritems():
+        for bac_v_i in bac_v:
+            if not bac_v_i["before"] in before_after_key_set[bac_k]:
+                raise BadFuncKeyValueException(bac_k,bac_v_i["pkg"],bac_v_i["func"],bac_v_i["type"])
+            if not bac_v_i["after"] in before_after_key_set[bac_k]:
+                raise BadFuncKeyValueException(bac_k,bac_v_i["pkg"],bac_v_i["func"],bac_v_i["type"])
     
     # key_id - [] - {"call":*,"pkg":*,"func":*}
     func_dict_1 = {}
@@ -172,7 +197,7 @@ def _scan_func(plugin_path_list, filename):
                     func_done.append(before_after_key)
                     have_add = True
                 if not have_add:
-                    raise BadFuncKeyException
+                    raise BadFuncOrderException(key)
         func_dict_1[key] = t
 
     return func_dict_1
@@ -203,5 +228,18 @@ def _full_fill(before_after,key_id,func_done,after_func):
     
     return True
 
-class BadFuncKeyException(Exception):
-    pass
+class BadFuncOrderException(Exception):
+    key_id = None
+    def __init__(self,key_id):
+        self.key_id=key_id
+
+class BadFuncKeyValueException(Exception):
+    key_id = None
+    pkg = None
+    func_name = None
+    bad_key = None
+    def __init__(self,key_id,pkg,func_name,bad_key):
+        self.key_id=key_id
+        self.pkg=pkg
+        self.func_name=func_name
+        self.bad_key=bad_key
