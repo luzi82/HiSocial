@@ -1,5 +1,4 @@
 import os
-from types import FunctionType
 import shutil
 import ConfigParser
 import types
@@ -98,7 +97,7 @@ def _scan_func(plugin_path_list, filename):
             m_attr_list = dir(m)
             for func_name in m_attr_list:
                 func_call = getattr(m, func_name)
-                if not isinstance(func_call, FunctionType): continue
+                if not isinstance(func_call, types.FunctionType): continue
                 dir_f = dir(func_call)
                 if not "key_list" in dir_f: continue
                 key_list = func_call.key_list
