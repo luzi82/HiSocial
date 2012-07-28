@@ -1,5 +1,5 @@
 import unittest
-from hiframe import hiframe
+import hiframe
 import os
 
 MY_ABSOLUTE_PATH = os.path.abspath(__file__)

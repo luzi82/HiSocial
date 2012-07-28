@@ -1,5 +1,5 @@
 import unittest
-from hiframe import hiframe
+import hiframe
 import os
 import shutil
 import hiframe_test_flow_plugin._hiframe as test_hiframe

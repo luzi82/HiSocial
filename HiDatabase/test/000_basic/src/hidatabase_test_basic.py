@@ -1,5 +1,5 @@
 import unittest
-from hiframe import hiframe
+import hiframe
 import os
 import shutil
 from hs_common.hs_cleanup import Cleanup

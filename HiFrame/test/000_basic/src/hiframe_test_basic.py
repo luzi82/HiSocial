@@ -1,5 +1,5 @@
 import unittest
-from hiframe import hiframe
+import hiframe
 import os
 import hiframe_test_basic_plugin._hiframe
 
