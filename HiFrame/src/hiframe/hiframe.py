@@ -101,6 +101,9 @@ def _scan_func(plugin_path_list, filename):
                 for key in key_list:
                     key_id = key["id"]
                     
+                    if not isinstance(key_id,str):
+                        raise BadFuncKeyException
+                    
                     if "order" in key:
                         key_order = key["order"]
                     else:
@@ -149,7 +152,7 @@ def _scan_func(plugin_path_list, filename):
                     func_done.append(before_after_key)
                     have_add = True
                 if not have_add:
-                    raise FuncOrderingException
+                    raise BadFuncKeyException
         func_dict_1[key] = t
 
     return func_dict_1
@@ -180,5 +183,5 @@ def _full_fill(before_after,key_id,func_done,after_func):
     
     return True
 
-class FuncOrderingException(Exception):
+class BadFuncKeyException(Exception):
     pass

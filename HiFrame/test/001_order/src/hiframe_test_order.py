@@ -88,12 +88,26 @@ class HiframeTestBasic(unittest.TestCase):
         try:
             hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_contra_a")
             self.fail()
-        except hiframe.FuncOrderingException:
+        except hiframe.BadFuncKeyException:
             pass
 
     def test_contra_b(self):
         try:
-            hf=hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_contra_b")
+            hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_contra_b")
             self.fail()
-        except hiframe.FuncOrderingException:
+        except hiframe.BadFuncKeyException:
+            pass
+
+    def test_bad_id_a(self):
+        try:
+            hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_bad_id_a")
+            self.fail()
+        except hiframe.BadFuncKeyException:
+            pass
+
+    def test_bad_id_b(self):
+        try:
+            hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_bad_id_b")
+            self.fail()
+        except hiframe.BadFuncKeyException:
             pass
