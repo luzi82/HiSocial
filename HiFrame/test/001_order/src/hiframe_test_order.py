@@ -111,3 +111,52 @@ class HiframeTestBasic(unittest.TestCase):
             self.fail()
         except hiframe.BadFuncKeyException:
             pass
+
+    def test_bad_after_0(self):
+        try:
+            hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_bad_after_0")
+            self.fail()
+        except hiframe.BadFuncKeyException:
+            pass
+
+    def test_bad_after_1(self):
+        try:
+            hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_bad_after_1")
+            self.fail()
+        except hiframe.BadFuncKeyException:
+            pass
+
+    def test_bad_before_0(self):
+        try:
+            hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_bad_before_0")
+            self.fail()
+        except hiframe.BadFuncKeyException:
+            pass
+
+    def test_bad_before_1(self):
+        try:
+            hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_bad_before_1")
+            self.fail()
+        except hiframe.BadFuncKeyException:
+            pass
+
+    def test_bad_order(self):
+        try:
+            hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_bad_order")
+            self.fail()
+        except hiframe.BadFuncKeyException:
+            pass
+
+    def test_not_exist_after(self):
+        try:
+            hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_not_exist_after")
+            self.fail()
+        except hiframe.BadFuncKeyException:
+            pass
+
+    def test_not_exist_before(self):
+        try:
+            hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_not_exist_before")
+            self.fail()
+        except hiframe.BadFuncKeyException:
+            pass

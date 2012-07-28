@@ -2,6 +2,7 @@ import os
 from types import FunctionType
 import shutil
 import ConfigParser
+import types
 
 CONF_KEY = "HiFrame"
 
@@ -85,6 +86,9 @@ def _scan_func(plugin_path_list, filename):
     
     # key_id - after_func - [ before_func ]
     before_after = {}
+
+    # key_id - set(before_after_key)    
+    before_after_key_set = {}
     
     for plugin_path in plugin_path_list:
         for pkg_name in os.listdir(plugin_path):
@@ -105,6 +109,8 @@ def _scan_func(plugin_path_list, filename):
                         raise BadFuncKeyException
                     
                     if "order" in key:
+                        if not isinstance(key["order"],types.IntType):
+                            raise BadFuncKeyException
                         key_order = key["order"]
                     else:
                         key_order = 0
@@ -120,14 +126,29 @@ def _scan_func(plugin_path_list, filename):
                     
                     before_after_key = pkg_name+"."+func_name
                     
+                    if not key_id in before_after_key_set:
+                        before_after_key_set[key_id] = set()
+                    
+                    before_after_key_set[key_id].add(before_after_key)
+                    
                     if "after" in key:
+                        if not isinstance(key["after"],list):
+                            raise BadFuncKeyException
                         for tmp in key["after"]:
                             _before_after_link(before_after,key_id,tmp,before_after_key)
 
                     if "before" in key:
+                        if not isinstance(key["before"],list):
+                            raise BadFuncKeyException
                         for tmp in key["before"]:
                             _before_after_link(before_after,key_id,before_after_key,tmp)
-
+    
+    # check before_after
+    for key_id, ba_kid in before_after.iteritems():
+        tmp = set(ba_kid.keys())
+        if not tmp < before_after_key_set[key_id]:
+            raise BadFuncKeyException
+    
     # key_id - [] - {"call":*,"pkg":*,"func":*}
     func_dict_1 = {}
 
