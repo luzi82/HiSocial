@@ -83,3 +83,17 @@ class HiframeTestBasic(unittest.TestCase):
         self.assertEqual(tmp[0]["func"],"order_afterbefore_mix_cba_ccc")
         self.assertEqual(tmp[1]["func"],"order_afterbefore_mix_cba_bbb")
         self.assertEqual(tmp[2]["func"],"order_afterbefore_mix_cba_aaa")
+
+    def test_contra_a(self):
+        try:
+            hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_contra_a")
+            self.fail()
+        except hiframe.FuncOrderingException:
+            pass
+
+    def test_contra_b(self):
+        try:
+            hf=hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_contra_b")
+            self.fail()
+        except hiframe.FuncOrderingException:
+            pass
