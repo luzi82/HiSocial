@@ -1,5 +1,5 @@
-import _testcommon
-from hs_common.hs_cleanup import Cleanup
+import unittest
+from hicommon.cleanup import Cleanup
 
 class Dummy(object):
 
@@ -8,7 +8,7 @@ class Dummy(object):
     def x(self):
         self.x_count+=1
 
-class CleanupTest(_testcommon.HsTest):
+class CleanupTest(unittest.TestCase):
     
     def test_cleanup(self):
         cl = Cleanup()
