@@ -2,7 +2,7 @@
 @author: luzi82
 '''
 
-from hs_common import hs_secret
+from hicommon import crypto
 from sqlalchemy import Column, String
 import core_config
 import string
@@ -166,7 +166,7 @@ def _gen_password_hash(password, salt=None):
     :rtype: str
     :return: hash value in SALT#base64(HASH) format
     """
-    return hs_secret.gen_hash(password, core_config.USER_ACCOUNT_PASSWORD_HMAC, salt)
+    return crypto.gen_hash(password, core_config.USER_ACCOUNT_PASSWORD_HMAC, salt)
 
 def _check_password_hash(password, hash_value):
     """
@@ -181,4 +181,4 @@ def _check_password_hash(password, hash_value):
     :rtype: boolean
     :return: True iff match
     """
-    return hs_secret.check_hash(password, core_config.USER_ACCOUNT_PASSWORD_HMAC, hash_value)
+    return crypto.check_hash(password, core_config.USER_ACCOUNT_PASSWORD_HMAC, hash_value)

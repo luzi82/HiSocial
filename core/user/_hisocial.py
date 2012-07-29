@@ -1,6 +1,6 @@
 from base import Database
 import User,UserLoginToken
-from hs_common.hs_cleanup import Cleanup
+from hicommon.cleanup import Cleanup
 from user import Permission
 from hs_plugin import hs_plugin
 

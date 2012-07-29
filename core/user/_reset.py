@@ -1,5 +1,5 @@
 from base import Database
-from hs_common.hs_cleanup import Cleanup
+from hicommon.cleanup import Cleanup
 import Group
 import GroupPermission
 import User

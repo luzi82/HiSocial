@@ -6,7 +6,7 @@ import hashlib
 import hmac
 import pickle
 import zlib
-import hs_random
+from hicommon import random
 
 HASH_SALT_LENGTH = 8
 HASH_SPLIT = "#"
@@ -31,7 +31,7 @@ def gen_hash(data, hmac_value, salt=None):
     @return: hash value in SALT#base64(HASH) format
     """
     if(salt == None):
-        salt = hs_random.random_ascii(HASH_SALT_LENGTH)
+        salt = random.random_ascii(HASH_SALT_LENGTH)
     h = hmac.new(hmac_value, salt, hashlib.sha256)
     h.update(data)
     return salt + HASH_SPLIT + base64.b64encode(h.digest())
@@ -74,7 +74,7 @@ def encrypt(data, key_hex):
     
     # create hmackey
     
-    hmackey = hs_random.random_byte(HMAC_SIZE)
+    hmackey = random.random_byte(HMAC_SIZE)
 
     # Create raw data
     dump = pickle.dumps(data, 2)
@@ -86,7 +86,7 @@ def encrypt(data, key_hex):
     while(len(vdumpz) % block_size):
         vdumpz += '\0'
     
-    iv = hs_random.random_byte(block_size)
+    iv = random.random_byte(block_size)
     key = binascii.a2b_hex(key_hex)
     
     aes = AES.new(key, AES.MODE_CBC, iv)

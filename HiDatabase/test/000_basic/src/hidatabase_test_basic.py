@@ -2,7 +2,6 @@ import unittest
 import hiframe
 import os
 import shutil
-from hs_common.hs_cleanup import Cleanup
 from hidatabase_test_basic_plugin._hiframe import TestTable
 import hashlib
 import hidatabase

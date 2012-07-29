@@ -1,4 +1,4 @@
-from hs_common import hs_secret
+from hicommon import crypto
 import core_config
 import time
 
@@ -11,10 +11,10 @@ def generate_torrent_token(torrent_id, time_start, time_end, token_creator_user_
         "time_end":time_end, \
         "token_creator_user_id":token_creator_user_id, \
     }
-    return hs_secret.encrypt(data, core_config.HIFILE_ENC_KEY)
+    return crypto.encrypt(data, core_config.HIFILE_ENC_KEY)
 
 def verify_torrent_token(token):
-    data = hs_secret.decrypt(token, core_config.HIFILE_ENC_KEY)
+    data = crypto.decrypt(token, core_config.HIFILE_ENC_KEY)
     if(data == None):return None
     now = int(time.time())
     if(data["time_start"] > now):return None

@@ -1,6 +1,6 @@
 import HiFile.Torrent
 from base import Database
-from hs_common.hs_cleanup import Cleanup
+from hicommon.cleanup import Cleanup
 import _database
 import TrackerManager
 from HiFile import TorrentStorage

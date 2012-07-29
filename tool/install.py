@@ -5,7 +5,7 @@ sys.path.insert(0, "../common")
 
 import os
 import runpy
-from hs_common import hs_random
+from hicommon import random
 try:
     import install_config
 except ImportError:
@@ -64,13 +64,13 @@ core_config_file.writelines([
     "USER_ID_LENGTH_MAX = %d\n" % DEFAULT_USER_ID_LENGTH_MAX,
     "USER_PASSWORD_LENGTH_MIN = %d\n" % DEFAULT_USER_PASSWORD_LENGTH_MIN,
     "USER_PASSWORD_LENGTH_MAX = %d\n" % DEFAULT_USER_PASSWORD_LENGTH_MAX,
-    "USER_TOKEN_ENC_KEY = \'%s\'\n" % hs_random.random_hex(32),
+    "USER_TOKEN_ENC_KEY = \'%s\'\n" % random.random_hex(32),
     "USER_TOKEN_VALID_TIME_PERIOD = %d\n" % DEFAULT_USER_TOKEN_VALID_TIME_PERIOD,
-    "USER_ACCOUNT_PASSWORD_HMAC = \'%s\'\n" % hs_random.random_hex(32),
+    "USER_ACCOUNT_PASSWORD_HMAC = \'%s\'\n" % random.random_hex(32),
     "RECAPTCHA_PUBLIC_KEY = \'%s\'\n" % install_config.RECAPTCHA_PUBLIC_KEY,
     "RECAPTCHA_PRIVATE_KEY = \'%s\'\n" % install_config.RECAPTCHA_PRIVATE_KEY,
-    "HIFILE_ENC_KEY = \'%s\'\n" % hs_random.random_hex(32),
-    "TEST_KEY = \'%s\'\n" % (hs_random.random_hex(64) if install_config.TEST_ENABLE else ""),
+    "HIFILE_ENC_KEY = \'%s\'\n" % random.random_hex(32),
+    "TEST_KEY = \'%s\'\n" % (random.random_hex(64) if install_config.TEST_ENABLE else ""),
 ])
 
 core_config_file.close()
