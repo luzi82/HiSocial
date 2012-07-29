@@ -7,24 +7,16 @@ CONF_KEY = "HiFrame"
 
 class HiFrame:
     
-    # _plugin_path_list
-    _plugin_path_list = None
-        
-    # key_id - [] - {"call":*,"pkg":*,"func":*}
-    _func_dict = None
-    
-    _data_path = None
-    
-    _running = False
-    
-    _conf_file = None
-    
-    _config = None
+#    # key_id - [] - {"call":*,"pkg":*,"func":*}
+#    _func_dict = None
     
     def __init__(self, plugin_path_list, filename="_hiframe", conf_file=None):
         self._plugin_path_list = plugin_path_list
         self._func_dict = _scan_func(plugin_path_list, filename)
+        self._data_path = None
+        self._running = False
         self._conf_file = conf_file
+        self._config = None
         
         if self._conf_file != None:
             self._config = ConfigParser.ConfigParser()
@@ -229,15 +221,10 @@ def _full_fill(before_after,key_id,func_done,after_func):
     return True
 
 class BadFuncOrderException(Exception):
-    key_id = None
     def __init__(self,key_id):
         self.key_id=key_id
 
 class BadFuncKeyValueException(Exception):
-    key_id = None
-    pkg = None
-    func_name = None
-    bad_key = None
     def __init__(self,key_id,pkg,func_name,bad_key):
         self.key_id=key_id
         self.pkg=pkg
