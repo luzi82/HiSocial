@@ -12,4 +12,4 @@ def build(frame):
     engine = hidatabase.create_sqlalchemy_engine()
     hidatabase.DBB.metadata.create_all(engine)
 
-build.key_list=[{"id":"HiFrame.build","order":10}]
+build.key_list=[{"id":"HiFrame.build"}]
