@@ -128,3 +128,13 @@ def order_afterbefore_mix_cba_bbb():
 order_afterbefore_mix_cba_aaa.key_list=[{"id":"order_afterbefore_mix_cba","order":2}]
 order_afterbefore_mix_cba_bbb.key_list=[{"id":"order_afterbefore_mix_cba","order":1}]
 order_afterbefore_mix_cba_ccc.key_list=[{"id":"order_afterbefore_mix_cba","before":["hiframe_test_order_plugin.order_afterbefore_mix_cba_bbb"]}]
+
+###################
+
+def together_ba_aaa():
+    pass
+def together_ba_bbb():
+    pass
+
+together_ba_aaa.key_list=[{"id":"together_ba","after":["hiframe_test_order_plugin.together_ba_bbb"]}]
+together_ba_bbb.key_list=[{"id":"together_ba","before":["hiframe_test_order_plugin.together_ba_aaa"]}]

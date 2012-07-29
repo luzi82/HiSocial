@@ -83,6 +83,15 @@ class HiframeTestBasic(unittest.TestCase):
         self.assertEqual(tmp[0]["func"],"order_afterbefore_mix_cba_ccc")
         self.assertEqual(tmp[1]["func"],"order_afterbefore_mix_cba_bbb")
         self.assertEqual(tmp[2]["func"],"order_afterbefore_mix_cba_aaa")
+        
+    def test_together_ab(self):
+        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT])
+
+        tmp = hf.call("together_ba")
+        self.assertEqual(len(tmp),2)
+        self.assertEqual(tmp[0]["func"],"together_ba_bbb")
+        self.assertEqual(tmp[1]["func"],"together_ba_aaa")
+        
 
     def test_contra_a(self):
         try:
