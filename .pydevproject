@@ -19,5 +19,6 @@
 <path>/HiSocial/HiFrame/test/050_conf/src</path>
 <path>/HiSocial/HiFrame/test/100_flow/src</path>
 <path>/HiSocial/HiPubIface/src</path>
+<path>/HiSocial/HiPubIface/test/000_basic/src</path>
 </pydev_pathproperty>
 </pydev_project>
