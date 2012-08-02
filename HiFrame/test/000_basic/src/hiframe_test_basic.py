@@ -100,3 +100,25 @@ class HiframeTestBasic(unittest.TestCase):
         hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename="_hiframe")
         tmp = hf.call("not_exist")
         self.assertEqual(tmp,[])
+
+    def test_get_func_list(self):
+        hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT])
+
+        tmp = hf.get_func_list("order")
+        self.assertEqual(tmp,[
+            {
+                "pkg":"hiframe_test_basic_plugin",
+                "func":"order_c",
+                "call":hiframe_test_basic_plugin._hiframe.order_c
+            },
+            {
+                "pkg":"hiframe_test_basic_plugin",
+                "func":"order_a",
+                "call":hiframe_test_basic_plugin._hiframe.order_a
+            },
+            {
+                "pkg":"hiframe_test_basic_plugin",
+                "func":"order_b",
+                "call":hiframe_test_basic_plugin._hiframe.order_b
+            },
+        ])

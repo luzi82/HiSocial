@@ -69,6 +69,17 @@ class HiFrame:
             return self._data_path
         else:
             return self._data_path+"/"+plugin_key
+        
+    def get_func_list(self,key):
+        if not key in self._func_dict:
+            return None
+        ret = []
+        for t in self._func_dict[key]:
+            tt={}
+            for i in ["call","pkg","func"]:tt[i]=t[i]
+            ret.append(tt)
+        return ret
+            
 
 def _scan_func(plugin_path_list, filename):
 
