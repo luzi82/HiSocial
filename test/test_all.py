@@ -24,6 +24,7 @@ def deep_test(path,root):
                 c = getattr(m,attr)
                 if not isinstance(c,types.TypeType): continue
                 if not issubclass(c,unittest.case.TestCase): continue
+                if attr in globals(): raise Exception("test class name conflict: {}".format(attr))
                 globals()[attr] = c
 
 test_done = []
