@@ -42,7 +42,7 @@ class HiFrame:
             return []
         ret = []
         for t in self._call_info_DVD[key]:
-            tt = t["call"](t["obj"],**args)
+            tt = t["call"](**args)
             ret.append({
                 "pkg":t["pkg"],
                 "module":t["module"],
@@ -91,7 +91,7 @@ class HiFrame:
         ret = []
         for t in self._call_info_DVD[key]:
             tt={}
-            for i in ["call","pkg","class","module","func","obj"]:tt[i]=t[i]
+            for i in ["call","pkg","class","module","func"]:tt[i]=t[i]
             ret.append(tt)
         return ret
     
@@ -134,10 +134,10 @@ def _scan_func(plugin_list):
     
     for pkg_name,plugin in plugin_list.iteritems(): #@UnusedVariable
         class_name=plugin["class"]
-        c = plugin["obj"].__class__
-        c_attr_list = dir(c)
+        o = plugin["obj"]
+        c_attr_list = dir(o)
         for func_name in c_attr_list:
-            func_call = getattr(c, func_name)
+            func_call = getattr(o, func_name)
             if not isinstance(func_call, types.MethodType): continue
             dir_f = dir(func_call)
             if not "key_list" in dir_f: continue

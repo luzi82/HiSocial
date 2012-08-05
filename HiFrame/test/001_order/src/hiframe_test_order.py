@@ -5,7 +5,7 @@ import os
 MY_ABSOLUTE_PATH = os.path.abspath(__file__)
 MY_ABSOLUTE_PARENT = os.path.dirname(MY_ABSOLUTE_PATH)
 
-class HiframeTestBasic(unittest.TestCase):
+class HiframeTestOrder(unittest.TestCase):
 
     def test_after_abc(self):
         hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT])

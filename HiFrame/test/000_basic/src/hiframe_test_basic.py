@@ -20,7 +20,7 @@ class HiframeTestBasic(unittest.TestCase):
         plugin_list = hiframe._scan_plugin(plugin_path_list=[MY_ABSOLUTE_PARENT],filename_list=["_hiframe"],hf=None)
 
         tmp = hiframe._scan_func(plugin_list=plugin_list)
-        self.assertEqual(tmp["simple"][0]["call"], hiframe_test_basic_plugin._hiframe.HiframeTestBasicPlugin.simple_func)
+        self.assertEqual(tmp["simple"][0]["call"], plugin_list["hiframe_test_basic_plugin"]["obj"].simple_func)
         self.assertEqual(tmp["simple"][0]["pkg"], "hiframe_test_basic_plugin")
         self.assertEqual(tmp["simple"][0]["module"], "_hiframe")
         self.assertEqual(tmp["simple"][0]["class"], "HiframeTestBasicPlugin")
@@ -138,6 +138,8 @@ class HiframeTestBasic(unittest.TestCase):
 
     def test_get_func_list(self):
         hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT])
+        
+        me = hf.plugin_D["hiframe_test_basic_plugin"]
 
         tmp = hf.get_func_list("order")
         self.assertEqual(tmp,[
@@ -146,20 +148,20 @@ class HiframeTestBasic(unittest.TestCase):
                 "module":"_hiframe",
                 "class":"HiframeTestBasicPlugin",
                 "func":"order_c",
-                "call":hiframe_test_basic_plugin._hiframe.HiframeTestBasicPlugin.order_c
+                "call":me.order_c
             },
             {
                 "pkg":"hiframe_test_basic_plugin",
                 "module":"_hiframe",
                 "class":"HiframeTestBasicPlugin",
                 "func":"order_a",
-                "call":hiframe_test_basic_plugin._hiframe.HiframeTestBasicPlugin.order_a
+                "call":me.order_a
             },
             {
                 "pkg":"hiframe_test_basic_plugin",
                 "module":"_hiframe",
                 "class":"HiframeTestBasicPlugin",
                 "func":"order_b",
-                "call":hiframe_test_basic_plugin._hiframe.HiframeTestBasicPlugin.order_b
+                "call":me.order_b
             },
         ])
