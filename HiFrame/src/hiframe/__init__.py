@@ -10,7 +10,7 @@ class HiFrame:
     
     # _plugin_info_DD : pkg - {module,class,obj}
     
-    # _call_info_DVD : call_key - [order] - {call,pkg,module,class,func,obj}
+    # _call_info_DVD : call_key - [func_order] - {func,pkg_name,module_name,class_name,func_name,obj}
     
     # plugin_D : pkg
 
@@ -42,12 +42,12 @@ class HiFrame:
             return []
         ret = []
         for t in self._call_info_DVD[key]:
-            tt = t["call"](**args)
+            tt = t["func"](**args)
             ret.append({
-                "pkg":t["pkg"],
-                "module":t["module"],
-                "class":t["class"],
-                "func":t["func"],
+                "pkg_name":t["pkg_name"],
+                "module_name":t["module_name"],
+                "class_name":t["class_name"],
+                "func_name":t["func_name"],
                 "ret":tt
             })
         return ret
@@ -91,14 +91,14 @@ class HiFrame:
         ret = []
         for t in self._call_info_DVD[key]:
             tt={}
-            for i in ["call","pkg","class","module","func"]:tt[i]=t[i]
+            for i in ["func","pkg_name","class_name","module_name","func_name"]:tt[i]=t[i]
             ret.append(tt)
         return ret
     
 
 def _scan_plugin(plugin_path_list, filename_list, hf):
     
-    # pkg - {module,class,obj}
+    # pkg - {module_name,class_name,obj}
     ret = {}
     
     for plugin_path in plugin_path_list:
@@ -113,27 +113,27 @@ def _scan_plugin(plugin_path_list, filename_list, hf):
                     if not isinstance(c, types.ClassType): continue
                     if not issubclass(c, Plugin):continue
                     obj = c(hf)
-                    ret[pkg_name]={"module":filename,"class":c.__name__,"obj":obj}
+                    ret[pkg_name]={"module_name":filename,"class_name":c.__name__,"obj":obj}
                     
     
     return ret
 
 def _scan_func(plugin_list):
     
-    # call_key - key_order - [] - {call,pkg,module,class,func,obj}
+    # call_key - key_order - [] - {func,pkg_name,module_name,class_name,func_name,obj}
     func_dict_0 = {}
     
-    # call_key - after_func - [ before_func ]
+    # call_key - after_func - [] = before_func
     before_after = {}
 
     # call_key - set(before_after_key)    
     before_after_key_set = {}
 
-    # call_key - [] - {before,after,pkg,class,func,type}
+    # call_key - [] - {before,after,pkg_name,class_name,func_name,type}
     before_after_check = {}
     
     for pkg_name,plugin in plugin_list.iteritems(): #@UnusedVariable
-        class_name=plugin["class"]
+        class_name=plugin["class_name"]
         o = plugin["obj"]
         c_attr_list = dir(o)
         for func_name in c_attr_list:
@@ -165,11 +165,11 @@ def _scan_func(plugin_list):
                 tmp = tmp[key_order]
                 
                 tmp.append({
-                    "call":func_call,
-                    "pkg":pkg_name,
-                    "module":plugin["module"],
-                    "class":class_name,
-                    "func":func_name,
+                    "func":func_call,
+                    "pkg_name":pkg_name,
+                    "module_name":plugin["module_name"],
+                    "class_name":class_name,
+                    "func_name":func_name,
                     "obj":plugin["obj"]
                 })
                 
@@ -192,9 +192,9 @@ def _scan_func(plugin_list):
                         before_after_check[call_key].append({
                             "before":tmp,
                             "after":before_after_key,
-                            "pkg":pkg_name,
-                            "class":class_name,
-                            "func":func_name,
+                            "pkg_name":pkg_name,
+                            "class_name":class_name,
+                            "func_name":func_name,
                             "type":"after"
                         })
 
@@ -208,9 +208,9 @@ def _scan_func(plugin_list):
                         before_after_check[call_key].append({
                             "before":before_after_key,
                             "after":tmp,
-                            "pkg":pkg_name,
-                            "class":class_name,
-                            "func":func_name,
+                            "pkg_name":pkg_name,
+                            "class_name":class_name,
+                            "func_name":func_name,
                             "type":"before"
                         })
 
@@ -218,11 +218,11 @@ def _scan_func(plugin_list):
     for bac_k, bac_v in before_after_check.iteritems():
         for bac_v_i in bac_v:
             if not bac_v_i["before"] in before_after_key_set[bac_k]:
-                raise BadFuncKeyValueException(bac_k,bac_v_i["pkg"],bac_v_i["class"],bac_v_i["func"],bac_v_i["type"])
+                raise BadFuncKeyValueException(bac_k,bac_v_i["pkg_name"],bac_v_i["class_name"],bac_v_i["func_name"],bac_v_i["type"])
             if not bac_v_i["after"] in before_after_key_set[bac_k]:
-                raise BadFuncKeyValueException(bac_k,bac_v_i["pkg"],bac_v_i["class"],bac_v_i["func"],bac_v_i["type"])
+                raise BadFuncKeyValueException(bac_k,bac_v_i["pkg_name"],bac_v_i["class_name"],bac_v_i["func_name"],bac_v_i["type"])
     
-    # call_key - [order] - {call,pkg,module,class,func,obj}
+    # call_key - [order] - {func,pkg_name,module_name,class_name,func_name,obj}
     ret = {}
 
     for call_key, v in func_dict_0.iteritems():
@@ -236,7 +236,7 @@ def _scan_func(plugin_list):
             while len(v_order_done) != len(v_order):
                 have_add = False
                 for entry in v_order:
-                    before_after_key = entry["pkg"]+"."+entry["func"]
+                    before_after_key = entry["pkg_name"]+"."+entry["func_name"]
                     if before_after_key in v_order_done:
                         continue
                     if not _full_fill(before_after,call_key,func_done,before_after_key):

@@ -12,37 +12,37 @@ class HiframeTestBasic(unittest.TestCase):
         tmp = hiframe._scan_plugin(plugin_path_list=[MY_ABSOLUTE_PARENT],filename_list=["_hiframe"],hf=None)
         self.assertTrue("hiframe_test_basic_plugin" in tmp)
         self.assertTrue("hiframe_test_basic_plugin2" in tmp)
-        self.assertEqual(tmp["hiframe_test_basic_plugin"]["module"], "_hiframe")
-        self.assertEqual(tmp["hiframe_test_basic_plugin"]["class"], "HiframeTestBasicPlugin")
+        self.assertEqual(tmp["hiframe_test_basic_plugin"]["module_name"], "_hiframe")
+        self.assertEqual(tmp["hiframe_test_basic_plugin"]["class_name"], "HiframeTestBasicPlugin")
         self.assertTrue(isinstance(tmp["hiframe_test_basic_plugin"]["obj"], hiframe_test_basic_plugin._hiframe.HiframeTestBasicPlugin))
         
     def test_scan_func(self):
         plugin_list = hiframe._scan_plugin(plugin_path_list=[MY_ABSOLUTE_PARENT],filename_list=["_hiframe"],hf=None)
 
         tmp = hiframe._scan_func(plugin_list=plugin_list)
-        self.assertEqual(tmp["simple"][0]["call"], plugin_list["hiframe_test_basic_plugin"]["obj"].simple_func)
-        self.assertEqual(tmp["simple"][0]["pkg"], "hiframe_test_basic_plugin")
-        self.assertEqual(tmp["simple"][0]["module"], "_hiframe")
-        self.assertEqual(tmp["simple"][0]["class"], "HiframeTestBasicPlugin")
+        self.assertEqual(tmp["simple"][0]["func"], plugin_list["hiframe_test_basic_plugin"]["obj"].simple_func)
+        self.assertEqual(tmp["simple"][0]["pkg_name"], "hiframe_test_basic_plugin")
+        self.assertEqual(tmp["simple"][0]["module_name"], "_hiframe")
+        self.assertEqual(tmp["simple"][0]["class_name"], "HiframeTestBasicPlugin")
         self.assertTrue(isinstance(tmp["simple"][0]["obj"], hiframe_test_basic_plugin._hiframe.HiframeTestBasicPlugin))
-        self.assertEqual(tmp["simple"][0]["func"], "simple_func")
+        self.assertEqual(tmp["simple"][0]["func_name"], "simple_func")
         
     def test_call(self):
         hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT])
         tmp = hf.call("simple")
         self.assertEqual(tmp,[{
-            "pkg":"hiframe_test_basic_plugin",
-            "module":"_hiframe",
-            "class":"HiframeTestBasicPlugin",
-            "func":"simple_func",
+            "pkg_name":"hiframe_test_basic_plugin",
+            "module_name":"_hiframe",
+            "class_name":"HiframeTestBasicPlugin",
+            "func_name":"simple_func",
             "ret":"simple ret"
         }])
         tmp = hf.call("simple_arg",args={"abc":100})
         self.assertEqual(tmp,[{
-            "pkg":"hiframe_test_basic_plugin",
-            "module":"_hiframe",
-            "class":"HiframeTestBasicPlugin",
-            "func":"simple_arg_func",
+            "pkg_name":"hiframe_test_basic_plugin",
+            "module_name":"_hiframe",
+            "class_name":"HiframeTestBasicPlugin",
+            "func_name":"simple_arg_func",
             "ret":101
         }])
 
@@ -52,24 +52,24 @@ class HiframeTestBasic(unittest.TestCase):
         tmp = hf.call("order")
         self.assertEqual(tmp,[
             {
-                "pkg":"hiframe_test_basic_plugin",
-                "module":"_hiframe",
-                "class":"HiframeTestBasicPlugin",
-                "func":"order_c",
+                "pkg_name":"hiframe_test_basic_plugin",
+                "module_name":"_hiframe",
+                "class_name":"HiframeTestBasicPlugin",
+                "func_name":"order_c",
                 "ret":"c"
             },
             {
-                "pkg":"hiframe_test_basic_plugin",
-                "module":"_hiframe",
-                "class":"HiframeTestBasicPlugin",
-                "func":"order_a",
+                "pkg_name":"hiframe_test_basic_plugin",
+                "module_name":"_hiframe",
+                "class_name":"HiframeTestBasicPlugin",
+                "func_name":"order_a",
                 "ret":"a"
             },
             {
-                "pkg":"hiframe_test_basic_plugin",
-                "module":"_hiframe",
-                "class":"HiframeTestBasicPlugin",
-                "func":"order_b",
+                "pkg_name":"hiframe_test_basic_plugin",
+                "module_name":"_hiframe",
+                "class_name":"HiframeTestBasicPlugin",
+                "func_name":"order_b",
                 "ret":"b"
             },
         ])
@@ -79,24 +79,24 @@ class HiframeTestBasic(unittest.TestCase):
         tmp = hf.call("pkg2")
         self.assertEqual(tmp,[
             {
-                "pkg":"hiframe_test_basic_plugin",
-                "module":"_hiframe",
-                "class":"HiframeTestBasicPlugin",
-                "func":"pkg2_c",
+                "pkg_name":"hiframe_test_basic_plugin",
+                "module_name":"_hiframe",
+                "class_name":"HiframeTestBasicPlugin",
+                "func_name":"pkg2_c",
                 "ret":"c"
             },
             {
-                "pkg":"hiframe_test_basic_plugin2",
-                "module":"_hiframe",
-                "class":"HiframeTestBasicPlugin2",
-                "func":"pkg2_b",
+                "pkg_name":"hiframe_test_basic_plugin2",
+                "module_name":"_hiframe",
+                "class_name":"HiframeTestBasicPlugin2",
+                "func_name":"pkg2_b",
                 "ret":"b"
             },
             {
-                "pkg":"hiframe_test_basic_plugin",
-                "module":"_hiframe",
-                "class":"HiframeTestBasicPlugin",
-                "func":"pkg2_a",
+                "pkg_name":"hiframe_test_basic_plugin",
+                "module_name":"_hiframe",
+                "class_name":"HiframeTestBasicPlugin",
+                "func_name":"pkg2_a",
                 "ret":"a"
             },
         ])
@@ -105,17 +105,17 @@ class HiframeTestBasic(unittest.TestCase):
         hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT])
         tmp = hf.call("no_order")
         self.assertTrue({
-            "pkg":"hiframe_test_basic_plugin",
-            "module":"_hiframe",
-            "class":"HiframeTestBasicPlugin",
-            "func":"no_order_a",
+            "pkg_name":"hiframe_test_basic_plugin",
+            "module_name":"_hiframe",
+            "class_name":"HiframeTestBasicPlugin",
+            "func_name":"no_order_a",
             "ret":"a"
         } in tmp)
         self.assertTrue({
-            "pkg":"hiframe_test_basic_plugin",
-            "module":"_hiframe",
-            "class":"HiframeTestBasicPlugin",
-            "func":"no_order_b",
+            "pkg_name":"hiframe_test_basic_plugin",
+            "module_name":"_hiframe",
+            "class_name":"HiframeTestBasicPlugin",
+            "func_name":"no_order_b",
             "ret":"b"
         } in tmp)
         self.assertEqual(len(tmp),2)
@@ -124,10 +124,10 @@ class HiframeTestBasic(unittest.TestCase):
         hf = hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT],filename_list=["_abc"])
         tmp = hf.call("abc key")
         self.assertEqual(tmp,[{
-            "pkg":"hiframe_test_basic_plugin",
-            "module":"_abc",
-            "class":"HiframeTestBasicPlugin_ABC",
-            "func":"abc_func",
+            "pkg_name":"hiframe_test_basic_plugin",
+            "module_name":"_abc",
+            "class_name":"HiframeTestBasicPlugin_ABC",
+            "func_name":"abc_func",
             "ret":"abc ret"
         }])
 
@@ -144,24 +144,24 @@ class HiframeTestBasic(unittest.TestCase):
         tmp = hf.get_func_list("order")
         self.assertEqual(tmp,[
             {
-                "pkg":"hiframe_test_basic_plugin",
-                "module":"_hiframe",
-                "class":"HiframeTestBasicPlugin",
-                "func":"order_c",
-                "call":me.order_c
+                "pkg_name":"hiframe_test_basic_plugin",
+                "module_name":"_hiframe",
+                "class_name":"HiframeTestBasicPlugin",
+                "func_name":"order_c",
+                "func":me.order_c
             },
             {
-                "pkg":"hiframe_test_basic_plugin",
-                "module":"_hiframe",
-                "class":"HiframeTestBasicPlugin",
-                "func":"order_a",
-                "call":me.order_a
+                "pkg_name":"hiframe_test_basic_plugin",
+                "module_name":"_hiframe",
+                "class_name":"HiframeTestBasicPlugin",
+                "func_name":"order_a",
+                "func":me.order_a
             },
             {
-                "pkg":"hiframe_test_basic_plugin",
-                "module":"_hiframe",
-                "class":"HiframeTestBasicPlugin",
-                "func":"order_b",
-                "call":me.order_b
+                "pkg_name":"hiframe_test_basic_plugin",
+                "module_name":"_hiframe",
+                "class_name":"HiframeTestBasicPlugin",
+                "func_name":"order_b",
+                "func":me.order_b
             },
         ])

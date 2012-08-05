@@ -30,9 +30,9 @@ function update_pkg() {
 		first=false;
 		i=$("<a href='#'/>");
 		i.text("["+k+"]");
-		i.data("pkg",k);
+		i.data("pkg_name",k);
 		i.click(function(event){
-			v=$(this).data("pkg");
+			v=$(this).data("pkg_name");
 			current_pkg=v;
 			update_cmd();
 		});
@@ -104,7 +104,7 @@ function update_arg(){
 </script>
 </head>
 <body vlink="#3F3FFF" link="#3F3FFF">
-<div id="pkg"></div>
+<div id="pkg_name"></div>
 <hr/>
 <div id="cmd"></div>
 <hr/>

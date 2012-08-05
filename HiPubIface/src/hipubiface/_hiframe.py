@@ -8,10 +8,10 @@ class HiPubIface(hiframe.Plugin):
         self._func_D = {}
         func_info_DV = self.hiframe.get_func_list("HiPubIface.cmd")
         for func_info_D in func_info_DV:
-            pkg_name=func_info_D["pkg"]
-            func_name=func_info_D["func"]
-            call=func_info_D["call"]
-            self._func_D[pkg_name,func_name]=call
+            pkg_name=func_info_D["pkg_name"]
+            func_name=func_info_D["func_name"]
+            func=func_info_D["func"]
+            self._func_D[pkg_name,func_name]=func
     start.key_list=[{"id":"HiFrame.start"}]
     
     def stop(self):
