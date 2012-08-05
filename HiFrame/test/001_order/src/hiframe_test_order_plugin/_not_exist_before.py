@@ -1,4 +1,8 @@
-def a():
-    pass
+import hiframe
 
-a.key_list=[{"id":"abc","before":["_bad_after_0.b"]}]
+class T(hiframe.Plugin):
+
+    def a(self):
+        pass
+    
+    a.key_list=[{"id":"abc","before":["_bad_after_0.b"]}]
