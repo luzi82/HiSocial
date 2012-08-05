@@ -91,7 +91,7 @@ class HiFrame:
         ret = []
         for t in self._call_info_DVD[key]:
             tt={}
-            for i in ["call","pkg","class","module","func"]:tt[i]=t[i]
+            for i in ["call","pkg","class","module","func","obj"]:tt[i]=t[i]
             ret.append(tt)
         return ret
     
