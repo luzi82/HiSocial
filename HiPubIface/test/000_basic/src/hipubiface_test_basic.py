@@ -1,7 +1,7 @@
 import unittest
-import hipubiface
 import os
 import hiframe
+import hipubiface_test_basic_plugin._hiframe
 
 MY_ABSOLUTE_PATH = os.path.abspath(__file__)
 MY_ABSOLUTE_PARENT = os.path.dirname(MY_ABSOLUTE_PATH)
@@ -70,28 +70,33 @@ class HipubifaceTestBasic(unittest.TestCase):
         hf=hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT,HIPUBIFACE_SRC_PATH])
         hf.start()
         
-        ret = hipubiface.call("hipubiface_test_basic_plugin","helloworld")
-        self.check_ok(ret)
-        self.assertEqual(ret["type"],"value")
-        self.assertEqual(ret["value"], "helloworld")
+        me=hf.plugin_D["hipubiface"]
+        
+        ret = me.call("hipubiface_test_basic_plugin","helloworld")
+        self.assertEqual(ret, "helloworld")
 
     def test_call_arg(self):
         hf=hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT,HIPUBIFACE_SRC_PATH])
         hf.start()
 
-        ret = hipubiface.call("hipubiface_test_basic_plugin","uppercase",{"txt_a":"asdf"})
-        self.check_ok(ret)
-        self.assertEqual(ret["type"],"value")
-        self.assertEqual(ret["value"], "ASDF")
+        me=hf.plugin_D["hipubiface"]
+        
+        ret = me.call("hipubiface_test_basic_plugin","uppercase",{"txt_a":"asdf"})
+        self.assertEqual(ret, "ASDF")
 
     def test_call_exception(self):
         hf=hiframe.HiFrame(plugin_path_list=[MY_ABSOLUTE_PARENT,HIPUBIFACE_SRC_PATH])
         hf.start()
 
-        ret = hipubiface.call("hipubiface_test_basic_plugin","uppercase_arg",{"txtf_test_upper":"qwer"})
-        self.check_ok(ret)
-        self.assertEqual(ret["type"],"value")
-        self.assertEqual(ret["value"], "QWER")
+        me=hf.plugin_D["hipubiface"]
+
+        try:        
+            me.call("hipubiface_test_basic_plugin","hello_exception")
+            self.fail()
+        except hipubiface_test_basic_plugin._hiframe.TestException:
+            pass
+        except:
+            self.fail()
 
 #    def test_hellofile(self):
 #        ret = hipubiface.call("hipubiface_test_basic_plugin","hellofile")
